@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Carpiler", "Domain.Carpiler\Domain.Carpiler.csproj", "{2F2806E2-4F83-457B-9124-0D72744E3580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Domain.Carpiler", "Tests.Domain.Carpiler\Tests.Domain.Carpiler.csproj", "{48ED377F-057B-4048-A49A-A7A257202E5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F2806E2-4F83-457B-9124-0D72744E3580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F2806E2-4F83-457B-9124-0D72744E3580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F2806E2-4F83-457B-9124-0D72744E3580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F2806E2-4F83-457B-9124-0D72744E3580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48ED377F-057B-4048-A49A-A7A257202E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48ED377F-057B-4048-A49A-A7A257202E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48ED377F-057B-4048-A49A-A7A257202E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48ED377F-057B-4048-A49A-A7A257202E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C315F90-9737-4039-8C06-CF5F92CC2348}
+	EndGlobalSection
+EndGlobal
