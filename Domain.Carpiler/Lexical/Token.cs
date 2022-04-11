@@ -29,8 +29,10 @@
         public static Token Minus { get; } = new("-", Type.Minus);
         public static Token Slash { get; } = new("/", Type.Slash);
         public static Token Asterisk { get; } = new("*", Type.Asterisk);
-        public static Token BracketOpen { get; } = new("{", Type.BracketOpen);
-        public static Token BracketClose { get; } = new("}", Type.BracketClose);
+        public static Token CurlyBraceOpen { get; } = new("{", Type.CurlyBraceOpen);
+        public static Token CurlyBraceClose { get; } = new("}", Type.CurlyBraceClose);
+        public static Token BracketOpen { get; } = new("[", Type.BracketOpen);
+        public static Token BracketClose { get; } = new("]", Type.BracketClose);
         public static Token ParenthesisOpen { get; } = new("(", Type.ParenthesisOpen);
         public static Token ParenthesisClose { get; } = new(")", Type.ParenthesisClose);
         public static Token Semicolon { get; } = new(";", Type.Semicolon);
@@ -42,12 +44,8 @@
         Float,
         Integer,
         Identifier,
-        Read,
-        Print,
-        While,
-        If,
-        Continue,
-        Break,
+        CurlyBraceOpen,
+        CurlyBraceClose,
         BracketOpen,
         BracketClose,
         ParenthesisOpen,

@@ -34,7 +34,7 @@ namespace Domain.Carpiler.Lexical
         {
             var current = Characters.Peek();
 
-            if (current == '\n' || current == ' ')
+            if (IgnoreCharacter(current))
             {
                 Characters.Dequeue();
                 return;
@@ -43,8 +43,10 @@ namespace Domain.Carpiler.Lexical
             switch (current)
             {
                 case ';': AddSingle(Token.Semicolon); return;
-                case '{': AddSingle(Token.BracketOpen); return;
-                case '}': AddSingle(Token.BracketClose); return;
+                case '{': AddSingle(Token.CurlyBraceOpen); return;
+                case '}': AddSingle(Token.CurlyBraceClose); return;
+                case '[': AddSingle(Token.BracketOpen); return;
+                case ']': AddSingle(Token.BracketClose); return;
                 case '(': AddSingle(Token.ParenthesisOpen); return;
                 case ')': AddSingle(Token.ParenthesisClose); return;
                 case '+': AddSingle(Token.Plus); return;
@@ -60,14 +62,7 @@ namespace Domain.Carpiler.Lexical
 
             if (current == Quotes)
             {
-                try
-                {
-                    GetLiteral();
-                }
-                catch (InvalidOperationException)
-                {
-                    throw new NotClosed(Quotes);
-                }
+                GetLiteral();
                 return;
             }
 
@@ -84,6 +79,11 @@ namespace Domain.Carpiler.Lexical
             }
 
             throw new UnidentifiedToken(current);
+        }
+
+        private static bool IgnoreCharacter(char current)
+        {
+            return current == '\n' || current == ' ' || current == '\r' || current == '\t';
         }
 
         private void AddSingle(Token token)

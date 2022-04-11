@@ -61,6 +61,21 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to int [] array = new int[10];
+        ///int i = 0;
+        ///while(i &lt; 10)
+        ///{
+        ///	print(array[i]);
+        ///	i = i +1;
+        ///}.
+        /// </summary>
+        internal static string SimpleWhileOverArray {
+            get {
+                return ResourceManager.GetString("SimpleWhileOverArray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to int i = 0;
         ///while(i&lt;20)
         ///{
@@ -79,15 +94,6 @@ namespace Tests.Domain.Carpiler {
         internal static string StringDeclaration {
             get {
                 return ResourceManager.GetString("StringDeclaration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to string letras = &quot;string;.
-        /// </summary>
-        internal static string StringDeclarationNoCloseQuotes {
-            get {
-                return ResourceManager.GetString("StringDeclarationNoCloseQuotes", resourceCulture);
             }
         }
     }
