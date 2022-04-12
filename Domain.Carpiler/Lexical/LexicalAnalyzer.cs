@@ -1,24 +1,24 @@
-﻿using System.Text;
+﻿using Domain.Carpiler.Gramatic;
+using System.Text;
 
 namespace Domain.Carpiler.Lexical
 {
     public class LexicalAnalyzer
     {
-        private const char Quotes = '"';
-
-        public LexicalAnalyzer(string sourceCode)
+        public LexicalAnalyzer(string sourceCode, Language language, Dictionary<string, Token> symbolTable)
         {
             SourceCode = sourceCode;
+            Language = language;
+            SymbolTable = symbolTable;
             Tokens = new List<Token>();
             Characters = new Queue<char>(sourceCode);
         }
 
         public string SourceCode { get; }
-
+        public Language Language { get; }
         private List<Token> Tokens { get; }
-
+        private Dictionary<string, Token> SymbolTable { get; }
         private Queue<char> Characters { get; }
-
 
         public List<Token> Analyze()
         {
@@ -40,27 +40,7 @@ namespace Domain.Carpiler.Lexical
                 return;
             }
 
-            switch (current)
-            {
-                case ';': AddSingle(Token.Semicolon); return;
-                case '{': AddSingle(Token.CurlyBraceOpen); return;
-                case '}': AddSingle(Token.CurlyBraceClose); return;
-                case '[': AddSingle(Token.BracketOpen); return;
-                case ']': AddSingle(Token.BracketClose); return;
-                case '(': AddSingle(Token.ParenthesisOpen); return;
-                case ')': AddSingle(Token.ParenthesisClose); return;
-                case '+': AddSingle(Token.Plus); return;
-                case '-': AddSingle(Token.Minus); return;
-                case '/': AddSingle(Token.Slash); return;
-                case '*': AddSingle(Token.Asterisk); return;
-                case '&': AddSingle(Token.And); return;
-                case '|': AddSingle(Token.Or); return;
-                case '=': GetAttributionEquals(); return;
-                case '<': GetLesser(); return;
-                case '>': GetGreater(); return;
-            }
-
-            if (current == Quotes)
+            if (current == Language.LiteralDelimiter)
             {
                 GetLiteral();
                 return;
@@ -74,22 +54,27 @@ namespace Domain.Carpiler.Lexical
 
             if (char.IsLetter(current))
             {
-                GetIdentifier();
+                GetReservedWordIdentifier();
                 return;
+            }
+
+            var sb = new StringBuilder(current);
+            for (int count = 0; count < Language.MaxSymbolLenght; count++)
+            {
+                if (Language.Symbols.TryGetValue(sb.ToString(), out var symbol))
+                {
+                    Tokens.Add(symbol);
+                    return;
+                }
+                sb.Append(Characters.Dequeue());
             }
 
             throw new UnidentifiedToken(current);
         }
 
-        private static bool IgnoreCharacter(char current)
+        private bool IgnoreCharacter(char current)
         {
-            return current == '\n' || current == ' ' || current == '\r' || current == '\t';
-        }
-
-        private void AddSingle(Token token)
-        {
-            Tokens.Add(token);
-            Characters.Dequeue();
+            return Language.IgnoredCharacters.TryGetValue(current, out _);
         }
 
         private void GetNumber()
@@ -99,7 +84,7 @@ namespace Domain.Carpiler.Lexical
 
             if (Characters.Peek() != '.')
             {
-                Tokens.Add(new Token(number.ToString(), Type.Integer));
+                Tokens.Add(new Token(number.ToString(), Type.IntValue));
                 return;
             }
 
@@ -107,7 +92,7 @@ namespace Domain.Carpiler.Lexical
             Characters.Dequeue();
 
             GetDigits();
-            Tokens.Add(new Token(number.ToString(), Type.Float));
+            Tokens.Add(new Token(number.ToString(), Type.FloatValue));
 
             void GetDigits()
             {
@@ -120,57 +105,44 @@ namespace Domain.Carpiler.Lexical
             }
         }
 
-        private void GetIdentifier()
+        private void GetReservedWordIdentifier()
         {
-            var identifier = new StringBuilder();
+            string identifier = GetIdentifier();
+
+            if (IsReservedWord(identifier, out var reservedWord))
+            {
+                Tokens.Add(reservedWord);
+                return;
+            }
+
+            var token = new Token(identifier, Type.Identifier);
+
+            var newIdentifier = SymbolTable.TryAdd(identifier, token);
+
+            if (newIdentifier == false)
+            {
+                token = SymbolTable[identifier];
+            }
+            Tokens.Add(token);
+        }
+
+        private string GetIdentifier()
+        {
+            var sb = new StringBuilder();
             char c;
 
             while (char.IsLetterOrDigit(c = Characters.Peek()))
             {
-                identifier.Append(c);
+                sb.Append(c);
                 Characters.Dequeue();
             }
 
-            Tokens.Add(new Token(identifier.ToString(), Type.Identifier));
+            return sb.ToString();
         }
 
-        private void GetAttributionEquals()
+        private bool IsReservedWord(string id, out Token reserved)
         {
-            Characters.Dequeue();
-
-            if (Characters.Peek() == '=')
-            {
-                AddSingle(Token.Equals);
-                return;
-            }
-
-            Tokens.Add(Token.Attribution);
-        }
-
-        private void GetGreater()
-        {
-            Characters.Dequeue();
-
-            if (Characters.Peek() == '=')
-            {
-                AddSingle(Token.GreaterEquals);
-                return;
-            }
-
-            Tokens.Add(Token.Greater);
-        }
-
-        private void GetLesser()
-        {
-            Characters.Dequeue();
-
-            if (Characters.Peek() == '=')
-            {
-                AddSingle(Token.LesserEquals);
-                return;
-            }
-
-            Tokens.Add(Token.Lesser);
+            return Language.ReservedWords.TryGetValue(id, out reserved!);
         }
 
         private void GetLiteral()
@@ -178,7 +150,7 @@ namespace Domain.Carpiler.Lexical
             Characters.Dequeue();
             var word = new StringBuilder();
             char c;
-            while ((c = Characters.Peek()) != Quotes)
+            while ((c = Characters.Peek()) != Language.LiteralDelimiter)
             {
                 word.Append(c);
                 Characters.Dequeue();
