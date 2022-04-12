@@ -7,17 +7,19 @@ namespace Domain.Carpiler
 {
     public class Carpiler
     {
-        public Carpiler(string sourceCode)
+        public Carpiler(string sourceCode, Language language)
         {
             SourceCode = sourceCode;
+            Language = language;
             SymbolTable = new();
         }
         private Dictionary<string, Token> SymbolTable { get; }
         private string SourceCode { get; }
+        public Language Language { get; }
 
         public ObjectCode Compile()
         {
-            var tokens = new LexicalAnalyzer(SourceCode, new CCsharp(), SymbolTable).Analyze();
+            var tokens = new LexicalAnalyzer(SourceCode, Language, SymbolTable).Analyze();
 
             var syntaxTree = new SyntaticAnalyzer(tokens, SymbolTable).Analyze();
 

@@ -8,6 +8,8 @@ namespace Tests.Domain.Carpiler
 {
     public class LexicalAnalyzerTests
     {
+        CCsharp CCsharp = new();
+
         [Fact]
         public void ShouldGetAllTokensString()
         {
@@ -15,7 +17,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, new CCsharp(), symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
 
             var tokens = analyzer.Analyze();
 
@@ -40,7 +42,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, new CCsharp(), symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
 
             var tokens = analyzer.Analyze();
 
@@ -79,7 +81,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, new CCsharp(), symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
 
             var tokens = analyzer.Analyze();
 

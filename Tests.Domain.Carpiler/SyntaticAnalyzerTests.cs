@@ -1,5 +1,7 @@
 ﻿using Domain.Carpiler;
+using Domain.Carpiler.Infra;
 using Domain.Carpiler.Lexical;
+using Domain.Carpiler.Syntatic;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
