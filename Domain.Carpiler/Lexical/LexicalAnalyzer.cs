@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Gramatic;
+using Domain.Carpiler.Infra;
 using System.Text;
 
 namespace Domain.Carpiler.Lexical

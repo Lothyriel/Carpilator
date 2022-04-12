@@ -1,5 +1,7 @@
 ﻿using Domain.Carpiler.Gramatic;
 using Domain.Carpiler.Lexical;
+using Domain.Carpiler.Semantic;
+using Domain.Carpiler.Syntatic;
 
 namespace Domain.Carpiler
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.Carpiler.Lexical;
 
-namespace Domain.Carpiler
+namespace Domain.Carpiler.Semantic
 {
     internal class SemanticAnalyzer
     {

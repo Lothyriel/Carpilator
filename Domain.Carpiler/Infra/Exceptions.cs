@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Domain.Carpiler
+﻿namespace Domain.Carpiler.Infra
 {
     [Serializable]
     public class UnidentifiedToken : Exception

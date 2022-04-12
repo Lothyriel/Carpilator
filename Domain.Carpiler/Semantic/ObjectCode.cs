@@ -1,4 +1,4 @@
-﻿namespace Domain.Carpiler
+﻿namespace Domain.Carpiler.Semantic
 {
     public class ObjectCode
     {
