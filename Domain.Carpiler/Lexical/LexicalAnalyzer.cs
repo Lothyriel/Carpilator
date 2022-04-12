@@ -70,7 +70,7 @@ namespace Domain.Carpiler.Lexical
                 sb.Append(Characters.Dequeue());
             }
 
-            throw new UnidentifiedToken(current);
+            throw new UnidentifiedToken(current, SourceCode, Characters.Count);
         }
 
         private bool IgnoreCharacter(char current)

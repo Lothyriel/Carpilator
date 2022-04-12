@@ -13,7 +13,7 @@ namespace Domain.Carpiler.Semantic
             SymbolTable = symbolTable;
         }
 
-        internal object Analyze()
+        public object Analyze()
         {
             throw new NotImplementedException();
         }
