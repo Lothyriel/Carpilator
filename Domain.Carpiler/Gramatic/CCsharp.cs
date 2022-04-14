@@ -1,7 +1,4 @@
-﻿using Domain.Carpiler.Lexical;
-using Type = Domain.Carpiler.Lexical.Type;
-
-namespace Domain.Carpiler.Gramatic
+﻿namespace Domain.Carpiler.Gramatic
 {
     public class CCsharp : Language
     {
@@ -30,6 +27,7 @@ namespace Domain.Carpiler.Gramatic
                 Else,
                 Float,
                 String,
+                Bool,
                 Int,
             };
 
@@ -64,6 +62,13 @@ namespace Domain.Carpiler.Gramatic
             return words.ToDictionary(token => token.Value);
         }
 
+        protected override Symbol[,] InitMmatrix()
+        {
+            return new Symbol[,] 
+            {
+                { Type.Identifier}
+            };
+        }
 
         public static Token Print { get; } = new Token("print", Type.ReservedWord);
         public static Token Read { get; } = new Token("read", Type.ReservedWord);
@@ -71,6 +76,7 @@ namespace Domain.Carpiler.Gramatic
         public static Token While { get; } = new Token("while", Type.ReservedWord);
         public static Token If { get; } = new Token("if", Type.ReservedWord);
         public static Token Else { get; } = new Token("else", Type.ReservedWord);
+        public static Token Bool { get; } = new Token("bool", Type.ReservedWord);
         public static Token Float { get; } = new Token("float", Type.ReservedWord);
         public static Token String { get; } = new Token("string", Type.ReservedWord);
         public static Token Int { get; } = new Token("int", Type.ReservedWord);

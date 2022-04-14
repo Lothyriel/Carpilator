@@ -1,6 +1,7 @@
 ﻿using Domain.Carpiler.Gramatic;
 using Domain.Carpiler.Infra;
 using System.Text;
+using Type = Domain.Carpiler.Gramatic.Type;
 
 namespace Domain.Carpiler.Lexical
 {
@@ -15,8 +16,8 @@ namespace Domain.Carpiler.Lexical
             Characters = new Queue<char>(sourceCode);
         }
 
-        public string SourceCode { get; }
-        public Language Language { get; }
+        private string SourceCode { get; }
+        private Language Language { get; }
         private List<Token> Tokens { get; }
         private Dictionary<string, Token> SymbolTable { get; }
         private Queue<char> Characters { get; }
@@ -59,18 +60,45 @@ namespace Domain.Carpiler.Lexical
                 return;
             }
 
-            var sb = new StringBuilder(current);
-            for (int count = 0; count < Language.MaxSymbolLenght; count++)
+            if (ValidSymbol() == false)
             {
-                if (Language.Symbols.TryGetValue(sb.ToString(), out var symbol))
-                {
-                    Tokens.Add(symbol);
-                    return;
-                }
-                sb.Append(Characters.Dequeue());
+                throw new UnidentifiedToken(current, SourceCode, Characters.Count);
             }
+        }
 
-            throw new UnidentifiedToken(current, SourceCode, Characters.Count);
+        private bool ValidSymbol()
+        {
+            var sb = new StringBuilder();
+            Token? symbol = null;
+
+            do
+            {
+                sb.Append(Characters.Peek());
+            } while (ValidSymbol(sb, ref symbol) && Characters.Any());
+
+            if (symbol is null)
+                return false;
+
+            Tokens.Add(symbol);
+            return true;
+        }
+
+        private bool ValidSymbol(StringBuilder sb, ref Token? output)   //cannot return symbol directly because a initially valid symbol
+        {                                                               //would be overriden by null on encountering a invalid symbol
+            var symbol = GetSymbol(sb);
+            output = symbol ?? output;
+            return symbol is not null;
+        }
+
+        private Token? GetSymbol(StringBuilder sb)
+        {
+            if (Language.MaxSymbolLenght < sb.Length)
+                return null;
+
+            if (Language.Symbols.TryGetValue(sb.ToString(), out var symbol))
+                Characters.Dequeue();
+
+            return symbol;
         }
 
         private bool IgnoreCharacter(char current)

@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SimpleWhileOverArray" xml:space="preserve">
+  <data name="BoolDeclaration" xml:space="preserve">
+    <value>bool expressao = 10 &lt;= 5;</value>
+  </data>
+  <data name="StringDeclaration" xml:space="preserve">
+    <value>string letras = "string";</value>
+  </data>
+  <data name="WhileOverArray" xml:space="preserve">
     <value>int [] array = new int[10];
 int i = 0;
 while(i &lt; 10)
@@ -126,14 +132,11 @@ while(i &lt; 10)
 	i = i +1;
 }</value>
   </data>
-  <data name="SimpleWhilePrint" xml:space="preserve">
+  <data name="WhilePrint" xml:space="preserve">
     <value>int i = 0;
 while(i&lt;20)
 {
      print(i);
 }</value>
-  </data>
-  <data name="StringDeclaration" xml:space="preserve">
-    <value>string letras = "string";</value>
   </data>
 </root>

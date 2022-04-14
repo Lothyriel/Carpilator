@@ -1,10 +1,11 @@
-﻿using Domain.Carpiler.Lexical;
+﻿using Domain.Carpiler.Gramatic;
+using Domain.Carpiler.Lexical;
 
 namespace Domain.Carpiler.Semantic
 {
     internal class SemanticAnalyzer
     {
-        private object SyntaxTree;
+        private object SyntaxTree { get; }
         private Dictionary<string, Token> SymbolTable { get; }
 
         public SemanticAnalyzer(object syntaxTree, Dictionary<string, Token> symbolTable)

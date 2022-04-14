@@ -61,6 +61,24 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bool expressao = 10 &lt;= 5;.
+        /// </summary>
+        internal static string BoolDeclaration {
+            get {
+                return ResourceManager.GetString("BoolDeclaration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to string letras = &quot;string&quot;;.
+        /// </summary>
+        internal static string StringDeclaration {
+            get {
+                return ResourceManager.GetString("StringDeclaration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to int [] array = new int[10];
         ///int i = 0;
         ///while(i &lt; 10)
@@ -69,9 +87,9 @@ namespace Tests.Domain.Carpiler {
         ///	i = i +1;
         ///}.
         /// </summary>
-        internal static string SimpleWhileOverArray {
+        internal static string WhileOverArray {
             get {
-                return ResourceManager.GetString("SimpleWhileOverArray", resourceCulture);
+                return ResourceManager.GetString("WhileOverArray", resourceCulture);
             }
         }
         
@@ -82,18 +100,9 @@ namespace Tests.Domain.Carpiler {
         ///     print(i);
         ///}.
         /// </summary>
-        internal static string SimpleWhilePrint {
+        internal static string WhilePrint {
             get {
-                return ResourceManager.GetString("SimpleWhilePrint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to string letras = &quot;string&quot;;.
-        /// </summary>
-        internal static string StringDeclaration {
-            get {
-                return ResourceManager.GetString("StringDeclaration", resourceCulture);
+                return ResourceManager.GetString("WhilePrint", resourceCulture);
             }
         }
     }

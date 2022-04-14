@@ -8,10 +8,38 @@ namespace Tests.Domain.Carpiler
 {
     public class LexicalAnalyzerTests
     {
-        CCsharp CCsharp = new();
+        private CCsharp CCsharp { get; } = new();
 
         [Fact]
-        public void ShouldGetAllTokensString()
+        public void ShouldGetAllTokensBoolDeclaration()
+        {
+            var sourceCode = Resource.BoolDeclaration;
+
+            var symbolTable = new Dictionary<string, Token>();
+
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
+
+            var tokens = analyzer.Analyze();
+
+            var expressao = new Token("expressao", Type.Identifier);
+
+            tokens.Should().ContainInOrder(
+                CCsharp.Bool,
+                expressao,
+                CCsharp.Attribution,
+                new Token("10", Type.IntValue),
+                CCsharp.LesserEquals,
+                new Token("5", Type.IntValue),
+                CCsharp.Semicolon
+                );
+
+            symbolTable.Values.Should().ContainInOrder(
+                expressao
+                );
+        }
+
+        [Fact]
+        public void ShouldGetAllTokensStringDeclaration()
         {
             var sourceCode = Resource.StringDeclaration;
 
@@ -36,9 +64,9 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
-        public void ShouldGetAllTokensSimpleWhilePrint()
+        public void ShouldGetAllTokensWhilePrint()
         {
-            var sourceCode = Resource.SimpleWhilePrint;
+            var sourceCode = Resource.WhilePrint;
 
             var symbolTable = new Dictionary<string, Token>();
 
@@ -75,9 +103,9 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
-        public void ShouldGetAllTokensSimpleWhileOverArray()
+        public void ShouldGetAllTokensWhilePrintOverArray()
         {
-            var sourceCode = Resource.SimpleWhileOverArray;
+            var sourceCode = Resource.WhileOverArray;
 
             var symbolTable = new Dictionary<string, Token>();
 

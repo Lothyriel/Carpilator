@@ -1,6 +1,5 @@
-﻿using Domain.Carpiler;
+﻿using Domain.Carpiler.Gramatic;
 using Domain.Carpiler.Infra;
-using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using FluentAssertions;
 using System;
@@ -11,6 +10,7 @@ namespace Tests.Domain.Carpiler
 {
     public class SyntaticAnalyzerTests
     {
+        private CCsharp CCsharp { get; } = new();
         [Fact]
         public void ShouldThrowNotClosedQuotesError()
         {
@@ -18,7 +18,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new HashSet<Token>();
 
-            var compiler = new SyntaticAnalyzer(tokens, new());
+            var compiler = new SyntaticAnalyzer(tokens, new(), CCsharp);
 
             var analyze = () => compiler.Analyze();
 

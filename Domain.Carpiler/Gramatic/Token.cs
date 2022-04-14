@@ -1,4 +1,4 @@
-﻿namespace Domain.Carpiler.Lexical
+﻿namespace Domain.Carpiler.Gramatic
 {
     public class Token
     {

@@ -1,6 +1,5 @@
-﻿
+﻿using Domain.Carpiler.Gramatic;
 using Domain.Carpiler.Infra;
-using Domain.Carpiler.Lexical;
 
 namespace Domain.Carpiler.Syntatic
 {
@@ -8,12 +7,14 @@ namespace Domain.Carpiler.Syntatic
     {
         private List<Token> Tokens { get; }
         private Dictionary<string, Token> SymbolTable { get; }
-        public Tree<Token> TokensTree { get; }
+        private Language Language { get; }
+        private Tree<Token> TokensTree { get; }
 
-        public SyntaticAnalyzer(List<Token> tokens, Dictionary<string, Token> symbolTable)
+        public SyntaticAnalyzer(List<Token> tokens, Dictionary<string, Token> symbolTable, Language language)
         {
             Tokens = tokens;
             SymbolTable = symbolTable;
+            Language = language;
             throw new NotImplementedException();
             TokensTree = null;
         }

@@ -15,13 +15,13 @@ namespace Domain.Carpiler
         }
         private Dictionary<string, Token> SymbolTable { get; }
         private string SourceCode { get; }
-        public Language Language { get; }
+        private Language Language { get; }
 
         public ObjectCode Compile()
         {
             var tokens = new LexicalAnalyzer(SourceCode, Language, SymbolTable).Analyze();
 
-            var syntaxTree = new SyntaticAnalyzer(tokens, SymbolTable).Analyze();
+            var syntaxTree = new SyntaticAnalyzer(tokens, SymbolTable, Language).Analyze();
 
             var parseTree = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
 
