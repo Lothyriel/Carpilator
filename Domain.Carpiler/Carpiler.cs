@@ -1,4 +1,4 @@
-﻿using Domain.Carpiler.Gramatic;
+﻿using Domain.Carpiler.Grammar;
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Semantic;
 using Domain.Carpiler.Syntatic;

@@ -110,7 +110,8 @@ namespace Domain.Carpiler.Languages
         {
             var typeDeclaration = left.Type == Type.Float ||
                                   left.Type == Type.Int ||
-                                  left.Type == Type.String;
+                                  left.Type == Type.String ||
+                                  left.Type == Type.Bool;
 
             var rightIdentifier = right.Type == Type.Identifier;
 

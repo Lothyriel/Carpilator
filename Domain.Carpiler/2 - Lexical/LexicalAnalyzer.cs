@@ -1,7 +1,7 @@
-﻿using Domain.Carpiler.Gramatic;
+﻿using Domain.Carpiler.Grammar;
 using Domain.Carpiler.Infra;
 using System.Text;
-using Type = Domain.Carpiler.Gramatic.Type;
+using Type = Domain.Carpiler.Grammar.Type;
 
 namespace Domain.Carpiler.Lexical
 {
@@ -140,7 +140,7 @@ namespace Domain.Carpiler.Lexical
 
             if (IsReservedWord(identifier, out var reservedWord))
             {
-                Tokens.Add(reservedWord);
+                Tokens.Add(reservedWord!);
                 return;
             }
 
@@ -169,9 +169,9 @@ namespace Domain.Carpiler.Lexical
             return sb.ToString();
         }
 
-        private bool IsReservedWord(string id, out Token reserved)
+        private bool IsReservedWord(string id, out Token? reserved)
         {
-            return Language.ReservedWords.TryGetValue(id, out reserved!);
+            return Language.ReservedWords.TryGetValue(id, out reserved);
         }
 
         private void GetLiteral()
