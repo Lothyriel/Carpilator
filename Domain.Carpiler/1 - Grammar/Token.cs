@@ -1,4 +1,4 @@
-﻿namespace Domain.Carpiler.Gramatic
+﻿namespace Domain.Carpiler.Grammar
 {
     public class Token
     {
@@ -30,11 +30,12 @@
 
     public enum Type
     {
-        Literal,
+        StringValue,
         IntValue,
         FloatValue,
         Float,
         Int,
+        String,
         Identifier,
         CurlyBraceOpen,
         CurlyBraceClose,

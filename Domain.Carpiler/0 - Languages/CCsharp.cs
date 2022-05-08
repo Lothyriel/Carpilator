@@ -1,9 +1,11 @@
-﻿namespace Domain.Carpiler.Gramatic
+﻿using Domain.Carpiler.Grammar;
+using Type = Domain.Carpiler.Grammar.Type;
+
+namespace Domain.Carpiler.Languages
 {
-    public class CCsharp : Language
+    public sealed class CCsharp : Language
     {
         public override char LiteralDelimiter { get; } = '"';
-
         protected override HashSet<char> InitIgnoredCharacters()
         {
             return new HashSet<char>()
@@ -14,7 +16,6 @@
                 '\t'
             };
         }
-
         protected override Dictionary<string, Token> InitReservedWords()
         {
             var words = new List<Token>()
@@ -33,7 +34,6 @@
 
             return words.ToDictionary(token => token.Value);
         }
-
         protected override Dictionary<string, Token> InitSymbols()
         {
             var words = new List<Token>()
@@ -62,13 +62,7 @@
             return words.ToDictionary(token => token.Value);
         }
 
-        protected override Symbol[,] InitMmatrix()
-        {
-            return new Symbol[,] 
-            {
-                { Type.Identifier}
-            };
-        }
+        #region Tokens
 
         public static Token Print { get; } = new Token("print", Type.ReservedWord);
         public static Token Read { get; } = new Token("read", Type.ReservedWord);
@@ -99,5 +93,30 @@
         public static Token ParenthesisOpen { get; } = new("(", Type.ParenthesisOpen);
         public static Token ParenthesisClose { get; } = new(")", Type.ParenthesisClose);
         public static Token Semicolon { get; } = new(";", Type.Semicolon);
+
+        #endregion
+
+        protected override List<ProductionRule> InitProductionRules()
+        {
+            return new List<ProductionRule>()
+            {
+                VariableDeclaration
+            };
+        }
+
+        #region ProductionRules
+
+        private static bool VariableDeclaration(Token left, Token right)
+        {
+            var typeDeclaration = left.Type == Type.Float ||
+                                  left.Type == Type.Int ||
+                                  left.Type == Type.String;
+
+            var rightIdentifier = right.Type == Type.Identifier;
+
+            return typeDeclaration == true && rightIdentifier;
+        }
+
+        #endregion
     }
 }

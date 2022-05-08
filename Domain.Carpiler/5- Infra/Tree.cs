@@ -2,12 +2,7 @@
 {
     public class Tree<T>
     {
-        public Node<T> Root { get; }
-
-        public Tree(Node<T> root)
-        {
-            Root = root;
-        }
+        public Node<T>? Root { get; }
 
         public void AddChild(T data)
         {
@@ -20,8 +15,12 @@
                 throw new ArgumentOutOfRangeException($"{i} cannot be less than 1");
 
             foreach (Node<T> n in Root.Children)
+            {
                 if (--i == 0)
+                {
                     return n;
+                }
+            }
 
             return null;
         }
@@ -52,7 +51,9 @@
         {
             action(node.Data);
             foreach (Node<T> kid in node.Children)
+            {
                 Traverse(kid, action);
+            }
         }
     }
 }

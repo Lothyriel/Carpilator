@@ -187,7 +187,7 @@ namespace Domain.Carpiler.Lexical
 
             Characters.Dequeue();
 
-            Tokens.Add(new Token(word.ToString(), Type.Literal));
+            Tokens.Add(new Token(word.ToString(), Type.StringValue));
         }
     }
 }

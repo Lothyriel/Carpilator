@@ -54,7 +54,7 @@ namespace Tests.Domain.Carpiler
                 CCsharp.String,
                 letras,
                 CCsharp.Attribution,
-                new Token("string", Type.Literal),
+                new Token("string", Type.StringValue),
                 CCsharp.Semicolon
                 );
 
