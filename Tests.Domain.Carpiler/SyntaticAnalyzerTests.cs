@@ -3,7 +3,9 @@ using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using FluentAssertions;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Type = Domain.Carpiler.Lexical.Type;
 
@@ -37,20 +39,21 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Int,
                 numero,
                 CCsharpTokenizer.Attribution,
-                new Token("10", Type.IntValue),
+                new ValueToken("10", Type.IntValue),
                 CCsharpTokenizer.Semicolon
-            };
-
-            var symbolTable = new HashSet<Token>() 
-            {
-                numero
             };
 
             var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
 
-            var analyze = parser.Analyze();
+            var expectedConstruct = new VariableDeclaration("numero", new ValueToken("10", Type.IntValue), VariableType.Integer);
 
-            analyze.Should();
+            var construct = parser.Analyze();
+
+            var jsonExpected = JsonConvert.SerializeObject(expectedConstruct, Formatting.Indented);
+
+            var jsonConstructed = JsonConvert.SerializeObject(construct, Formatting.Indented);
+
+            jsonExpected.Should().Be(jsonConstructed);
         }
     }
 }

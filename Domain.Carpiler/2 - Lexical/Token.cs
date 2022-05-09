@@ -1,4 +1,6 @@
-﻿namespace Domain.Carpiler.Lexical
+﻿using Domain.Carpiler.Syntatic;
+
+namespace Domain.Carpiler.Lexical
 {
     public class Operator : Token
     {
@@ -6,13 +8,15 @@
         {
         }
     }
-    public class Value : Token
+    public class ValueToken : Token, IValuable
     {
-        public Value(string value, Type type) : base(value, type)
+        public ValueToken(string value, Type type) : base($"{value}", type)
         {
+            Name = GetType().Name;
         }
-    }
 
+        public string Name { get; }
+    }
 
     public class Token
     {

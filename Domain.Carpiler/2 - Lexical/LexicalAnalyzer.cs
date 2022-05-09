@@ -111,7 +111,7 @@ namespace Domain.Carpiler.Lexical
 
             if (Characters.Peek() != '.')
             {
-                Tokens.Add(new Token(number.ToString(), Type.IntValue));
+                Tokens.Add(new ValueToken(number.ToString(), Type.IntValue));
                 return;
             }
 
@@ -119,7 +119,7 @@ namespace Domain.Carpiler.Lexical
             Characters.Dequeue();
 
             GetDigits();
-            Tokens.Add(new Token(number.ToString(), Type.FloatValue));
+            Tokens.Add(new ValueToken(number.ToString(), Type.FloatValue));
 
             void GetDigits()
             {
@@ -134,7 +134,7 @@ namespace Domain.Carpiler.Lexical
 
         private void GetReservedWordIdentifier()
         {
-            string identifier = GetIdentifier();
+            string identifier = GetIdentifierName();
 
             if (IsReservedWord(identifier, out var reservedWord))
             {
@@ -142,6 +142,11 @@ namespace Domain.Carpiler.Lexical
                 return;
             }
 
+            AddIdentifier(identifier);
+        }
+
+        private void AddIdentifier(string identifier)
+        {
             var token = new Token(identifier, Type.Identifier);
 
             var newIdentifier = SymbolTable.TryAdd(identifier, token);
@@ -153,7 +158,7 @@ namespace Domain.Carpiler.Lexical
             Tokens.Add(token);
         }
 
-        private string GetIdentifier()
+        private string GetIdentifierName()
         {
             var sb = new StringBuilder();
             char c;
@@ -185,7 +190,7 @@ namespace Domain.Carpiler.Lexical
 
             Characters.Dequeue();
 
-            Tokens.Add(new Token(word.ToString(), Type.StringValue));
+            Tokens.Add(new ValueToken(word.ToString(), Type.StringValue));
         }
     }
 }

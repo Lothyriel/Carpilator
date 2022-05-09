@@ -4,7 +4,7 @@ namespace Domain.Carpiler.Syntatic
 {
     public abstract class Parser
     {
-        public abstract Construct? Parse(Queue<Token> tokens);
-
+        protected Queue<Token>? Tokens;
+        public abstract IConstruct Parse(Queue<Token> tokens);
     }
 }

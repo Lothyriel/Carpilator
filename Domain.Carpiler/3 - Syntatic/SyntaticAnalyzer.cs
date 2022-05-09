@@ -16,16 +16,20 @@ namespace Domain.Carpiler.Syntatic
             Parser = parser;
         }
 
-        public JObject Analyze()
+        public Dictionary<string, List<IConstruct>> Analyze()
         {
-            var ast = new JObject();
+            var statements = new List<IConstruct>();
 
             while (Tokens.Any())
             {
-                ast.Add(Parser.Parse(Tokens));
+                var construct = Parser.Parse(Tokens);
+                statements.Add(construct);
             }
 
-            return ast;
+            return new Dictionary<string, List<IConstruct>>()
+            {
+                { "ProgramStatements", statements },
+            };
         }
     }
 }

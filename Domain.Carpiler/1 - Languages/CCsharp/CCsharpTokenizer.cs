@@ -30,6 +30,8 @@ namespace Domain.Carpiler.Languages
                 String,
                 Bool,
                 Int,
+                True,
+                False
             };
 
             return words.ToDictionary(token => token.Value);
@@ -64,6 +66,8 @@ namespace Domain.Carpiler.Languages
 
         #region Tokens
 
+        public static ValueToken True { get; } = new ValueToken("true", Type.BoolValue);
+        public static ValueToken False { get; } = new ValueToken("false", Type.BoolValue);
         public static Token Print { get; } = new Token("print", Type.ReservedWord);
         public static Token Read { get; } = new Token("read", Type.ReservedWord);
         public static Token New { get; } = new Token("new", Type.ReservedWord);
