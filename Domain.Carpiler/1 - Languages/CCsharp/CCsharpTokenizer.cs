@@ -1,9 +1,9 @@
-﻿using Domain.Carpiler.Grammar;
-using Type = Domain.Carpiler.Grammar.Type;
+﻿using Domain.Carpiler.Lexical;
+using Type = Domain.Carpiler.Lexical.Type;
 
 namespace Domain.Carpiler.Languages
 {
-    public sealed class CCsharp : Language
+    public sealed class CCsharpTokenizer : Tokenizer
     {
         public override char LiteralDelimiter { get; } = '"';
         protected override HashSet<char> InitIgnoredCharacters()
@@ -74,18 +74,18 @@ namespace Domain.Carpiler.Languages
         public static Token Float { get; } = new Token("float", Type.ReservedWord);
         public static Token String { get; } = new Token("string", Type.ReservedWord);
         public static Token Int { get; } = new Token("int", Type.ReservedWord);
-        public static new Token Equals { get; } = new("==", Type.Equals);
-        public static Token Attribution { get; } = new("=", Type.Attribution);
-        public static Token And { get; } = new("&", Type.And);
-        public static Token Or { get; } = new("|", Type.Or);
-        public static Token Lesser { get; } = new("<", Type.Lesser);
-        public static Token LesserEquals { get; } = new("<=", Type.LesserEquals);
-        public static Token Greater { get; } = new(">", Type.Greater);
-        public static Token GreaterEquals { get; } = new(">=", Type.GreaterEquals);
-        public static Token Plus { get; } = new("+", Type.Plus);
-        public static Token Minus { get; } = new("-", Type.Minus);
-        public static Token Slash { get; } = new("/", Type.Slash);
-        public static Token Asterisk { get; } = new("*", Type.Asterisk);
+        public static new Operator Equals { get; } = new("==", Type.Equals);
+        public static Operator Attribution { get; } = new("=", Type.Attribution);
+        public static Operator And { get; } = new("&", Type.And);
+        public static Operator Or { get; } = new("|", Type.Or);
+        public static Operator Lesser { get; } = new("<", Type.Lesser);
+        public static Operator LesserEquals { get; } = new("<=", Type.LesserEquals);
+        public static Operator Greater { get; } = new(">", Type.Greater);
+        public static Operator GreaterEquals { get; } = new(">=", Type.GreaterEquals);
+        public static Operator Plus { get; } = new("+", Type.Plus);
+        public static Operator Minus { get; } = new("-", Type.Minus);
+        public static Operator Slash { get; } = new("/", Type.Slash);
+        public static Operator Asterisk { get; } = new("*", Type.Asterisk);
         public static Token CurlyBraceOpen { get; } = new("{", Type.CurlyBraceOpen);
         public static Token CurlyBraceClose { get; } = new("}", Type.CurlyBraceClose);
         public static Token BracketOpen { get; } = new("[", Type.BracketOpen);
@@ -93,30 +93,6 @@ namespace Domain.Carpiler.Languages
         public static Token ParenthesisOpen { get; } = new("(", Type.ParenthesisOpen);
         public static Token ParenthesisClose { get; } = new(")", Type.ParenthesisClose);
         public static Token Semicolon { get; } = new(";", Type.Semicolon);
-
-        #endregion
-
-        protected override List<ProductionRule> InitProductionRules()
-        {
-            return new List<ProductionRule>()
-            {
-                VariableDeclaration
-            };
-        }
-
-        #region ProductionRules
-
-        private static bool VariableDeclaration(Token left, Token right)
-        {
-            var typeDeclaration = left.Type == Type.Float ||
-                                  left.Type == Type.Int ||
-                                  left.Type == Type.String ||
-                                  left.Type == Type.Bool;
-
-            var rightIdentifier = right.Type == Type.Identifier;
-
-            return typeDeclaration == true && rightIdentifier;
-        }
 
         #endregion
     }

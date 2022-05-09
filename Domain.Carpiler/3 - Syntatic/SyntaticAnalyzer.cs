@@ -1,5 +1,5 @@
-﻿using Domain.Carpiler.Grammar;
-using Domain.Carpiler.Infra;
+﻿using Domain.Carpiler.Lexical;
+using Newtonsoft.Json.Linq;
 
 namespace Domain.Carpiler.Syntatic
 {
@@ -7,46 +7,25 @@ namespace Domain.Carpiler.Syntatic
     {
         private Queue<Token> Tokens { get; }
         private Dictionary<string, Token> SymbolTable { get; }
-        private Language Language { get; }
-        private Tree<Token> TokensTree { get; }
+        private Parser Parser { get; }
 
-        public SyntaticAnalyzer(List<Token> tokens, Dictionary<string, Token> symbolTable, Language language)
+        public SyntaticAnalyzer(List<Token> tokens, Dictionary<string, Token> symbolTable, Parser parser)
         {
             Tokens = new(tokens);
             SymbolTable = symbolTable;
-            Language = language;
-            TokensTree = new();
+            Parser = parser;
         }
 
-        public object Analyze()
+        public JObject Analyze()
         {
+            var ast = new JObject();
+
             while (Tokens.Any())
             {
-                IdentifyProduction();
+                ast.Add(Parser.Parse(Tokens));
             }
 
-            throw new NotImplementedException();
-        }
-
-        private void IdentifyProduction()
-        {
-            (Token left, Token right) = GetTokens();
-
-            foreach (var rule in Language.ProductionRules)
-            {
-                if (rule(left, right))
-                {
-                    //nao sei
-                    return;
-                }
-            }
-
-            throw new Exception($"The token {right} is not valid after {left}");
-        }
-
-        private (Token Left, Token Right) GetTokens()
-        {
-            return (Tokens.Dequeue(), Tokens.Dequeue());
+            return ast;
         }
     }
 }

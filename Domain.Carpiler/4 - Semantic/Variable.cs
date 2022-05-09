@@ -1,14 +1,18 @@
-﻿namespace Domain.Carpiler.Semantic
+﻿using Domain.Carpiler.Syntatic;
+
+namespace Domain.Carpiler.Semantic
 {
-    public class Variable<T>
+    public class VariableDeclaration : Construct
     {
-        public Variable(string name, T? value)
+        public VariableDeclaration(string name, Expression? initialValue, VariableType type)
         {
             Name = name;
-            Value = value;
+            InitialValue = initialValue;
+            Type = type;
         }
 
         public string Name { get; }
-        public T? Value { get; }
+        public Expression? InitialValue { get; }
+        public VariableType Type { get; }
     }
 }

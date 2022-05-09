@@ -4,6 +4,11 @@
     {
         public Node<T>? Root { get; }
 
+        public Tree(T? root)
+        {
+            Root = new(root);
+        }
+
         public void AddChild(T data)
         {
             Root.Children.AddFirst(new Node<T>(data));
@@ -38,7 +43,7 @@
 
     public class Node<T>
     {
-        public T Data { get; set; }
+        public T? Data { get; set; }
         public LinkedList<Node<T>> Children { get; }
 
         public Node(T data)
@@ -47,7 +52,7 @@
             Children = new LinkedList<Node<T>>();
         }
 
-        public static void Traverse(Node<T> node, Action<T> action)
+        public static void Traverse(Node<T> node, Action<T?> action)
         {
             action(node.Data);
             foreach (Node<T> kid in node.Children)

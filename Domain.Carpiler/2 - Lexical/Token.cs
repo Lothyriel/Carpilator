@@ -1,5 +1,19 @@
-﻿namespace Domain.Carpiler.Grammar
+﻿namespace Domain.Carpiler.Lexical
 {
+    public class Operator : Token
+    {
+        public Operator(string value, Type type) : base(value, type)
+        {
+        }
+    }
+    public class Value : Token
+    {
+        public Value(string value, Type type) : base(value, type)
+        {
+        }
+    }
+
+
     public class Token
     {
         public Token(string value, Type type)

@@ -1,28 +1,23 @@
-﻿namespace Domain.Carpiler.Grammar
+﻿namespace Domain.Carpiler.Lexical
 {
-    public abstract class Language
+    public abstract class Tokenizer
     {
-        public delegate bool ProductionRule(Token Left, Token Right);
-
-        public Language()
+        public Tokenizer()
         {
             ReservedWords = InitReservedWords();
             IgnoredCharacters = InitIgnoredCharacters();
             Symbols = InitSymbols();
             MaxSymbolLenght = Symbols.Keys.Select(s => s.Length).Max();
-            ProductionRules = InitProductionRules();
         }
 
         public Dictionary<string, Token> ReservedWords { get; }
         public Dictionary<string, Token> Symbols { get; }
         public int MaxSymbolLenght { get; }
-        public List<ProductionRule> ProductionRules { get; }
         public HashSet<char> IgnoredCharacters { get; }
 
         public abstract char LiteralDelimiter { get; }
         protected abstract HashSet<char> InitIgnoredCharacters();
         protected abstract Dictionary<string, Token> InitReservedWords();
         protected abstract Dictionary<string, Token> InitSymbols();
-        protected abstract List<ProductionRule> InitProductionRules();
     }
 }

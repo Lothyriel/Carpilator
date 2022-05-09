@@ -1,27 +1,30 @@
-﻿using Domain.Carpiler.Semantic;
-
-namespace Domain.Carpiler.Syntatic
+﻿namespace Domain.Carpiler.Syntatic
 {
-    public abstract class Construct
+    public class Construct
     {
-
-    }
-
-    public class VariableDeclaration<T> : Construct
-    {
-        public VariableDeclaration(string name, T? value, VariableType type)
-        {
-            Identifier = new(name, value);
-            Type = type;
-        }
-
-        public Variable<T?> Identifier { get; }
-        public VariableType Type { get; }
     }
 
     public class Statement : Construct
     {
-        
+
+    }
+
+    public class Expression : Construct
+    {
+        public string? Value { get; }
+        public Expression? Left { get; }
+        public Expression? Right { get; }
+
+        public Expression(string? value)
+        {
+            Value = value;
+        }
+
+        public Expression(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
     }
 
     public enum VariableType

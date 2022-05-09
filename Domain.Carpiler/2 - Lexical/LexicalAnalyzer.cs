@@ -1,13 +1,11 @@
-﻿using Domain.Carpiler.Grammar;
-using Domain.Carpiler.Infra;
+﻿using Domain.Carpiler.Infra;
 using System.Text;
-using Type = Domain.Carpiler.Grammar.Type;
 
 namespace Domain.Carpiler.Lexical
 {
     public class LexicalAnalyzer
     {
-        public LexicalAnalyzer(string sourceCode, Language language, Dictionary<string, Token> symbolTable)
+        public LexicalAnalyzer(string sourceCode, Tokenizer language, Dictionary<string, Token> symbolTable)
         {
             SourceCode = sourceCode;
             Language = language;
@@ -17,7 +15,7 @@ namespace Domain.Carpiler.Lexical
         }
 
         private string SourceCode { get; }
-        private Language Language { get; }
+        private Tokenizer Language { get; }
         private List<Token> Tokens { get; }
         private Dictionary<string, Token> SymbolTable { get; }
         private Queue<char> Characters { get; }

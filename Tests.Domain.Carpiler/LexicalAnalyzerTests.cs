@@ -1,4 +1,3 @@
-using Domain.Carpiler.Grammar;
 using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
 using FluentAssertions;
@@ -18,20 +17,20 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
             var expressao = new Token("expressao", Type.Identifier);
 
             tokens.Should().ContainInOrder(
-                CCsharp.Bool,
+                CCsharpTokenizer.Bool,
                 expressao,
-                CCsharp.Attribution,
+                CCsharpTokenizer.Attribution,
                 new Token("10", Type.IntValue),
-                CCsharp.LesserEquals,
+                CCsharpTokenizer.LesserEquals,
                 new Token("5", Type.IntValue),
-                CCsharp.Semicolon
+                CCsharpTokenizer.Semicolon
                 );
 
             symbolTable.Values.Should().ContainInOrder(
@@ -46,17 +45,17 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
             var letras = new Token("letras", Type.Identifier);
             tokens.Should().ContainInOrder(
-                CCsharp.String,
+                CCsharpTokenizer.String,
                 letras,
-                CCsharp.Attribution,
+                CCsharpTokenizer.Attribution,
                 new Token("string", Type.StringValue),
-                CCsharp.Semicolon
+                CCsharpTokenizer.Semicolon
                 );
 
             symbolTable.Values.Should().ContainInOrder(
@@ -71,31 +70,31 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
             var i = new Token("i", Type.Identifier);
 
             tokens.Should().ContainInOrder(
-                CCsharp.Int,
+                CCsharpTokenizer.Int,
                 i,
-                CCsharp.Attribution,
+                CCsharpTokenizer.Attribution,
                 new Token("0", Type.IntValue),
-                CCsharp.Semicolon,
-                CCsharp.While,
-                CCsharp.ParenthesisOpen,
+                CCsharpTokenizer.Semicolon,
+                CCsharpTokenizer.While,
+                CCsharpTokenizer.ParenthesisOpen,
                 i,
-                CCsharp.Lesser,
+                CCsharpTokenizer.Lesser,
                 new Token("20", Type.IntValue),
-                CCsharp.ParenthesisClose,
-                CCsharp.CurlyBraceOpen,
-                CCsharp.Print,
-                CCsharp.ParenthesisOpen,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.CurlyBraceOpen,
+                CCsharpTokenizer.Print,
+                CCsharpTokenizer.ParenthesisOpen,
                 i,
-                CCsharp.ParenthesisClose,
-                CCsharp.Semicolon,
-                CCsharp.CurlyBraceClose
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
+                CCsharpTokenizer.CurlyBraceClose
                 );
 
             symbolTable.Values.Should().ContainInOrder(
@@ -110,7 +109,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Token>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
@@ -118,44 +117,44 @@ namespace Tests.Domain.Carpiler
             var i = new Token("i", Type.Identifier);
 
             tokens.Should().ContainInOrder(
-                CCsharp.Int,
-                CCsharp.BracketOpen,
-                CCsharp.BracketClose,
+                CCsharpTokenizer.Int,
+                CCsharpTokenizer.BracketOpen,
+                CCsharpTokenizer.BracketClose,
                 array,
-                CCsharp.Attribution,
-                CCsharp.New,
-                CCsharp.Int,
-                CCsharp.BracketOpen,
+                CCsharpTokenizer.Attribution,
+                CCsharpTokenizer.New,
+                CCsharpTokenizer.Int,
+                CCsharpTokenizer.BracketOpen,
                 new Token("10", Type.IntValue),
-                CCsharp.BracketClose,
-                CCsharp.Semicolon,
-                CCsharp.Int,
+                CCsharpTokenizer.BracketClose,
+                CCsharpTokenizer.Semicolon,
+                CCsharpTokenizer.Int,
                 i,
-                CCsharp.Attribution,
+                CCsharpTokenizer.Attribution,
                 new Token("0", Type.IntValue),
-                CCsharp.Semicolon,
-                CCsharp.While,
-                CCsharp.ParenthesisOpen,
+                CCsharpTokenizer.Semicolon,
+                CCsharpTokenizer.While,
+                CCsharpTokenizer.ParenthesisOpen,
                 i,
-                CCsharp.Lesser,
+                CCsharpTokenizer.Lesser,
                 new Token("10", Type.IntValue),
-                CCsharp.ParenthesisClose,
-                CCsharp.CurlyBraceOpen,
-                CCsharp.Print,
-                CCsharp.ParenthesisOpen,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.CurlyBraceOpen,
+                CCsharpTokenizer.Print,
+                CCsharpTokenizer.ParenthesisOpen,
                 array,
-                CCsharp.BracketOpen,
+                CCsharpTokenizer.BracketOpen,
                 i,
-                CCsharp.BracketClose,
-                CCsharp.ParenthesisClose,
-                CCsharp.Semicolon,
+                CCsharpTokenizer.BracketClose,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
                 i,
-                CCsharp.Attribution,
+                CCsharpTokenizer.Attribution,
                 i,
-                CCsharp.Plus,
+                CCsharpTokenizer.Plus,
                 new Token("1", Type.IntValue),
-                CCsharp.Semicolon,
-                CCsharp.CurlyBraceClose
+                CCsharpTokenizer.Semicolon,
+                CCsharpTokenizer.CurlyBraceClose
                 );
 
             symbolTable.Values.Should().ContainInOrder(

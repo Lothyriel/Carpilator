@@ -1,5 +1,4 @@
-﻿using Domain.Carpiler.Grammar;
-using Domain.Carpiler.Lexical;
+﻿using Domain.Carpiler.Lexical;
 
 namespace Domain.Carpiler.Semantic
 {
