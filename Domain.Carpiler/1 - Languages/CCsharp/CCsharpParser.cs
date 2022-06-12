@@ -57,9 +57,9 @@ namespace Domain.Carpiler.Languages
             return ReadFunction.Instance;
         }
 
-        private IValuable Print()
+        private IConstruct Print()
         {
-            throw new NotImplementedException();
+            return new PrintFunction(GetExpression());
         }
 
         private Assignment AssignmentExpression()
@@ -76,7 +76,9 @@ namespace Domain.Carpiler.Languages
             var token = Tokens!.Dequeue();
 
             if (token.TokenType != expected)
+            {
                 throw new Exception($"Expected {expected}");
+            }
 
             return token;
         }
@@ -116,11 +118,9 @@ namespace Domain.Carpiler.Languages
                 return (ValueToken)token;
             }
 
-            switch (token.Value)
+            if (token.Value == "read")
             {
-                case "print": return Print();
-                case "read": return Read();
-                default: break;
+                return Read();
             }
 
             return new BinaryExpression((ValueToken)token, GetOperator(), GetExpression());
@@ -131,7 +131,9 @@ namespace Domain.Carpiler.Languages
             var isSemicolon = Tokens!.Peek().TokenType == TokenType.Semicolon;
 
             if (isSemicolon)
+            {
                 Tokens.Dequeue();
+            }
 
             return isSemicolon;
         }

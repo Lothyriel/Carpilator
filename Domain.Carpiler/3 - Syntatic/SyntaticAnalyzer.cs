@@ -1,19 +1,16 @@
 ﻿using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic.Constructs;
-using Newtonsoft.Json.Linq;
 
 namespace Domain.Carpiler.Syntatic
 {
     public class SyntaticAnalyzer
     {
         private Queue<Token> Tokens { get; }
-        private Dictionary<string, Token> SymbolTable { get; }
         private Parser Parser { get; }
 
-        public SyntaticAnalyzer(List<Token> tokens, Dictionary<string, Token> symbolTable, Parser parser)
+        public SyntaticAnalyzer(List<Token> tokens, Parser parser)
         {
             Tokens = new(tokens);
-            SymbolTable = symbolTable;
             Parser = parser;
         }
 

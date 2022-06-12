@@ -9,4 +9,16 @@
             Name = GetType().Name;
         }
     }
+
+    public class PrintFunction : IConstruct
+    {
+        public string Name { get; }
+        public IValuable Expression { get; }
+
+        public PrintFunction(IValuable expression)
+        {
+            Name = GetType().Name;
+            Expression = expression;
+        }
+    }
 }

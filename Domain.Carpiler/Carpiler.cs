@@ -21,7 +21,7 @@ namespace Domain.Carpiler
         {
             var tokens = new LexicalAnalyzer(SourceCode, Language.Tokenizer, SymbolTable).Analyze();
 
-            var syntaxTree = new SyntaticAnalyzer(tokens, SymbolTable, Language.Parser).Analyze();
+            var syntaxTree = new SyntaticAnalyzer(tokens, Language.Parser).Analyze();
 
             var _ = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
 

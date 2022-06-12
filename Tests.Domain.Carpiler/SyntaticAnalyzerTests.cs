@@ -27,7 +27,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Semicolon
             };
 
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
             var expectedConstruct = new List<IConstruct>()
             {
@@ -57,7 +57,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Semicolon
             };
 
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
             var expectedConstruct = new List<IConstruct>()
             {
@@ -86,7 +86,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Semicolon
             };
 
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
             var expectedConstruct = new List<IConstruct>()
             {
@@ -118,7 +118,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Semicolon
             };
 
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
             var expectedConstruct = new List<IConstruct>()
             {
@@ -145,11 +145,37 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Semicolon
             };
 
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
             var expectedConstruct = new List<IConstruct>()
             {
                 new VariableDeclaration("input", ReadFunction.Instance, VariableType.String),
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
+        public void ShouldParseValidASTForPrintBinaryExpression()
+        {
+            var ten = new ValueToken("10", TokenType.IntValue);
+
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.Print,
+                ten,
+                CCsharpTokenizer.Plus,
+                ten,
+                CCsharpTokenizer.Semicolon
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<IConstruct>()
+            {
+                new PrintFunction(new BinaryExpression(ten, CCsharpTokenizer.Plus, ten))
             };
 
             var resulted = parser.Analyze();
