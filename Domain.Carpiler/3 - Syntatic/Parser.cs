@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Lexical;
+using Domain.Carpiler.Syntatic.Constructs;
 
 namespace Domain.Carpiler.Syntatic
 {

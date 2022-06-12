@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Lexical;
+using Domain.Carpiler.Syntatic.Constructs;
 using Newtonsoft.Json.Linq;
 
 namespace Domain.Carpiler.Syntatic

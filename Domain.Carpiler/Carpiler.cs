@@ -23,7 +23,7 @@ namespace Domain.Carpiler
 
             var syntaxTree = new SyntaticAnalyzer(tokens, SymbolTable, Language.Parser).Analyze();
 
-            var parseTree = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
+            var _ = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
 
             throw new NotImplementedException();
         }
