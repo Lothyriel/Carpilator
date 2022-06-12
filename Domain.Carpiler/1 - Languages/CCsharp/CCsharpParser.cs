@@ -22,14 +22,43 @@ namespace Domain.Carpiler.Languages
             {
                 TokenType.Float or TokenType.Int or TokenType.String or TokenType.Bool => VariableDeclaration(),
                 TokenType.Identifier => AssignmentExpression(),
-                TokenType.ReservedWord => ReserverdWord(current),
+                TokenType.ReservedWord => ReserverdWord(),
                 _ => throw new Exception($"{current} not expected"),
             };
         }
 
-        private IConstruct ReserverdWord(Token current)
+        private IConstruct ReserverdWord()
         {
-            //function call //while //if / else
+            var word = Tokens!.Dequeue();
+
+            return word.Value switch
+            {
+                "print" => Print(),
+                "read" => Read(),
+                "if" => If(),
+                "while" => While(),
+                _ => throw new Exception($"Em teoria impossivel exception {word}"),
+            };
+        }
+
+        private IConstruct While()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IConstruct If()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IValuable Read()
+        {
+            Assert(TokenType.Semicolon);
+            return ReadFunction.Instance;
+        }
+
+        private IValuable Print()
+        {
             throw new NotImplementedException();
         }
 
@@ -82,15 +111,22 @@ namespace Domain.Carpiler.Languages
         {
             var token = Tokens!.Dequeue();
 
-            if (IsValue(token) && IsSemicolon())
+            if (IsValue(token) && IsEOL())
             {
                 return (ValueToken)token;
+            }
+
+            switch (token.Value)
+            {
+                case "print": return Print();
+                case "read": return Read();
+                default: break;
             }
 
             return new BinaryExpression((ValueToken)token, GetOperator(), GetExpression());
         }
 
-        private bool IsSemicolon()
+        private bool IsEOL()
         {
             var isSemicolon = Tokens!.Peek().TokenType == TokenType.Semicolon;
 

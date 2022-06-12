@@ -70,7 +70,7 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
-        public void ShouldParseValidASTForVariableDeclarationAndAssignment()
+        public void ShouldParseValidASTForVariableDeclarationAndAssignmentValue()
         {
             var numero = new Token("numero", TokenType.Identifier);
             var ten = new ValueToken("10", TokenType.IntValue);
@@ -99,5 +99,62 @@ namespace Tests.Domain.Carpiler
             resulted.JsonEquals(expectedConstruct);
         }
 
+        [Fact]
+        public void ShouldParseValidASTForVariableDeclarationAndAssignmentExpression()
+        {
+            var numero = new Token("numero", TokenType.Identifier);
+            var ten = new ValueToken("10", TokenType.IntValue);
+
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.Int,
+                numero,
+                CCsharpTokenizer.Semicolon,
+                numero,
+                CCsharpTokenizer.Attribution,
+                ten,
+                CCsharpTokenizer.Plus,
+                ten,
+                CCsharpTokenizer.Semicolon
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+
+            var expectedConstruct = new List<IConstruct>()
+            {
+                new VariableDeclaration("numero", null, VariableType.Integer),
+                new Assignment(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)),
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
+        public void ShouldParseValidASTForVariableDeclarationAndAssigmentRead()
+        {
+            var input = new Token("input", TokenType.Identifier);
+
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.String,
+                input,
+                CCsharpTokenizer.Attribution,
+                CCsharpTokenizer.Read,
+                CCsharpTokenizer.Semicolon
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
+
+            var expectedConstruct = new List<IConstruct>()
+            {
+                new VariableDeclaration("input", ReadFunction.Instance, VariableType.String),
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
     }
 }
