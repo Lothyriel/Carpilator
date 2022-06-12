@@ -24,13 +24,4 @@
             return $"The token {token} at line {line} pos {indexFound} was not identified as part of the language";
         }
     }
-
-    [Serializable]
-    public class NotClosed : Exception
-    {
-        public NotClosed(char token) : base
-            ($"The token {token} was not properly closed")
-        {
-        }
-    }
 }

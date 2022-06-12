@@ -14,20 +14,6 @@ namespace Tests.Domain.Carpiler
         private CCsharp CCsharp { get; } = new();
 
         [Fact]
-        public void ShouldThrowNotClosedQuotesError()
-        {
-            var tokens = new List<Token>();
-
-            var symbolTable = new HashSet<Token>();
-
-            var parser = new SyntaticAnalyzer(tokens, new(), CCsharp.Parser);
-
-            var analyze = () => parser.Analyze();
-
-            analyze.Should().ThrowExactly<NotClosed>();
-        }
-
-        [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignment()
         {
             var numero = new Token("numero", TokenType.Identifier);
@@ -75,7 +61,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<IConstruct>()
             {
-                new VariableDeclaration("numero", new Expression(ten,CCsharpTokenizer.Plus,ten), VariableType.Integer)
+                new VariableDeclaration("numero", new Expression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
             };
 
             var resulted = parser.Analyze();
