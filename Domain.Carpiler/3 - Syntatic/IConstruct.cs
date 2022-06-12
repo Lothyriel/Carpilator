@@ -43,12 +43,12 @@ namespace Domain.Carpiler.Syntatic
             Name = GetType().Name;
             VarName = name;
             InitialValue = initialValue;
-            Type = type;
+            VarType = type;
         }
 
         public string VarName { get; }
         public IValuable? InitialValue { get; }
-        public VariableType Type { get; }
+        public VariableType VarType { get; }
 
         public string Name { get; }
     }

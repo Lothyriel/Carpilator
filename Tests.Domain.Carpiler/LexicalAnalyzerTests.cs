@@ -21,15 +21,15 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Analyze();
 
-            var expressao = new Token("expressao", Type.Identifier);
+            var expressao = new Token("expressao", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Bool,
                 expressao,
                 CCsharpTokenizer.Attribution,
-                new Token("10", Type.IntValue),
+                new Token("10", TokenType.IntValue),
                 CCsharpTokenizer.LesserEquals,
-                new Token("5", Type.IntValue),
+                new Token("5", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon
                 );
 
@@ -49,12 +49,12 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Analyze();
 
-            var letras = new Token("letras", Type.Identifier);
+            var letras = new Token("letras", TokenType.Identifier);
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.String,
                 letras,
                 CCsharpTokenizer.Attribution,
-                new Token("string", Type.StringValue),
+                new Token("string", TokenType.StringValue),
                 CCsharpTokenizer.Semicolon
                 );
 
@@ -74,19 +74,19 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Analyze();
 
-            var i = new Token("i", Type.Identifier);
+            var i = new Token("i", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
-                new Token("0", Type.IntValue),
+                new Token("0", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
                 i,
                 CCsharpTokenizer.Lesser,
-                new Token("20", Type.IntValue),
+                new Token("20", TokenType.IntValue),
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
                 CCsharpTokenizer.Print,
@@ -113,8 +113,8 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Analyze();
 
-            var array = new Token("array", Type.Identifier);
-            var i = new Token("i", Type.Identifier);
+            var array = new Token("array", TokenType.Identifier);
+            var i = new Token("i", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,
@@ -125,19 +125,19 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.New,
                 CCsharpTokenizer.Int,
                 CCsharpTokenizer.BracketOpen,
-                new Token("10", Type.IntValue),
+                new Token("10", TokenType.IntValue),
                 CCsharpTokenizer.BracketClose,
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
-                new Token("0", Type.IntValue),
+                new Token("0", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
                 i,
                 CCsharpTokenizer.Lesser,
-                new Token("10", Type.IntValue),
+                new Token("10", TokenType.IntValue),
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
                 CCsharpTokenizer.Print,
@@ -152,7 +152,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Attribution,
                 i,
                 CCsharpTokenizer.Plus,
-                new Token("1", Type.IntValue),
+                new Token("1", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.CurlyBraceClose
                 );

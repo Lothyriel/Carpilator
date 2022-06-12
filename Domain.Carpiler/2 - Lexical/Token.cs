@@ -4,13 +4,13 @@ namespace Domain.Carpiler.Lexical
 {
     public class Operator : Token
     {
-        public Operator(string value, Type type) : base(value, type)
+        public Operator(string value, TokenType type) : base(value, type)
         {
         }
     }
     public class ValueToken : Token, IValuable
     {
-        public ValueToken(string value, Type type) : base($"{value}", type)
+        public ValueToken(string value, TokenType type) : base($"{value}", type)
         {
             Name = GetType().Name;
         }
@@ -20,24 +20,24 @@ namespace Domain.Carpiler.Lexical
 
     public class Token
     {
-        public Token(string value, Type type)
+        public Token(string value, TokenType type)
         {
             Value = value;
-            Type = type;
+            TokenType = type;
         }
 
         public string Value { get; }
 
-        public Type Type { get; }
+        public TokenType TokenType { get; }
 
         public override string ToString()
         {
-            return $"{Type} {Value}";
+            return $"{TokenType} {Value}";
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is Token token && token.Type == Type && token.Value == Value;
+            return obj is Token token && token.TokenType == TokenType && token.Value == Value;
         }
 
         public override int GetHashCode()
@@ -46,7 +46,7 @@ namespace Domain.Carpiler.Lexical
         }
     }
 
-    public enum Type
+    public enum TokenType
     {
         StringValue,
         IntValue,

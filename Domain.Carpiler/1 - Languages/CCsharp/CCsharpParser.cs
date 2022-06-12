@@ -1,6 +1,6 @@
 ﻿using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
-using Type = Domain.Carpiler.Lexical.Type;
+using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Domain.Carpiler.Languages
 {
@@ -15,15 +15,21 @@ namespace Domain.Carpiler.Languages
 
         private IConstruct Statement()
         {
-            var vd = VariableDeclaration();
-            //var va = AssigmentExpression();
+            var current = Tokens!.Peek();
 
-            //assignment
-            //function call
-            //while
-            //if / else
+            return current.TokenType switch
+            {
+                TokenType.Float or TokenType.Int or TokenType.String or TokenType.Bool => VariableDeclaration(),
+                TokenType.Identifier => AssigmentExpression(),
+                TokenType.ReservedWord => ReserverdWord(current),
+                _ => throw new Exception($"{current} not expected"),
+            };
+        }
 
-            return vd;
+        private IConstruct ReserverdWord(Token current)
+        {
+            //function call //while //if / else
+            throw new NotImplementedException();
         }
 
         private Expression AssigmentExpression()
@@ -36,10 +42,10 @@ namespace Domain.Carpiler.Languages
             var type = Tokens!.Dequeue();
             var identifier = Tokens.Dequeue();
 
-            var leftVarType = IsVarType(type);
-            var rightIdentifier = identifier.Type == Type.Identifier;
+            var leftVarType = GetVarType(type);
+            var rightIdentifier = identifier.TokenType == TokenType.Identifier;
 
-            if (leftVarType == false || rightIdentifier == false)
+            if (leftVarType is null || rightIdentifier == false)
             {
                 throw new Exception("Invalid variable declaration");
             }
@@ -48,21 +54,19 @@ namespace Domain.Carpiler.Languages
 
             var name = identifier.Value;
 
-            var varType = GetVarType(type);
-
-            return new VariableDeclaration(name, expressionValue, varType);
+            return new VariableDeclaration(name, expressionValue, leftVarType.Value);
         }
 
         private IValuable? GetAssignmentExpression()
         {
             var next = Tokens!.Dequeue();
 
-            if (next.Type == Type.Semicolon)
+            if (next.TokenType == TokenType.Semicolon)
             {
                 return null;
             }
 
-            if (next.Type == Type.Attribution)
+            if (next.TokenType == TokenType.Attribution)
             {
                 return GetExpression();
             }
@@ -72,65 +76,42 @@ namespace Domain.Carpiler.Languages
 
         private IValuable GetExpression()
         {
-            var sv = SimpleValue();
-
-            if (sv != null)
-            {
-                return sv;
-            }
-
-            var be = BinaryExpression();
-
-            return be;
-        }
-
-        private ValueToken? SimpleValue()
-        {
             var token = Tokens!.Dequeue();
 
-            var isValue = IsValue(token);
-
-            if (isValue && Tokens.Dequeue().Type == Type.Semicolon)
+            if (IsValue(token) && IsSemicolon())
             {
                 return (ValueToken)token;
             }
 
-            return null;
+            return new Expression((ValueToken)token, GetOperator(), GetExpression());
+        }
+
+        private bool IsSemicolon()
+        {
+            var isSemicolon = Tokens!.Peek().TokenType == TokenType.Semicolon;
+
+            if (isSemicolon)
+                Tokens.Dequeue();
+
+            return isSemicolon;
         }
 
         private static bool IsValue(Token token)
         {
-            return token.Type == Type.FloatValue ||
-                   token.Type == Type.IntValue ||
-                   token.Type == Type.StringValue ||
-                   token.Type == Type.BoolValue;
-        }
-
-        private Expression BinaryExpression()
-        {
-            var left = GetExpression();
-
-            var op = GetOperator();
-
-            var right = GetExpression();
-
-            return new Expression(left, op, right);
+            return token.TokenType is
+                TokenType.StringValue or
+                TokenType.IntValue or
+                TokenType.FloatValue or
+                TokenType.BoolValue;
         }
 
         private Operator GetOperator()
         {
-            throw new NotImplementedException();
+            var next = Tokens!.Dequeue();
+            return next is Operator op ? op : throw new Exception("Expected operator");
         }
 
-        private static bool IsVarType(Token type)
-        {
-            return type.Value == "float" ||
-                   type.Value == "bool" ||
-                   type.Value == "string" ||
-                   type.Value == "int";
-        }
-
-        private static VariableType GetVarType(Token type)
+        private static VariableType? GetVarType(Token type)
         {
             return type.Value switch
             {
@@ -138,7 +119,7 @@ namespace Domain.Carpiler.Languages
                 "float" => VariableType.Float,
                 "int" => VariableType.Integer,
                 "string" => VariableType.String,
-                _ => throw new Exception("Invalid type for variable declaration"),
+                _ => null,
             };
         }
     }

@@ -16,7 +16,7 @@ namespace Domain.Carpiler.Syntatic
             Parser = parser;
         }
 
-        public Dictionary<string, List<IConstruct>> Analyze()
+        public List<IConstruct> Analyze()
         {
             var statements = new List<IConstruct>();
 
@@ -26,10 +26,7 @@ namespace Domain.Carpiler.Syntatic
                 statements.Add(construct);
             }
 
-            return new Dictionary<string, List<IConstruct>>()
-            {
-                { "ProgramStatements", statements },
-            };
+            return statements;
         }
     }
 }

@@ -111,7 +111,7 @@ namespace Domain.Carpiler.Lexical
 
             if (Characters.Peek() != '.')
             {
-                Tokens.Add(new ValueToken(number.ToString(), Type.IntValue));
+                Tokens.Add(new ValueToken(number.ToString(), TokenType.IntValue));
                 return;
             }
 
@@ -119,7 +119,7 @@ namespace Domain.Carpiler.Lexical
             Characters.Dequeue();
 
             GetDigits();
-            Tokens.Add(new ValueToken(number.ToString(), Type.FloatValue));
+            Tokens.Add(new ValueToken(number.ToString(), TokenType.FloatValue));
 
             void GetDigits()
             {
@@ -147,7 +147,7 @@ namespace Domain.Carpiler.Lexical
 
         private void AddIdentifier(string identifier)
         {
-            var token = new Token(identifier, Type.Identifier);
+            var token = new Token(identifier, TokenType.Identifier);
 
             var newIdentifier = SymbolTable.TryAdd(identifier, token);
 
@@ -190,7 +190,7 @@ namespace Domain.Carpiler.Lexical
 
             Characters.Dequeue();
 
-            Tokens.Add(new ValueToken(word.ToString(), Type.StringValue));
+            Tokens.Add(new ValueToken(word.ToString(), TokenType.StringValue));
         }
     }
 }
