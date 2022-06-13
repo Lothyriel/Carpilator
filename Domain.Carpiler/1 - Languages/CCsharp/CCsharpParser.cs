@@ -14,7 +14,7 @@ namespace Domain.Carpiler.Languages
             return Statement();
         }
 
-        private IConstruct Statement()
+        private Statement Statement()
         {
             var current = Tokens!.Peek();
 
@@ -27,10 +27,10 @@ namespace Domain.Carpiler.Languages
             };
         }
 
-        private IConstruct ReserverdWord()
+        private Statement ReserverdWord()
         {
-            var word = Tokens!.Dequeue();
-
+            var word = Assert(TokenType.ReservedWord);
+            
             return word.Value switch
             {
                 "print" => Print(),
@@ -41,34 +41,67 @@ namespace Domain.Carpiler.Languages
             };
         }
 
-        private IConstruct While()
+        private Statement While()
+        {
+            Assert(TokenType.ParenthesisOpen);
+            var condition = GetExpression();
+            Assert(TokenType.ParenthesisClose);
+            Assert(TokenType.CurlyBraceOpen);
+
+            var statements = new List<Statement>();
+
+            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
+            {
+                statements.Add(Statement());
+            }
+
+            Assert(TokenType.CurlyBraceClose);
+
+            return new While(condition, statements);
+        }
+
+        private Statement If()
         {
             throw new NotImplementedException();
         }
 
-        private IConstruct If()
+        private ReadFunction Read()
         {
-            throw new NotImplementedException();
-        }
-
-        private IValuable Read()
-        {
+            Assert(TokenType.ParenthesisOpen);
+            Assert(TokenType.ParenthesisClose);
             Assert(TokenType.Semicolon);
+
             return ReadFunction.Instance;
         }
 
-        private IConstruct Print()
+        private Statement Print()
         {
-            return new PrintFunction(GetExpression());
+            Assert(TokenType.ParenthesisOpen);
+
+            var print = new PrintFunction(GetExpression());
+
+            Assert(TokenType.ParenthesisClose);
+            Assert(TokenType.Semicolon);
+
+            return print;
         }
 
         private Assignment AssignmentExpression()
         {
             var identifier = Tokens!.Dequeue();
-
             Assert(TokenType.Attribution);
+            var assignment = new Assignment(identifier, GetExpression());
+            Assert(TokenType.Semicolon);
 
-            return new Assignment(identifier, GetExpression());
+            return assignment;
+        }
+
+        private void AssertOptional(TokenType expected)
+        {
+            if (Tokens!.Any() && Tokens!.Peek().TokenType == expected)
+            {
+                Tokens.Dequeue();
+            }
         }
 
         private Token Assert(TokenType expected)
@@ -89,36 +122,36 @@ namespace Domain.Carpiler.Languages
 
             var identifier = Assert(TokenType.Identifier);
 
-            return new VariableDeclaration(identifier.Value, GetAssignmentExpression(), varType!.Value);
+            var vd = new VariableDeclaration(identifier.Value, GetAssignmentExpression(), varType!.Value);
+
+            AssertOptional(TokenType.Semicolon);
+
+            return vd;
         }
 
         private IValuable? GetAssignmentExpression()
         {
-            var next = Tokens!.Dequeue();
+            var next = Tokens!.Peek();
 
             if (next.TokenType == TokenType.Semicolon)
             {
                 return null;
             }
 
-            if (next.TokenType == TokenType.Attribution)
-            {
-                return GetExpression();
-            }
-
-            throw new Exception("Expected ; or a expression after variable declaration");
+            Assert(TokenType.Attribution);
+            return GetExpression();
         }
 
         private IValuable GetExpression()
         {
             var token = Tokens!.Dequeue();
 
-            if (IsValue(token) && IsEOL())
+            if ((token.TokenType == TokenType.Identifier || IsValue(token)) && IsEOL())
             {
                 return (ValueToken)token;
             }
 
-            if (token.Value == "read")
+            if (token.Value == "read") //generalizar para toda funcao, e na hora de executar eu dou o erro de tipo
             {
                 return Read();
             }
@@ -126,22 +159,17 @@ namespace Domain.Carpiler.Languages
             return new BinaryExpression((ValueToken)token, GetOperator(), GetExpression());
         }
 
-        private bool IsEOL()
-        {
-            var isSemicolon = Tokens!.Peek().TokenType == TokenType.Semicolon;
-
-            if (isSemicolon)
-            {
-                Tokens.Dequeue();
-            }
-
-            return isSemicolon;
-        }
-
         private Operator GetOperator()
         {
             var next = Tokens!.Dequeue();
-            return next is Operator op ? op : throw new Exception("Expected operator");
+            return next as Operator ?? throw new Exception("Expected operator");
+        }
+
+        private bool IsEOL()
+        {
+            var tokenType = Tokens!.Peek().TokenType;
+
+            return tokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
         }
 
         private static bool IsValue(Token token)

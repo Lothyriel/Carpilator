@@ -1,5 +1,4 @@
-﻿using Domain.Carpiler.Syntatic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Newtonsoft.Json;
 
 namespace Tests.Domain.Carpiler

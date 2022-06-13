@@ -1,24 +1,28 @@
 ﻿namespace Domain.Carpiler.Syntatic.Constructs
 {
-    public class ReadFunction : IValuable
+    public class ReadFunction : Statement, IValuable
     {
-        public string Name { get; }
         public static ReadFunction Instance { get; } = new ReadFunction();
-        private ReadFunction()
-        {
-            Name = GetType().Name;
-        }
     }
 
-    public class PrintFunction : IConstruct
+    public class PrintFunction : Statement
     {
-        public string Name { get; }
         public IValuable Expression { get; }
 
         public PrintFunction(IValuable expression)
         {
-            Name = GetType().Name;
             Expression = expression;
         }
+    }
+    public class While : Statement
+    {
+        public While(IValuable condition, List<Statement> statements)
+        {
+            Condition = condition;
+            Statements = statements;
+        }
+
+        public IValuable Condition { get; }
+        public List<Statement> Statements { get; }
     }
 }
