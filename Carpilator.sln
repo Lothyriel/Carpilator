@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Carpiler", "Domain.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Domain.Carpiler", "Tests.Domain.Carpiler\Tests.Domain.Carpiler.csproj", "{48ED377F-057B-4048-A49A-A7A257202E5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carpiler.WinFormsApp", "Carpiler.WinFormsApp\Carpiler.WinFormsApp.csproj", "{9A23A92E-AE2A-47A6-A133-E69EE19FCC5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{48ED377F-057B-4048-A49A-A7A257202E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48ED377F-057B-4048-A49A-A7A257202E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48ED377F-057B-4048-A49A-A7A257202E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A23A92E-AE2A-47A6-A133-E69EE19FCC5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A23A92E-AE2A-47A6-A133-E69EE19FCC5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A23A92E-AE2A-47A6-A133-E69EE19FCC5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A23A92E-AE2A-47A6-A133-E69EE19FCC5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
