@@ -62,7 +62,21 @@ namespace Domain.Carpiler.Languages
 
         private Statement If()
         {
-            throw new NotImplementedException();
+            Assert(TokenType.ParenthesisOpen);
+            var condition = GetExpression();
+            Assert(TokenType.ParenthesisClose);
+            Assert(TokenType.CurlyBraceOpen);
+
+            var statements = new List<Statement>();
+
+            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
+            {
+                statements.Add(Statement());
+            }
+
+            Assert(TokenType.CurlyBraceClose);
+
+            return new If(condition, statements);
         }
 
         private ReadFunction Read()
@@ -71,7 +85,7 @@ namespace Domain.Carpiler.Languages
             Assert(TokenType.ParenthesisClose);
             Assert(TokenType.Semicolon);
 
-            return ReadFunction.Instance;
+            return new ReadFunction();
         }
 
         private Statement Print()

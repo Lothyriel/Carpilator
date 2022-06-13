@@ -2,7 +2,6 @@
 {
     public class ReadFunction : Statement, IValuable
     {
-        public static ReadFunction Instance { get; } = new ReadFunction();
     }
 
     public class PrintFunction : Statement
@@ -17,6 +16,18 @@
     public class While : Statement
     {
         public While(IValuable condition, List<Statement> statements)
+        {
+            Condition = condition;
+            Statements = statements;
+        }
+
+        public IValuable Condition { get; }
+        public List<Statement> Statements { get; }
+    }
+
+    public class If : Statement
+    {
+        public If(IValuable condition, List<Statement> statements)
         {
             Condition = condition;
             Statements = statements;

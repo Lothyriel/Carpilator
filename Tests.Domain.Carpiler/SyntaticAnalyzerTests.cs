@@ -151,7 +151,51 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<IConstruct>()
             {
-                new VariableDeclaration("input", ReadFunction.Instance, VariableType.String),
+                new VariableDeclaration("input", new ReadFunction(), VariableType.String),
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
+        public void ShouldParseValidASTForIfPrint()
+        {
+            var ten = new ValueToken("10", TokenType.IntValue);
+            var five = new ValueToken("5", TokenType.IntValue);
+            var maior = new ValueToken("MAIOR", TokenType.StringValue);
+
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.If,
+                CCsharpTokenizer.ParenthesisOpen,
+
+                ten,
+                CCsharpTokenizer.Greater,
+                five,
+
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.CurlyBraceOpen,
+
+                CCsharpTokenizer.Print,
+                CCsharpTokenizer.ParenthesisOpen,
+                maior,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
+
+                CCsharpTokenizer.CurlyBraceClose
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<IConstruct>()
+            {
+                new If(new BinaryExpression(ten, CCsharpTokenizer.Greater, five),
+                    new List<Statement>
+                    {
+                        new PrintFunction(maior)
+                    }),
             };
 
             var resulted = parser.Analyze();
@@ -283,7 +327,8 @@ namespace Tests.Domain.Carpiler
         {
             var ten = new ValueToken("10", TokenType.IntValue);
             var array = new Token("array", TokenType.Identifier);
-            var i = new Token("i", TokenType.Identifier);
+            var i = new ValueToken("i", TokenType.Identifier);
+            var one = new ValueToken("1", TokenType.IntValue);
 
             var tokens = new List<Token>()
             {
@@ -302,14 +347,16 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
-                ten,
+                new ValueToken("0", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
 
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
+
                 i,
                 CCsharpTokenizer.Lesser,
                 ten,
+
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
 
@@ -338,9 +385,14 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<IConstruct>()
             {
-                new VariableDeclaration("numero", new ValueToken("10", TokenType.IntValue), VariableType.Integer),
-                new VariableDeclaration("array", new ValueToken("10", TokenType.IntValue), VariableType.Integer),
-                new PrintFunction(new BinaryExpression(ten, CCsharpTokenizer.Plus, ten))
+                new VariableDeclaration("i", new ValueToken("0", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration("array", null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/, VariableType.Integer),
+                new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
+                    new List<Statement>
+                    {
+                        new Assignment(array, new ReadFunction()), /*PRECISO CRIAR FORMADE ACESSAR ARRAY*/
+                        new Assignment(i, new BinaryExpression(i, CCsharpTokenizer.Plus, one))
+                    }),
             };
 
             var resulted = parser.Analyze();
