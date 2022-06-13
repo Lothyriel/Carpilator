@@ -22,12 +22,23 @@ namespace Domain.Carpiler.Lexical
 
         public List<Token> Analyze()
         {
-            while (Characters.Any())
+            try
             {
-                GetToken();
+                while (Characters.Any())
+                {
+                    GetToken();
+                }
+                return Tokens;
             }
-
-            return Tokens;
+            catch (UnclosedToken)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                var current = Characters.Peek();
+                throw new UnidentifiedToken(current, SourceCode, Characters.Count);
+            }
         }
 
         private void GetToken()
@@ -178,6 +189,18 @@ namespace Domain.Carpiler.Lexical
         }
 
         private void GetLiteral()
+        {
+            try
+            {
+                GetStringLiteral();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new UnclosedToken('"', SourceCode, Characters.Count);
+            }
+        }
+
+        private void GetStringLiteral()
         {
             Characters.Dequeue();
             var word = new StringBuilder();

@@ -51,7 +51,7 @@ namespace Carpiler.WinFormsApp
 
         private void Compile()
         {
-            if (string.IsNullOrEmpty(Tb_SourceCode.Text))
+            if (string.IsNullOrWhiteSpace(Tb_SourceCode.Text))
             {
                 return;
             }
@@ -65,7 +65,7 @@ namespace Carpiler.WinFormsApp
             {
                 exc = ex;
             }
-
+            
             Lb_Errors.Items.Clear();
             Lb_Errors.Items.Add(exc?.Message ?? "Compiled");
         }
