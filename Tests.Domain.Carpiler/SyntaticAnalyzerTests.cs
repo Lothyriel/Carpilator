@@ -70,6 +70,42 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
+        public void ShouldParseValidASTForVariableDeclarationWithAssigmentAndAssignmentValue()
+        {
+            var numero = new Identifier("numero", TokenType.Identifier);
+            var zero = new ValueToken("0", TokenType.IntValue);
+            var one = new ValueToken("1", TokenType.IntValue);
+
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.Int,
+                numero,
+                CCsharpTokenizer.Attribution,
+                zero,
+                CCsharpTokenizer.Semicolon,
+
+                numero,
+                CCsharpTokenizer.Attribution,
+                numero,
+                CCsharpTokenizer.Plus,
+                one,
+                CCsharpTokenizer.Semicolon
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<IConstruct>()
+            {
+                new VariableDeclaration("numero", zero, VariableType.Integer),
+                new Assignment(numero, new BinaryExpression(numero, CCsharpTokenizer.Plus, one))
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentValue()
         {
             var numero = new Token("numero", TokenType.Identifier);

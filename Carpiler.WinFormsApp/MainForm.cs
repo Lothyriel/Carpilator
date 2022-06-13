@@ -26,7 +26,6 @@ namespace Carpiler.WinFormsApp
         {
             Tb_SourceCode.Visible = true;
             Tb_Ast.Visible = false;
-            Tb_SourceCode.Focus();
         }
 
         private void Bt_Ast_Click(object sender, EventArgs e)
@@ -35,7 +34,6 @@ namespace Carpiler.WinFormsApp
 
             Tb_Ast.Visible = true;
             Tb_SourceCode.Visible = false;
-            Tb_Ast.Focus();
 
             if (Ast is null || Ast.Any() == false)
             {
@@ -68,8 +66,8 @@ namespace Carpiler.WinFormsApp
                 exc = ex;
             }
 
-            Lv_Errors.Items.Clear();
-            Lv_Errors.Items.Add(exc?.Message ?? "Compiled");
+            Lb_Errors.Items.Clear();
+            Lb_Errors.Items.Add(exc?.Message ?? "Compiled");
         }
     }
 }

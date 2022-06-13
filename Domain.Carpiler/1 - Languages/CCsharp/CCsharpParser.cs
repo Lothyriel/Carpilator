@@ -162,7 +162,7 @@ namespace Domain.Carpiler.Languages
 
             if ((token.TokenType == TokenType.Identifier || IsValue(token)) && IsEOL())
             {
-                return (ValueToken)token;
+                return (IValuable)token;
             }
 
             if (token.Value == "read") //generalizar para toda funcao, e na hora de executar eu dou o erro de tipo
@@ -170,7 +170,7 @@ namespace Domain.Carpiler.Languages
                 return Read();
             }
 
-            return new BinaryExpression((ValueToken)token, GetOperator(), GetExpression());
+            return new BinaryExpression((IValuable)token, GetOperator(), GetExpression());
         }
 
         private Operator GetOperator()

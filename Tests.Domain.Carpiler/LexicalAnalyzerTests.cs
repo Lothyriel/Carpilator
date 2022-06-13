@@ -15,13 +15,13 @@ namespace Tests.Domain.Carpiler
         {
             var sourceCode = Resource.BoolDeclaration;
 
-            var symbolTable = new Dictionary<string, Token>();
+            var symbolTable = new Dictionary<string, Identifier>();
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
-            var expressao = new Token("expressao", TokenType.Identifier);
+            var expressao = new Identifier("expressao", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Bool,
@@ -43,13 +43,14 @@ namespace Tests.Domain.Carpiler
         {
             var sourceCode = Resource.StringDeclaration;
 
-            var symbolTable = new Dictionary<string, Token>();
+            var symbolTable = new Dictionary<string, Identifier>();
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
-            var letras = new Token("letras", TokenType.Identifier);
+            var letras = new Identifier("letras", TokenType.Identifier);
+
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.String,
                 letras,
@@ -68,13 +69,13 @@ namespace Tests.Domain.Carpiler
         {
             var sourceCode = Resource.WhilePrint;
 
-            var symbolTable = new Dictionary<string, Token>();
+            var symbolTable = new Dictionary<string, Identifier>();
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
-            var i = new Token("i", TokenType.Identifier);
+            var i = new Identifier("i", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,
@@ -107,14 +108,14 @@ namespace Tests.Domain.Carpiler
         {
             var sourceCode = Resource.WhileOverArray;
 
-            var symbolTable = new Dictionary<string, Token>();
+            var symbolTable = new Dictionary<string, Identifier>();
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
             var tokens = analyzer.Analyze();
 
-            var array = new Token("array", TokenType.Identifier);
-            var i = new Token("i", TokenType.Identifier);
+            var array = new Identifier("array", TokenType.Identifier);
+            var i = new Identifier("i", TokenType.Identifier);
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,

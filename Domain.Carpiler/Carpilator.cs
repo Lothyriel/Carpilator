@@ -14,7 +14,7 @@ namespace Domain.Carpiler
             Language = language;
             SymbolTable = new();
         }
-        private Dictionary<string, Token> SymbolTable { get; }
+        private Dictionary<string, Identifier> SymbolTable { get; }
         private string SourceCode { get; }
         private Language Language { get; }
 

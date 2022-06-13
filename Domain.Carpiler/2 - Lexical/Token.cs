@@ -18,6 +18,16 @@ namespace Domain.Carpiler.Lexical
         public string Name { get; }
     }
 
+    public class Identifier : Token, IValuable
+    {
+        public Identifier(string value, TokenType type) : base($"{value}", type)
+        {
+            Name = GetType().Name;
+        }
+
+        public string Name { get; }
+    }
+
     public class Token
     {
         public Token(string value, TokenType type)
@@ -32,7 +42,7 @@ namespace Domain.Carpiler.Lexical
 
         public override string ToString()
         {
-            return $"{TokenType} {Value}";
+            return $"{{{TokenType} {(string.IsNullOrWhiteSpace(Value) ? "null" : Value)}}}";
         }
 
         public override bool Equals(object? obj)
