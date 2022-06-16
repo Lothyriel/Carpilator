@@ -24,11 +24,7 @@ namespace Domain.Carpiler.Lexical
         {
             try
             {
-                while (Characters.Any())
-                {
-                    GetToken();
-                }
-                return Tokens;
+                return GetTokens();
             }
             catch (UnclosedToken)
             {
@@ -39,6 +35,15 @@ namespace Domain.Carpiler.Lexical
                 var current = Characters.Peek();
                 throw new UnidentifiedToken(current, SourceCode, Characters.Count);
             }
+        }
+
+        private List<Token> GetTokens()
+        {
+            while (Characters.Any())
+            {
+                GetToken();
+            }
+            return Tokens;
         }
 
         private void GetToken()

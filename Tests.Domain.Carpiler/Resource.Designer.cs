@@ -105,5 +105,17 @@ namespace Tests.Domain.Carpiler {
                 return ResourceManager.GetString("WhilePrint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to while(true)
+        ///{
+        ///
+        ///}.
+        /// </summary>
+        internal static string WhileTrue {
+            get {
+                return ResourceManager.GetString("WhileTrue", resourceCulture);
+            }
+        }
     }
 }

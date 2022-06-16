@@ -139,4 +139,10 @@ while(i&lt;20)
      print(i);
 }</value>
   </data>
+  <data name="WhileTrue" xml:space="preserve">
+    <value>while(true)
+{
+
+}</value>
+  </data>
 </root>

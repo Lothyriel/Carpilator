@@ -7,6 +7,8 @@ namespace Domain.Carpiler.Languages
 {
     public class CCsharpParser : Parser
     {
+        private Token Current => Tokens!.Peek();
+
         public override IConstruct Parse(Queue<Token> tokens)
         {
             Tokens = tokens;
@@ -16,21 +18,19 @@ namespace Domain.Carpiler.Languages
 
         private Statement Statement()
         {
-            var current = Tokens!.Peek();
-
-            return current.TokenType switch
+            return Current.TokenType switch
             {
                 TokenType.Float or TokenType.Int or TokenType.String or TokenType.Bool => VariableDeclaration(),
                 TokenType.Identifier => AssignmentExpression(),
                 TokenType.ReservedWord => ReserverdWord(),
-                _ => throw new Exception($"{current} not expected"),
+                _ => throw new Exception($"{Current} not expected"),
             };
         }
 
         private Statement ReserverdWord()
         {
             var word = Assert(TokenType.ReservedWord);
-            
+
             return word.Value switch
             {
                 "print" => Print(),
@@ -102,7 +102,7 @@ namespace Domain.Carpiler.Languages
 
         private Assignment AssignmentExpression()
         {
-            var identifier = Tokens!.Dequeue();
+            var identifier = Assert(TokenType.Identifier);
             Assert(TokenType.Attribution);
             var assignment = new Assignment(identifier, GetExpression());
             Assert(TokenType.Semicolon);
@@ -118,13 +118,13 @@ namespace Domain.Carpiler.Languages
             }
         }
 
-        private Token Assert(TokenType expected)
+        private Token Assert(params TokenType[] expectedTypes)
         {
             var token = Tokens!.Dequeue();
 
-            if (token.TokenType != expected)
+            if (expectedTypes.Any(t => t == token.TokenType) == false)
             {
-                throw new Exception($"Expected {expected}");
+                throw new Exception($"Expected one of: {string.Join(' ', expectedTypes)}, but found: {token}");
             }
 
             return token;
@@ -132,7 +132,7 @@ namespace Domain.Carpiler.Languages
 
         private VariableDeclaration VariableDeclaration()
         {
-            var varType = GetVarType(Tokens!.Dequeue());
+            var varType = GetVarType(Assert(TokenType.Float, TokenType.Int, TokenType.String, TokenType.Bool));
 
             var identifier = Assert(TokenType.Identifier);
 
@@ -145,9 +145,7 @@ namespace Domain.Carpiler.Languages
 
         private IValuable? GetAssignmentExpression()
         {
-            var next = Tokens!.Peek();
-
-            if (next.TokenType == TokenType.Semicolon)
+            if (Current.TokenType == TokenType.Semicolon)
             {
                 return null;
             }
@@ -158,30 +156,52 @@ namespace Domain.Carpiler.Languages
 
         private IValuable GetExpression()
         {
-            var token = Tokens!.Dequeue();
+            var leftValue = Assert
+                (
+                    TokenType.StringValue,
+                    TokenType.IntValue,
+                    TokenType.FloatValue,
+                    TokenType.BoolValue,
+                    TokenType.Identifier
+                );
 
-            if ((token.TokenType == TokenType.Identifier || IsValue(token)) && IsEOL())
+            if ((leftValue.TokenType == TokenType.Identifier || IsValue(leftValue)) && IsEOL())
             {
-                return (IValuable)token;
+                return (IValuable)leftValue;
             }
 
-            if (token.Value == "read") //generalizar para toda funcao, e na hora de executar eu dou o erro de tipo
+            if (leftValue.Value == "read") //generalizar para toda funcao, e na hora de executar eu dou o erro de tipo
             {
                 return Read();
             }
 
-            return new BinaryExpression((IValuable)token, GetOperator(), GetExpression());
+            return new BinaryExpression((IValuable)leftValue, GetOperator(), GetExpression());
         }
 
         private Operator GetOperator()
         {
-            var next = Tokens!.Dequeue();
-            return next as Operator ?? throw new Exception("Expected operator");
+            var next = Assert
+                (
+                    TokenType.Plus,
+                    TokenType.Minus,
+                    TokenType.Slash,
+                    TokenType.Asterisk,
+                    TokenType.And,
+                    TokenType.Or,
+                    TokenType.Attribution,
+                    TokenType.Equals,
+                    TokenType.Greater,
+                    TokenType.GreaterEquals,
+                    TokenType.Lesser,
+                    TokenType.LesserEquals
+                );
+
+            return next as Operator ?? throw new Exception($"Em teoria impossivel exception {next}");
         }
 
         private bool IsEOL()
         {
-            var tokenType = Tokens!.Peek().TokenType;
+            var tokenType = Current.TokenType;
 
             return tokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
         }

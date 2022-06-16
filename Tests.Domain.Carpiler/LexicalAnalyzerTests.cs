@@ -163,5 +163,28 @@ namespace Tests.Domain.Carpiler
                 i
                 );
         }
+
+        [Fact]
+        public void ShouldGetAllTokensWhileTrue()
+        {
+            var sourceCode = Resource.WhileTrue;
+
+            var symbolTable = new Dictionary<string, Identifier>();
+
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+
+            var tokens = analyzer.Analyze();
+
+            tokens.Should().ContainInOrder(
+                CCsharpTokenizer.While,
+                CCsharpTokenizer.ParenthesisOpen,
+                CCsharpTokenizer.True,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.CurlyBraceOpen,
+                CCsharpTokenizer.CurlyBraceClose
+                );
+
+            symbolTable.Values.Should().ContainInOrder();
+        }
     }
 }
