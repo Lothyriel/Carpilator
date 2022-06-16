@@ -46,7 +46,6 @@ namespace Domain.Carpiler.Lexical
         {
             while (Characters.Any())
             {
-                Counter++;
                 GetToken();
             }
             return Tokens;
@@ -58,7 +57,7 @@ namespace Domain.Carpiler.Lexical
 
             if (IgnoreCharacter(current))
             {
-                Characters.Dequeue();
+                Consume();
                 return;
             }
 
@@ -84,6 +83,12 @@ namespace Domain.Carpiler.Lexical
             {
                 throw new UnidentifiedToken(current, SourceCode, Characters.Count);
             }
+        }
+
+        private char Consume()
+        {
+            Counter++;
+            return Characters.Dequeue();
         }
 
         private bool ValidSymbol()
@@ -116,7 +121,7 @@ namespace Domain.Carpiler.Lexical
                 return null;
 
             if (Language.Symbols.TryGetValue(sb.ToString(), out var symbol))
-                Characters.Dequeue();
+                Consume();
 
             return symbol;
         }
@@ -138,7 +143,7 @@ namespace Domain.Carpiler.Lexical
             }
 
             number.Append('.');
-            Characters.Dequeue();
+            Consume();
 
             GetDigits();
             Tokens.Add(new ValueToken(number.ToString(), TokenType.FloatValue));
@@ -149,7 +154,7 @@ namespace Domain.Carpiler.Lexical
                 while (char.IsDigit(c = Characters.Peek()))
                 {
                     number.Append(c);
-                    Characters.Dequeue();
+                    Consume();
                 }
             }
         }
@@ -187,7 +192,7 @@ namespace Domain.Carpiler.Lexical
 
             while (char.IsLetterOrDigit(Characters.Peek()))
             {
-                sb.Append(Characters.Dequeue());
+                sb.Append(Consume(););
             }
 
             return sb.ToString();
@@ -212,16 +217,16 @@ namespace Domain.Carpiler.Lexical
 
         private void GetStringLiteral()
         {
-            Characters.Dequeue();
+            Consume();
             var word = new StringBuilder();
             char c;
             while ((c = Characters.Peek()) != Language.LiteralDelimiter)
             {
                 word.Append(c);
-                Characters.Dequeue();
+                Consume();
             }
 
-            Characters.Dequeue();
+            Consume();
 
             Tokens.Add(new ValueToken(word.ToString(), TokenType.StringValue));
         }
