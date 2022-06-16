@@ -329,6 +329,35 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
+        public void ShouldParseValidASTForPrintRead()
+        {
+            var tokens = new List<Token>()
+            {
+                CCsharpTokenizer.Print,
+                CCsharpTokenizer.ParenthesisOpen,
+                CCsharpTokenizer.Read,
+                CCsharpTokenizer.ParenthesisOpen,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<Statement>()
+            {
+                new FunctionCall(CCsharpTokenizer.Print, new List<IValuable>
+                {
+                    new FunctionCall(CCsharpTokenizer.Read, new ()),
+                })
+            };
+
+            var resulted = parser.Analyze();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
         public void ShouldParseValidASTForArrayDeclaration()
         {
             var ten = new ValueToken("10", TokenType.IntValue);

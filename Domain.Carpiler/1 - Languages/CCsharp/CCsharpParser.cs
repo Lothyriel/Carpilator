@@ -16,6 +16,8 @@ namespace Domain.Carpiler.Languages
             return Statement();
         }
 
+        #region Constructs
+
         private Statement Statement()
         {
             return Current.TokenType switch
@@ -53,7 +55,7 @@ namespace Domain.Carpiler.Languages
             var functionCall = new FunctionCall(identifier, parameters);
 
             Assert(TokenType.ParenthesisClose);
-            Assert(TokenType.Semicolon);
+            AssertOptional(TokenType.Semicolon);
 
             return functionCall;
         }
@@ -72,38 +74,14 @@ namespace Domain.Carpiler.Languages
 
         private Statement While()
         {
-            Assert(TokenType.ParenthesisOpen);
-            var condition = GetExpression();
-            Assert(TokenType.ParenthesisClose);
-            Assert(TokenType.CurlyBraceOpen);
-
-            var statements = new List<Statement>();
-
-            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
-            {
-                statements.Add(Statement());
-            }
-
-            Assert(TokenType.CurlyBraceClose);
+            (var condition, var statements) = GetConditionAndStatements();
 
             return new While(condition, statements);
         }
 
         private Statement If()
         {
-            Assert(TokenType.ParenthesisOpen);
-            var condition = GetExpression();
-            Assert(TokenType.ParenthesisClose);
-            Assert(TokenType.CurlyBraceOpen);
-
-            var statements = new List<Statement>();
-
-            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
-            {
-                statements.Add(Statement());
-            }
-
-            Assert(TokenType.CurlyBraceClose);
+            (var condition, var statements) = GetConditionAndStatements();
 
             return new If(condition, statements);
         }
@@ -115,26 +93,6 @@ namespace Domain.Carpiler.Languages
             Assert(TokenType.Semicolon);
 
             return assignment;
-        }
-
-        private void AssertOptional(TokenType expected)
-        {
-            if (Tokens!.Any() && Tokens!.Peek().TokenType == expected)
-            {
-                Tokens.Dequeue();
-            }
-        }
-
-        private Token Assert(params TokenType[] expectedTypes)
-        {
-            var token = Tokens!.Dequeue();
-
-            if (expectedTypes.Any(t => t == token.TokenType) == false)
-            {
-                throw new Exception($"Expected one of: {string.Join(' ', expectedTypes)}, but found: {token}");
-            }
-
-            return token;
         }
 
         private VariableDeclaration VariableDeclaration()
@@ -185,6 +143,8 @@ namespace Domain.Carpiler.Languages
             return new BinaryExpression((IValuable)leftValue, GetOperator(), GetExpression());
         }
 
+        #endregion
+
         private Operator GetOperator()
         {
             var next = Assert
@@ -206,9 +166,48 @@ namespace Domain.Carpiler.Languages
             return next as Operator ?? throw new Exception($"Em teoria impossivel exception {next}");
         }
 
+        private (IValuable Condition, List<Statement> Statements) GetConditionAndStatements()
+        {
+            Assert(TokenType.ParenthesisOpen);
+            var condition = GetExpression();
+            Assert(TokenType.ParenthesisClose);
+            Assert(TokenType.CurlyBraceOpen);
+
+            var statements = new List<Statement>();
+
+            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
+            {
+                statements.Add(Statement());
+            }
+
+            Assert(TokenType.CurlyBraceClose);
+
+            return (condition, statements);
+        }
+       
         private bool IsEOL()
         {
             return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
+        }
+
+        private void AssertOptional(TokenType expected)
+        {
+            if (Tokens!.Any() && Tokens!.Peek().TokenType == expected)
+            {
+                Tokens.Dequeue();
+            }
+        }
+
+        private Token Assert(params TokenType[] expectedTypes)
+        {
+            var token = Tokens!.Dequeue();
+
+            if (expectedTypes.Any(t => t == token.TokenType) == false)
+            {
+                throw new Exception($"Expected one of: {string.Join(' ', expectedTypes)}, but found: {token}");
+            }
+
+            return token;
         }
 
         private static VariableType? GetVarType(Token type)
