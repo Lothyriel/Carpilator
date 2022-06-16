@@ -1,7 +1,7 @@
-using Domain.Carpiler.Languages;
 using Domain.Carpiler;
-using Newtonsoft.Json;
+using Domain.Carpiler.Languages;
 using Domain.Carpiler.Syntatic.Constructs;
+using Newtonsoft.Json;
 
 namespace Carpiler.WinFormsApp
 {
@@ -65,7 +65,7 @@ namespace Carpiler.WinFormsApp
             {
                 exc = ex;
             }
-            
+
             Lb_Errors.Items.Clear();
             Lb_Errors.Items.Add(exc?.Message ?? "Compiled");
         }

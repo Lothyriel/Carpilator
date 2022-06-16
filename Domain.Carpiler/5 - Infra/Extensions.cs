@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Domain.Carpiler.Infra
+﻿namespace Domain.Carpiler.Infra
 {
     public static class Extensions
     {

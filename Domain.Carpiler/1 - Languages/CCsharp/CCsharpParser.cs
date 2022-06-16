@@ -35,7 +35,7 @@ namespace Domain.Carpiler.Languages
             {
                 return FunctionCall(identifier);
             }
-            
+
             return AssignmentExpression(identifier);
         }
 
@@ -143,7 +143,7 @@ namespace Domain.Carpiler.Languages
 
             var identifier = Assert(TokenType.Identifier);
 
-            var vd = new VariableDeclaration(identifier.Value, GetAssignmentExpression(), varType!.Value);
+            var vd = new VariableDeclaration(identifier, GetAssignmentExpression(), varType!.Value);
 
             AssertOptional(TokenType.Semicolon);
 

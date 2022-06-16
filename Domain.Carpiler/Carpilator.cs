@@ -1,6 +1,5 @@
 ﻿using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
-using Domain.Carpiler.Semantic;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
 

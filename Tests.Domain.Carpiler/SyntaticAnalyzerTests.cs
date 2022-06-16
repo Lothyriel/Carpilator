@@ -4,8 +4,8 @@ using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
 using System.Collections.Generic;
 using Xunit;
-using TokenType = Domain.Carpiler.Lexical.TokenType;
 using BinaryExpression = Domain.Carpiler.Syntatic.Constructs.BinaryExpression;
+using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Tests.Domain.Carpiler
 {
@@ -31,7 +31,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("numero", new ValueToken("10", TokenType.IntValue), VariableType.Integer)
+                new VariableDeclaration(numero, new ValueToken("10", TokenType.IntValue), VariableType.Integer)
             };
 
             var resulted = parser.Analyze();
@@ -61,7 +61,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("numero", new BinaryExpression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
+                new VariableDeclaration(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
             };
 
             var resulted = parser.Analyze();
@@ -96,7 +96,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("numero", zero, VariableType.Integer),
+                new VariableDeclaration(numero, zero, VariableType.Integer),
                 new Assignment(numero, new BinaryExpression(numero, CCsharpTokenizer.Plus, one))
             };
 
@@ -126,7 +126,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("numero", null, VariableType.Integer),
+                new VariableDeclaration(numero, null, VariableType.Integer),
                 new Assignment(numero, ten)
             };
 
@@ -158,7 +158,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("numero", null, VariableType.Integer),
+                new VariableDeclaration(numero, null, VariableType.Integer),
                 new Assignment(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)),
             };
 
@@ -187,7 +187,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("input", new FunctionCall(CCsharpTokenizer.Read, new ()), VariableType.String),
+                new VariableDeclaration(input, new FunctionCall(CCsharpTokenizer.Read, new ()), VariableType.String),
             };
 
             var resulted = parser.Analyze();
@@ -314,7 +314,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("i", new ValueToken("0", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration(i, new ValueToken("0", TokenType.IntValue), VariableType.Integer),
                 new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
@@ -353,7 +353,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("array", new ValueToken("10", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration(array, new ValueToken("10", TokenType.IntValue), VariableType.Integer),
             };
 
             var resulted = parser.Analyze();
@@ -424,8 +424,8 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("i", new ValueToken("0", TokenType.IntValue), VariableType.Integer),
-                new VariableDeclaration("array", null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/, VariableType.Integer),
+                new VariableDeclaration(i, new ValueToken("0", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration(array, null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/, VariableType.Integer),
                 new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
