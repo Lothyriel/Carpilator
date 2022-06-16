@@ -192,7 +192,7 @@ namespace Domain.Carpiler.Lexical
 
             while (char.IsLetterOrDigit(Characters.Peek()))
             {
-                sb.Append(Consume(););
+                sb.Append(Consume());
             }
 
             return sb.ToString();
