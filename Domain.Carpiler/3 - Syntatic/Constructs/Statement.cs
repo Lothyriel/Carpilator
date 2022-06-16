@@ -8,4 +8,8 @@
         }
         public string Name { get; }
     }
+    public interface IValuable
+    {
+
+    }
 }

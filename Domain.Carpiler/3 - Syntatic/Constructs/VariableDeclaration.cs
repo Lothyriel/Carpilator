@@ -15,4 +15,12 @@ namespace Domain.Carpiler.Syntatic.Constructs
         public IValuable? InitialValue { get; }
         public VariableType VarType { get; }
     }
+
+    public enum VariableType
+    {
+        Bool,
+        Float,
+        Integer,
+        String
+    }
 }
