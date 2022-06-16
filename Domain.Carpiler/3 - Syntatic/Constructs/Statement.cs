@@ -1,6 +1,6 @@
 ﻿namespace Domain.Carpiler.Syntatic.Constructs
 {
-    public class Statement : IConstruct
+    public abstract class Statement
     {
         public Statement()
         {

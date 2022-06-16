@@ -14,14 +14,13 @@ namespace Domain.Carpiler.Syntatic
             Parser = parser;
         }
 
-        public List<IConstruct> Analyze()
+        public List<Statement> Analyze()
         {
-            var statements = new List<IConstruct>();
+            var statements = new List<Statement>();
 
             while (Tokens.Any())
             {
-                var construct = Parser.Parse(Tokens);
-                statements.Add(construct);
+                statements.Add(Parser.Parse(Tokens));
             }
 
             return statements;

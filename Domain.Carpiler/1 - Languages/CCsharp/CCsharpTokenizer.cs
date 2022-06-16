@@ -20,8 +20,6 @@ namespace Domain.Carpiler.Languages
         {
             var words = new List<Token>()
             {
-                Print,
-                Read,
                 New,
                 While,
                 If,
@@ -66,18 +64,10 @@ namespace Domain.Carpiler.Languages
 
         #region Tokens
 
-        public static ValueToken True { get; } = new ValueToken("true", TokenType.BoolValue);
-        public static ValueToken False { get; } = new ValueToken("false", TokenType.BoolValue);
-        public static Token Print { get; } = new Token("print", TokenType.ReservedWord);
-        public static Token Read { get; } = new Token("read", TokenType.ReservedWord);
-        public static Token New { get; } = new Token("new", TokenType.ReservedWord);
-        public static Token While { get; } = new Token("while", TokenType.ReservedWord);
-        public static Token If { get; } = new Token("if", TokenType.ReservedWord);
-        public static Token Else { get; } = new Token("else", TokenType.ReservedWord);
-        public static Token Bool { get; } = new Token("bool", TokenType.Bool);
-        public static Token Float { get; } = new Token("float", TokenType.Float);
-        public static Token String { get; } = new Token("string", TokenType.String);
-        public static Token Int { get; } = new Token("int", TokenType.Int);
+        public static ValueToken True { get; } = new("true", TokenType.BoolValue);
+        public static ValueToken False { get; } = new("false", TokenType.BoolValue);
+        public static Identifier Print { get; } = new("print", TokenType.Identifier);
+        public static Identifier Read { get; } = new("read", TokenType.Identifier);
         public static new Operator Equals { get; } = new("==", TokenType.Equals);
         public static Operator Attribution { get; } = new("=", TokenType.Attribution);
         public static Operator And { get; } = new("&", TokenType.And);
@@ -90,6 +80,14 @@ namespace Domain.Carpiler.Languages
         public static Operator Minus { get; } = new("-", TokenType.Minus);
         public static Operator Slash { get; } = new("/", TokenType.Slash);
         public static Operator Asterisk { get; } = new("*", TokenType.Asterisk);
+        public static Token New { get; } = new("new", TokenType.ReservedWord);
+        public static Token While { get; } = new("while", TokenType.ReservedWord);
+        public static Token If { get; } = new("if", TokenType.ReservedWord);
+        public static Token Else { get; } = new("else", TokenType.ReservedWord);
+        public static Token Bool { get; } = new("bool", TokenType.Bool);
+        public static Token Float { get; } = new("float", TokenType.Float);
+        public static Token String { get; } = new("string", TokenType.String);
+        public static Token Int { get; } = new Token("int", TokenType.Int);
         public static Token CurlyBraceOpen { get; } = new("{", TokenType.CurlyBraceOpen);
         public static Token CurlyBraceClose { get; } = new("}", TokenType.CurlyBraceClose);
         public static Token BracketOpen { get; } = new("[", TokenType.BracketOpen);

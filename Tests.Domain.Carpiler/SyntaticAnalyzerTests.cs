@@ -29,7 +29,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("numero", new ValueToken("10", TokenType.IntValue), VariableType.Integer)
             };
@@ -59,7 +59,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("numero", new BinaryExpression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
             };
@@ -94,7 +94,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("numero", zero, VariableType.Integer),
                 new Assignment(numero, new BinaryExpression(numero, CCsharpTokenizer.Plus, one))
@@ -124,7 +124,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("numero", null, VariableType.Integer),
                 new Assignment(numero, ten)
@@ -156,7 +156,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("numero", null, VariableType.Integer),
                 new Assignment(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)),
@@ -185,9 +185,9 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration("input", new ReadFunction(), VariableType.String),
+                new VariableDeclaration("input", new FunctionCall(CCsharpTokenizer.Read, new ()), VariableType.String),
             };
 
             var resulted = parser.Analyze();
@@ -225,12 +225,12 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new If(new BinaryExpression(ten, CCsharpTokenizer.Greater, five),
                     new List<Statement>
                     {
-                        new PrintFunction(maior)
+                        new FunctionCall(CCsharpTokenizer.Print, new List<IValuable>(){ maior })
                     }),
             };
 
@@ -257,9 +257,12 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
-                new PrintFunction(new BinaryExpression(ten, CCsharpTokenizer.Plus, ten))
+                new FunctionCall(CCsharpTokenizer.Print, new List<IValuable>
+                    {
+                        new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)
+                    })
             };
 
             var resulted = parser.Analyze();
@@ -309,13 +312,13 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("i", new ValueToken("0", TokenType.IntValue), VariableType.Integer),
-                new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten), 
+                new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
-                        new PrintFunction(i),
+                        new FunctionCall(CCsharpTokenizer.Print, new List<IValuable>{ i }),
                         new Assignment(i, new BinaryExpression(i, CCsharpTokenizer.Plus, one))
                     }),
             };
@@ -348,7 +351,7 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("array", new ValueToken("10", TokenType.IntValue), VariableType.Integer),
             };
@@ -419,14 +422,14 @@ namespace Tests.Domain.Carpiler
 
             var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
 
-            var expectedConstruct = new List<IConstruct>()
+            var expectedConstruct = new List<Statement>()
             {
                 new VariableDeclaration("i", new ValueToken("0", TokenType.IntValue), VariableType.Integer),
                 new VariableDeclaration("array", null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/, VariableType.Integer),
                 new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
-                        new Assignment(array, new ReadFunction()), /*PRECISO CRIAR FORMADE ACESSAR ARRAY*/
+                        new Assignment(array, new FunctionCall(CCsharpTokenizer.Print, new())), /*PRECISO CRIAR FORMADE ACESSAR ARRAY*/
                         new Assignment(i, new BinaryExpression(i, CCsharpTokenizer.Plus, one))
                     }),
             };

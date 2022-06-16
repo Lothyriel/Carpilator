@@ -1,8 +1,6 @@
-﻿using Domain.Carpiler.Syntatic.Constructs;
-
-namespace Domain.Carpiler.Syntatic
+﻿namespace Domain.Carpiler.Syntatic
 {
-    public interface IValuable : IConstruct
+    public interface IValuable
     {
 
     }

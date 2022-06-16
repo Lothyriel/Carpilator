@@ -18,7 +18,7 @@ namespace Domain.Carpiler
         private string SourceCode { get; }
         private Language Language { get; }
 
-        public List<IConstruct> Compile()
+        public List<Statement> Compile()
         {
             var tokens = new LexicalAnalyzer(SourceCode, Language.Tokenizer, SymbolTable).Analyze();
 

@@ -9,7 +9,7 @@ namespace Carpiler.WinFormsApp
     {
         private readonly Language _language = new CCsharp();
 
-        public List<IConstruct>? Ast { get; private set; }
+        public List<Statement>? Ast { get; private set; }
 
         public MainForm()
         {

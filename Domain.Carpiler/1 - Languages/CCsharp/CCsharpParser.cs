@@ -9,7 +9,7 @@ namespace Domain.Carpiler.Languages
     {
         private Token Current => Tokens!.Peek();
 
-        public override IConstruct Parse(Queue<Token> tokens)
+        public override Statement Parse(Queue<Token> tokens)
         {
             Tokens = tokens;
 
@@ -21,10 +21,41 @@ namespace Domain.Carpiler.Languages
             return Current.TokenType switch
             {
                 TokenType.Float or TokenType.Int or TokenType.String or TokenType.Bool => VariableDeclaration(),
-                TokenType.Identifier => AssignmentExpression(),
+                TokenType.Identifier => Identifier(),
                 TokenType.ReservedWord => ReserverdWord(),
                 _ => throw new Exception($"{Current} not expected"),
             };
+        }
+
+        private Statement Identifier()
+        {
+            var identifier = Assert(TokenType.Identifier);
+
+            if (Current.TokenType == TokenType.ParenthesisOpen)
+            {
+                return FunctionCall(identifier);
+            }
+            
+            return AssignmentExpression(identifier);
+        }
+
+        private FunctionCall FunctionCall(Token identifier)
+        {
+            Assert(TokenType.ParenthesisOpen);
+
+            var parameters = new List<IValuable>();
+
+            while (Current.TokenType != TokenType.ParenthesisClose)
+            {
+                parameters.Add(GetExpression());
+            }
+
+            var functionCall = new FunctionCall(identifier, parameters);
+
+            Assert(TokenType.ParenthesisClose);
+            Assert(TokenType.Semicolon);
+
+            return functionCall;
         }
 
         private Statement ReserverdWord()
@@ -33,8 +64,6 @@ namespace Domain.Carpiler.Languages
 
             return word.Value switch
             {
-                "print" => Print(),
-                "read" => Read(),
                 "if" => If(),
                 "while" => While(),
                 _ => throw new Exception($"Em teoria impossivel exception {word}"),
@@ -79,30 +108,8 @@ namespace Domain.Carpiler.Languages
             return new If(condition, statements);
         }
 
-        private ReadFunction Read()
+        private Assignment AssignmentExpression(Token identifier)
         {
-            Assert(TokenType.ParenthesisOpen);
-            Assert(TokenType.ParenthesisClose);
-            Assert(TokenType.Semicolon);
-
-            return new ReadFunction();
-        }
-
-        private Statement Print()
-        {
-            Assert(TokenType.ParenthesisOpen);
-
-            var print = new PrintFunction(GetExpression());
-
-            Assert(TokenType.ParenthesisClose);
-            Assert(TokenType.Semicolon);
-
-            return print;
-        }
-
-        private Assignment AssignmentExpression()
-        {
-            var identifier = Assert(TokenType.Identifier);
             Assert(TokenType.Attribution);
             var assignment = new Assignment(identifier, GetExpression());
             Assert(TokenType.Semicolon);
@@ -165,14 +172,14 @@ namespace Domain.Carpiler.Languages
                     TokenType.Identifier
                 );
 
-            if ((leftValue.TokenType == TokenType.Identifier || IsValue(leftValue)) && IsEOL())
+            if (leftValue.TokenType == TokenType.Identifier && Current.TokenType == TokenType.ParenthesisOpen)
             {
-                return (IValuable)leftValue;
+                return FunctionCall(leftValue);
             }
 
-            if (leftValue.Value == "read") //generalizar para toda funcao, e na hora de executar eu dou o erro de tipo
+            if (IsEOL())
             {
-                return Read();
+                return (IValuable)leftValue;
             }
 
             return new BinaryExpression((IValuable)leftValue, GetOperator(), GetExpression());
@@ -201,18 +208,7 @@ namespace Domain.Carpiler.Languages
 
         private bool IsEOL()
         {
-            var tokenType = Current.TokenType;
-
-            return tokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
-        }
-
-        private static bool IsValue(Token token)
-        {
-            return token.TokenType is
-                TokenType.StringValue or
-                TokenType.IntValue or
-                TokenType.FloatValue or
-                TokenType.BoolValue;
+            return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
         }
 
         private static VariableType? GetVarType(Token type)

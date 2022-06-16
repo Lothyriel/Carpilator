@@ -171,6 +171,7 @@ namespace Domain.Carpiler.Lexical
             {
                 token = SymbolTable[identifier];
             }
+
             Tokens.Add(token);
         }
 
