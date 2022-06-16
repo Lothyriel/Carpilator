@@ -94,7 +94,7 @@ namespace Carpiler.WinFormsApp
                     return;
                 }
 
-                Tb_Ast.Text = JsonConvert.SerializeObject(tokens, Formatting.Indented);
+                Tb_Ast.Text = string.Join(Environment.NewLine, tokens);
             });
         }
     }
