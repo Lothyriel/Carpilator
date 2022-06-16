@@ -19,7 +19,7 @@ namespace Tests.Domain.Carpiler
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
-            var tokens = analyzer.Analyze();
+            var tokens = analyzer.Tokenize();
 
             var expressao = new Identifier("expressao", TokenType.Identifier);
 
@@ -47,7 +47,7 @@ namespace Tests.Domain.Carpiler
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
-            var tokens = analyzer.Analyze();
+            var tokens = analyzer.Tokenize();
 
             var letras = new Identifier("letras", TokenType.Identifier);
 
@@ -73,7 +73,7 @@ namespace Tests.Domain.Carpiler
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
-            var tokens = analyzer.Analyze();
+            var tokens = analyzer.Tokenize();
 
             var i = new Identifier("i", TokenType.Identifier);
 
@@ -112,7 +112,7 @@ namespace Tests.Domain.Carpiler
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
-            var tokens = analyzer.Analyze();
+            var tokens = analyzer.Tokenize();
 
             var array = new Identifier("array", TokenType.Identifier);
             var i = new Identifier("i", TokenType.Identifier);
@@ -173,7 +173,7 @@ namespace Tests.Domain.Carpiler
 
             var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
 
-            var tokens = analyzer.Analyze();
+            var tokens = analyzer.Tokenize();
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.While,

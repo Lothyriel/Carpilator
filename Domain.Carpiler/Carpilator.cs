@@ -19,13 +19,23 @@ namespace Domain.Carpiler
 
         public List<Statement> Compile()
         {
-            var tokens = new LexicalAnalyzer(SourceCode, Language.Tokenizer, SymbolTable).Analyze();
+            var tokens = Tokenize();
 
-            var syntaxTree = new SyntaticAnalyzer(tokens, Language.Parser).Analyze();
+            var syntaxTree = Parse(tokens);
 
             //var _ = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
 
             return syntaxTree;
+        }
+
+        public List<Statement> Parse(List<Token> tokens)
+        {
+            return new SyntaticAnalyzer(tokens, Language.Parser).Parse();
+        }
+
+        public List<Token> Tokenize()
+        {
+            return new LexicalAnalyzer(SourceCode, Language.Tokenizer, SymbolTable).Tokenize();
         }
     }
 }

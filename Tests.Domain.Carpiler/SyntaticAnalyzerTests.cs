@@ -34,7 +34,7 @@ namespace Tests.Domain.Carpiler
                 new VariableDeclaration(numero, new ValueToken("10", TokenType.IntValue), VariableType.Integer)
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -64,7 +64,7 @@ namespace Tests.Domain.Carpiler
                 new VariableDeclaration(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -100,7 +100,7 @@ namespace Tests.Domain.Carpiler
                 new Assignment(numero, new BinaryExpression(numero, CCsharpTokenizer.Plus, one))
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -108,7 +108,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentValue()
         {
-            var numero = new Token("numero", TokenType.Identifier);
+            var numero = new Identifier("numero", TokenType.Identifier);
             var ten = new ValueToken("10", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -130,7 +130,7 @@ namespace Tests.Domain.Carpiler
                 new Assignment(numero, ten)
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -138,7 +138,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentExpression()
         {
-            var numero = new Token("numero", TokenType.Identifier);
+            var numero = new Identifier("numero", TokenType.Identifier);
             var ten = new ValueToken("10", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -162,7 +162,7 @@ namespace Tests.Domain.Carpiler
                 new Assignment(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -190,7 +190,7 @@ namespace Tests.Domain.Carpiler
                 new VariableDeclaration(input, new FunctionCall(CCsharpTokenizer.Read, new ()), VariableType.String),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -234,7 +234,7 @@ namespace Tests.Domain.Carpiler
                     }),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -265,7 +265,7 @@ namespace Tests.Domain.Carpiler
                     })
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -274,7 +274,7 @@ namespace Tests.Domain.Carpiler
         public void ShouldParseValidASTForWhilePrintVariable()
         {
             var zero = new ValueToken("0", TokenType.IntValue);
-            var i = new ValueToken("i", TokenType.Identifier);
+            var i = new Identifier("i", TokenType.Identifier);
             var ten = new ValueToken("10", TokenType.IntValue);
             var one = new ValueToken("1", TokenType.IntValue);
 
@@ -323,7 +323,7 @@ namespace Tests.Domain.Carpiler
                     }),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -352,7 +352,77 @@ namespace Tests.Domain.Carpiler
                 })
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+
+        [Fact]
+        public void ShouldParseValidASTForFunctionTwoArguments()
+        {
+            var ten = new ValueToken("10", TokenType.IntValue);
+            var twenty = new ValueToken("20", TokenType.IntValue);
+            var funtion = new Identifier("function", TokenType.Identifier);
+
+            var tokens = new List<Token>()
+            {
+                funtion,
+                CCsharpTokenizer.ParenthesisOpen,
+                ten,
+                CCsharpTokenizer.Comma,
+                twenty,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<Statement>()
+            {
+                new FunctionCall(funtion, new List<IValuable>
+                {
+                    ten,
+                    twenty
+                })
+            };
+
+            var resulted = parser.Parse();
+
+            resulted.JsonEquals(expectedConstruct);
+        }
+        
+        [Fact]
+        public void ShouldParseValidASTForFunctionTwoArgumentBinaryExpression()
+        {
+            var ten = new ValueToken("10", TokenType.IntValue);
+            var twenty = new ValueToken("20", TokenType.IntValue);
+            var function = new Identifier("function", TokenType.Identifier);
+
+            var tokens = new List<Token>()
+            {
+                function,
+                CCsharpTokenizer.ParenthesisOpen,
+                ten,
+                CCsharpTokenizer.Comma,
+                twenty,
+                CCsharpTokenizer.Plus,
+                ten,
+                CCsharpTokenizer.ParenthesisClose,
+                CCsharpTokenizer.Semicolon,
+            };
+
+            var parser = new SyntaticAnalyzer(tokens, CCsharp.Parser);
+
+            var expectedConstruct = new List<Statement>()
+            {
+                new FunctionCall(function, new List<IValuable>
+                {
+                    ten,
+                    new BinaryExpression(twenty, CCsharpTokenizer.Plus, ten)
+                })
+            };
+
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -385,7 +455,7 @@ namespace Tests.Domain.Carpiler
                 new VariableDeclaration(array, new ValueToken("10", TokenType.IntValue), VariableType.Integer),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }
@@ -394,8 +464,8 @@ namespace Tests.Domain.Carpiler
         public void ShouldParseValidASTForWhileReadArray()
         {
             var ten = new ValueToken("10", TokenType.IntValue);
-            var array = new Token("array", TokenType.Identifier);
-            var i = new ValueToken("i", TokenType.Identifier);
+            var array = new Identifier("array", TokenType.Identifier);
+            var i = new Identifier("i", TokenType.Identifier);
             var one = new ValueToken("1", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -463,7 +533,7 @@ namespace Tests.Domain.Carpiler
                     }),
             };
 
-            var resulted = parser.Analyze();
+            var resulted = parser.Parse();
 
             resulted.JsonEquals(expectedConstruct);
         }

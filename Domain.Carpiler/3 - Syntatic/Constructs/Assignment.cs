@@ -4,13 +4,13 @@ namespace Domain.Carpiler.Syntatic.Constructs
 {
     public class Assignment : Statement
     {
-        public Assignment(Token identifier, IValuable value)
+        public Assignment(Identifier identifier, IValuable value)
         {
             Identifier = identifier;
             Value = value;
         }
 
-        public Token Identifier { get; }
+        public Identifier Identifier { get; }
         public IValuable Value { get; }
     }
 }

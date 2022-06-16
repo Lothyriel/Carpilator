@@ -31,9 +31,10 @@
             this.Tb_SourceCode = new System.Windows.Forms.TextBox();
             this.Bt_Source = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Lb_Errors = new System.Windows.Forms.ListBox();
             this.Tb_Ast = new System.Windows.Forms.TextBox();
             this.Bt_Ast = new System.Windows.Forms.Button();
-            this.Lb_Errors = new System.Windows.Forms.ListBox();
+            this.Bt_Tokens = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.Bt_Tokens);
             this.panel1.Controls.Add(this.Lb_Errors);
             this.panel1.Controls.Add(this.Tb_Ast);
             this.panel1.Controls.Add(this.Bt_Ast);
@@ -67,6 +69,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1006, 808);
             this.panel1.TabIndex = 3;
+            // 
+            // Lb_Errors
+            // 
+            this.Lb_Errors.FormattingEnabled = true;
+            this.Lb_Errors.ItemHeight = 20;
+            this.Lb_Errors.Location = new System.Drawing.Point(10, 673);
+            this.Lb_Errors.Name = "Lb_Errors";
+            this.Lb_Errors.Size = new System.Drawing.Size(985, 124);
+            this.Lb_Errors.TabIndex = 5;
             // 
             // Tb_Ast
             // 
@@ -79,7 +90,7 @@
             // 
             // Bt_Ast
             // 
-            this.Bt_Ast.Location = new System.Drawing.Point(908, 45);
+            this.Bt_Ast.Location = new System.Drawing.Point(908, 82);
             this.Bt_Ast.Name = "Bt_Ast";
             this.Bt_Ast.Size = new System.Drawing.Size(87, 29);
             this.Bt_Ast.TabIndex = 3;
@@ -87,14 +98,15 @@
             this.Bt_Ast.UseVisualStyleBackColor = true;
             this.Bt_Ast.Click += new System.EventHandler(this.Bt_Ast_Click);
             // 
-            // Lb_Errors
+            // Bt_Tokens
             // 
-            this.Lb_Errors.FormattingEnabled = true;
-            this.Lb_Errors.ItemHeight = 20;
-            this.Lb_Errors.Location = new System.Drawing.Point(10, 673);
-            this.Lb_Errors.Name = "Lb_Errors";
-            this.Lb_Errors.Size = new System.Drawing.Size(985, 124);
-            this.Lb_Errors.TabIndex = 5;
+            this.Bt_Tokens.Location = new System.Drawing.Point(908, 45);
+            this.Bt_Tokens.Name = "Bt_Tokens";
+            this.Bt_Tokens.Size = new System.Drawing.Size(87, 29);
+            this.Bt_Tokens.TabIndex = 6;
+            this.Bt_Tokens.Text = "Tokens";
+            this.Bt_Tokens.UseVisualStyleBackColor = true;
+            this.Bt_Tokens.Click += new System.EventHandler(this.Bt_Tokens_Click);
             // 
             // MainForm
             // 
@@ -118,5 +130,6 @@
         private Button Bt_Ast;
         private TextBox Tb_Ast;
         private ListBox Lb_Errors;
+        private Button Bt_Tokens;
     }
 }

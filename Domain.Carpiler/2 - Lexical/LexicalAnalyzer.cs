@@ -19,8 +19,9 @@ namespace Domain.Carpiler.Lexical
         private List<Token> Tokens { get; }
         private Dictionary<string, Identifier> SymbolTable { get; }
         private Queue<char> Characters { get; }
+        public int Counter { get; private set; }
 
-        public List<Token> Analyze()
+        public List<Token> Tokenize()
         {
             try
             {
@@ -29,6 +30,10 @@ namespace Domain.Carpiler.Lexical
             catch (UnclosedToken)
             {
                 throw;
+            }
+            catch(InvalidOperationException)
+            {
+                throw new Exception($"Expected ; at position {Counter}");
             }
             catch (Exception)
             {
@@ -41,6 +46,7 @@ namespace Domain.Carpiler.Lexical
         {
             while (Characters.Any())
             {
+                Counter++;
                 GetToken();
             }
             return Tokens;
@@ -178,12 +184,10 @@ namespace Domain.Carpiler.Lexical
         private string GetIdentifierName()
         {
             var sb = new StringBuilder();
-            char c;
 
-            while (char.IsLetterOrDigit(c = Characters.Peek()))
+            while (char.IsLetterOrDigit(Characters.Peek()))
             {
-                sb.Append(c);
-                Characters.Dequeue();
+                sb.Append(Characters.Dequeue());
             }
 
             return sb.ToString();

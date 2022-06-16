@@ -14,7 +14,7 @@ namespace Domain.Carpiler.Syntatic
             Parser = parser;
         }
 
-        public List<Statement> Analyze()
+        public List<Statement> Parse()
         {
             var statements = new List<Statement>();
 

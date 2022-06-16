@@ -56,7 +56,8 @@ namespace Domain.Carpiler.Languages
                 BracketClose,
                 ParenthesisOpen,
                 ParenthesisClose,
-                Semicolon
+                Semicolon,
+                Comma
             };
 
             return words.ToDictionary(token => token.Value);
@@ -95,6 +96,7 @@ namespace Domain.Carpiler.Languages
         public static Token ParenthesisOpen { get; } = new("(", TokenType.ParenthesisOpen);
         public static Token ParenthesisClose { get; } = new(")", TokenType.ParenthesisClose);
         public static Token Semicolon { get; } = new(";", TokenType.Semicolon);
+        public static Token Comma { get; } = new(",", TokenType.Comma);
 
         #endregion
     }

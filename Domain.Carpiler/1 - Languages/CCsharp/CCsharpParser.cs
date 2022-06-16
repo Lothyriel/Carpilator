@@ -7,8 +7,6 @@ namespace Domain.Carpiler.Languages
 {
     public class CCsharpParser : Parser
     {
-        private Token Current => Tokens!.Peek();
-
         public override Statement Parse(Queue<Token> tokens)
         {
             Tokens = tokens;
@@ -50,9 +48,10 @@ namespace Domain.Carpiler.Languages
             while (Current.TokenType != TokenType.ParenthesisClose)
             {
                 parameters.Add(GetExpression());
+                AssertOptional(TokenType.Comma);
             }
 
-            var functionCall = new FunctionCall(identifier, parameters);
+            var functionCall = new FunctionCall((Identifier)identifier, parameters);
 
             Assert(TokenType.ParenthesisClose);
             AssertOptional(TokenType.Semicolon);
@@ -89,7 +88,7 @@ namespace Domain.Carpiler.Languages
         private Assignment AssignmentExpression(Token identifier)
         {
             Assert(TokenType.Attribution);
-            var assignment = new Assignment(identifier, GetExpression());
+            var assignment = new Assignment((Identifier)identifier, GetExpression());
             Assert(TokenType.Semicolon);
 
             return assignment;
@@ -187,7 +186,7 @@ namespace Domain.Carpiler.Languages
        
         private bool IsEOL()
         {
-            return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose;
+            return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose or TokenType.Comma;
         }
 
         private void AssertOptional(TokenType expected)

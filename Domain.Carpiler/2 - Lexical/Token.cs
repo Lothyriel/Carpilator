@@ -86,6 +86,7 @@ namespace Domain.Carpiler.Lexical
         Equals,
         Attribution,
         Semicolon,
-        ReservedWord
+        ReservedWord,
+        Comma
     }
 }
