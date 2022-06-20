@@ -31,9 +31,9 @@ namespace Domain.Carpiler.Lexical
             {
                 throw;
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
-                throw new Exception($"Expected ; at position {Counter}");
+                throw new Exception($"Expected ; at position {Counter + 1}");
             }
             catch (Exception)
             {
@@ -79,10 +79,12 @@ namespace Domain.Carpiler.Lexical
                 return;
             }
 
-            if (ValidSymbol() == false)
+            if (ValidSymbol())
             {
-                throw new UnidentifiedToken(current, SourceCode, Characters.Count);
+                return;
             }
+
+            throw new UnidentifiedToken(current, SourceCode, Characters.Count);
         }
 
         private char Consume()
@@ -150,11 +152,9 @@ namespace Domain.Carpiler.Lexical
 
             void GetDigits()
             {
-                char c;
-                while (char.IsDigit(c = Characters.Peek()))
+                while (char.IsDigit(Characters.Peek()))
                 {
-                    number.Append(c);
-                    Consume();
+                    number.Append(Consume());
                 }
             }
         }
@@ -163,9 +163,11 @@ namespace Domain.Carpiler.Lexical
         {
             string identifier = GetIdentifierName();
 
-            if (IsReservedWord(identifier, out var reservedWord))
+            (var isReserved, var token) = IsReservedWord(identifier);
+
+            if (isReserved)
             {
-                Tokens.Add(reservedWord!);
+                Tokens.Add(token!);
                 return;
             }
 
@@ -174,7 +176,7 @@ namespace Domain.Carpiler.Lexical
 
         private void AddIdentifier(string identifier)
         {
-            var token = new Identifier(identifier, TokenType.Identifier);
+            var token = new Identifier(identifier);
 
             var newIdentifier = SymbolTable.TryAdd(identifier, token);
 
@@ -198,9 +200,9 @@ namespace Domain.Carpiler.Lexical
             return sb.ToString();
         }
 
-        private bool IsReservedWord(string id, out Token? reserved)
+        private (bool IsReserved, Token? Token) IsReservedWord(string id)
         {
-            return Language.ReservedWords.TryGetValue(id, out reserved);
+            return (Language.ReservedWords.TryGetValue(id, out var reserved), reserved);
         }
 
         private void GetLiteral()

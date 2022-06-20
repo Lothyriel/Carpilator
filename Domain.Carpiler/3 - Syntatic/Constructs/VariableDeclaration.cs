@@ -4,23 +4,15 @@ namespace Domain.Carpiler.Syntatic.Constructs
 {
     public class VariableDeclaration : Statement
     {
-        public VariableDeclaration(Token identifier, IValuable? initialValue, VariableType type)
+        public VariableDeclaration(Identifier type, Identifier identifier, IValuable? initialValue)
         {
             Identifier = identifier;
             InitialValue = initialValue;
             VarType = type;
         }
 
-        public Token Identifier { get; }
+        public Identifier Identifier { get; }
         public IValuable? InitialValue { get; }
-        public VariableType VarType { get; }
-    }
-
-    public enum VariableType
-    {
-        Bool,
-        Float,
-        Integer,
-        String
+        public Identifier VarType { get; }
     }
 }

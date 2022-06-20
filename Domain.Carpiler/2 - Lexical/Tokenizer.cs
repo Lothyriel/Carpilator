@@ -11,13 +11,13 @@
         }
 
         public Dictionary<string, Token> ReservedWords { get; }
-        public Dictionary<string, Token> Symbols { get; }
+        public Dictionary<string, Symbol> Symbols { get; }
         public int MaxSymbolLenght { get; }
         public HashSet<char> IgnoredCharacters { get; }
 
         public abstract char LiteralDelimiter { get; }
         protected abstract HashSet<char> InitIgnoredCharacters();
         protected abstract Dictionary<string, Token> InitReservedWords();
-        protected abstract Dictionary<string, Token> InitSymbols();
+        protected abstract Dictionary<string, Symbol> InitSymbols();
     }
 }

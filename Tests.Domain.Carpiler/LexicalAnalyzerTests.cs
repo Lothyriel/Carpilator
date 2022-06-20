@@ -21,15 +21,15 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Tokenize();
 
-            var expressao = new Identifier("expressao", TokenType.Identifier);
+            var expressao = new Identifier("expressao");
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Bool,
                 expressao,
                 CCsharpTokenizer.Attribution,
-                new Token("10", TokenType.IntValue),
+                new ValueToken("10", TokenType.IntValue),
                 CCsharpTokenizer.LesserEquals,
-                new Token("5", TokenType.IntValue),
+                new ValueToken("5", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon
                 );
 
@@ -49,13 +49,13 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Tokenize();
 
-            var letras = new Identifier("letras", TokenType.Identifier);
+            var letras = new Identifier("letras");
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.String,
                 letras,
                 CCsharpTokenizer.Attribution,
-                new Token("string", TokenType.StringValue),
+                new ValueToken("string", TokenType.StringValue),
                 CCsharpTokenizer.Semicolon
                 );
 
@@ -75,19 +75,19 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Tokenize();
 
-            var i = new Identifier("i", TokenType.Identifier);
+            var i = new Identifier("i");
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
-                new Token("0", TokenType.IntValue),
+                new ValueToken("0", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
                 i,
                 CCsharpTokenizer.Lesser,
-                new Token("20", TokenType.IntValue),
+                new ValueToken("20", TokenType.IntValue),
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
                 CCsharpTokenizer.Print,
@@ -114,8 +114,8 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Tokenize();
 
-            var array = new Identifier("array", TokenType.Identifier);
-            var i = new Identifier("i", TokenType.Identifier);
+            var array = new Identifier("array");
+            var i = new Identifier("i");
 
             tokens.Should().ContainInOrder(
                 CCsharpTokenizer.Int,
@@ -126,19 +126,19 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.New,
                 CCsharpTokenizer.Int,
                 CCsharpTokenizer.BracketOpen,
-                new Token("10", TokenType.IntValue),
+                new ValueToken("10", TokenType.IntValue),
                 CCsharpTokenizer.BracketClose,
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
-                new Token("0", TokenType.IntValue),
+                new ValueToken("0", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
                 i,
                 CCsharpTokenizer.Lesser,
-                new Token("10", TokenType.IntValue),
+                new ValueToken("10", TokenType.IntValue),
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
                 CCsharpTokenizer.Print,
@@ -153,7 +153,7 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.Attribution,
                 i,
                 CCsharpTokenizer.Plus,
-                new Token("1", TokenType.IntValue),
+                new ValueToken("1", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.CurlyBraceClose
                 );

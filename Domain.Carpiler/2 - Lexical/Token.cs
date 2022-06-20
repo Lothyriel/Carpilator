@@ -2,7 +2,20 @@
 
 namespace Domain.Carpiler.Lexical
 {
-    public class Operator : Token
+    public class ReservedWord : Token
+    {
+        public ReservedWord(string value) : base(value, TokenType.ReservedWord)
+        {
+        }
+    }
+
+    public class Symbol : Token
+    {
+        public Symbol(string value, TokenType type) : base(value, type)
+        {
+        }
+    }
+    public class Operator : Symbol
     {
         public Operator(string value, TokenType type) : base(value, type)
         {
@@ -10,7 +23,7 @@ namespace Domain.Carpiler.Lexical
     }
     public class ValueToken : Token, IValuable
     {
-        public ValueToken(string value, TokenType type) : base($"{value}", type)
+        public ValueToken(string value, TokenType type) : base(value, type)
         {
             Name = GetType().Name;
         }
@@ -20,7 +33,7 @@ namespace Domain.Carpiler.Lexical
 
     public class Identifier : Token, IValuable
     {
-        public Identifier(string value, TokenType type) : base($"{value}", type)
+        public Identifier(string value) : base(value, TokenType.Identifier)
         {
             Name = GetType().Name;
         }
@@ -28,7 +41,7 @@ namespace Domain.Carpiler.Lexical
         public string Name { get; }
     }
 
-    public class Token
+    public abstract class Token
     {
         public Token(string value, TokenType type)
         {

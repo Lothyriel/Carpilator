@@ -1,4 +1,5 @@
-﻿using Domain.Carpiler.Lexical;
+﻿using Domain.Carpiler.Infra;
+using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
 using TokenType = Domain.Carpiler.Lexical.TokenType;
@@ -20,26 +21,35 @@ namespace Domain.Carpiler.Languages
         {
             return Current.TokenType switch
             {
-                TokenType.Float or TokenType.Int or TokenType.String or TokenType.Bool => VariableDeclaration(),
                 TokenType.Identifier => Identifier(),
                 TokenType.ReservedWord => ReserverdWord(),
-                _ => throw new Exception($"{Current} not expected"),
+                _ => throw new UnexpectedToken(Current, TokenType.Identifier, TokenType.ReservedWord),
             };
         }
 
         private Statement Identifier()
         {
-            var identifier = Assert(TokenType.Identifier);
+            var identifier = (Identifier)Assert(TokenType.Identifier);
 
             if (Current.TokenType == TokenType.ParenthesisOpen)
             {
                 return FunctionCall(identifier);
             }
 
-            return AssignmentExpression(identifier);
+            if (Current.TokenType == TokenType.Attribution)
+            {
+                return AssignmentExpression(identifier);
+            }
+
+            if (Current.TokenType == TokenType.Identifier)
+            {
+                return VariableDeclaration(identifier);
+            }
+
+            throw new UnexpectedToken(identifier, TokenType.Identifier, TokenType.ParenthesisOpen, TokenType.Attribution);
         }
 
-        private FunctionCall FunctionCall(Token identifier)
+        private FunctionCall FunctionCall(Identifier identifier)
         {
             Assert(TokenType.ParenthesisOpen);
 
@@ -51,7 +61,7 @@ namespace Domain.Carpiler.Languages
                 AssertOptional(TokenType.Comma);
             }
 
-            var functionCall = new FunctionCall((Identifier)identifier, parameters);
+            var functionCall = new FunctionCall(identifier, parameters);
 
             Assert(TokenType.ParenthesisClose);
             AssertOptional(TokenType.Semicolon);
@@ -67,7 +77,7 @@ namespace Domain.Carpiler.Languages
             {
                 "if" => If(),
                 "while" => While(),
-                _ => throw new Exception($"Em teoria impossivel exception {word}"),
+                _ => throw new UnexpectedToken(word, TokenType.ReservedWord),
             };
         }
 
@@ -85,22 +95,20 @@ namespace Domain.Carpiler.Languages
             return new If(condition, statements);
         }
 
-        private Assignment AssignmentExpression(Token identifier)
+        private Assignment AssignmentExpression(Identifier identifier)
         {
             Assert(TokenType.Attribution);
-            var assignment = new Assignment((Identifier)identifier, GetExpression());
+            var assignment = new Assignment(identifier, GetExpression());
             Assert(TokenType.Semicolon);
 
             return assignment;
         }
 
-        private VariableDeclaration VariableDeclaration()
+        private VariableDeclaration VariableDeclaration(Identifier type)
         {
-            var varType = GetVarType(Assert(TokenType.Float, TokenType.Int, TokenType.String, TokenType.Bool));
+            var identifier = (Identifier)Assert(TokenType.Identifier);
 
-            var identifier = Assert(TokenType.Identifier);
-
-            var vd = new VariableDeclaration(identifier, GetAssignmentExpression(), varType!.Value);
+            var vd = new VariableDeclaration(type, identifier, GetAssignmentExpression());
 
             AssertOptional(TokenType.Semicolon);
 
@@ -131,7 +139,7 @@ namespace Domain.Carpiler.Languages
 
             if (leftValue.TokenType == TokenType.Identifier && Current.TokenType == TokenType.ParenthesisOpen)
             {
-                return FunctionCall(leftValue);
+                return FunctionCall((Identifier)leftValue);
             }
 
             if (IsEOL())
@@ -146,8 +154,8 @@ namespace Domain.Carpiler.Languages
 
         private Operator GetOperator()
         {
-            var next = Assert
-                (
+            var operators = new TokenType[]
+            {
                     TokenType.Plus,
                     TokenType.Minus,
                     TokenType.Slash,
@@ -160,9 +168,11 @@ namespace Domain.Carpiler.Languages
                     TokenType.GreaterEquals,
                     TokenType.Lesser,
                     TokenType.LesserEquals
-                );
+            };
 
-            return next as Operator ?? throw new Exception($"Em teoria impossivel exception {next}");
+            var next = Assert(operators);
+
+            return next as Operator ?? throw new UnexpectedToken(next, operators);
         }
 
         private (IValuable Condition, List<Statement> Statements) GetConditionAndStatements()
@@ -183,7 +193,7 @@ namespace Domain.Carpiler.Languages
 
             return (condition, statements);
         }
-       
+
         private bool IsEOL()
         {
             return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose or TokenType.Comma;
@@ -203,22 +213,10 @@ namespace Domain.Carpiler.Languages
 
             if (expectedTypes.Any(t => t == token.TokenType) == false)
             {
-                throw new Exception($"Expected one of: {string.Join(' ', expectedTypes)}, but found: {token}");
+                throw new UnexpectedToken(token, expectedTypes);
             }
 
             return token;
-        }
-
-        private static VariableType? GetVarType(Token type)
-        {
-            return type.Value switch
-            {
-                "bool" => VariableType.Bool,
-                "float" => VariableType.Float,
-                "int" => VariableType.Integer,
-                "string" => VariableType.String,
-                _ => null,
-            };
         }
     }
 }

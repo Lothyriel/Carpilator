@@ -2,6 +2,7 @@
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
+using System;
 using System.Collections.Generic;
 using Xunit;
 using BinaryExpression = Domain.Carpiler.Syntatic.Constructs.BinaryExpression;
@@ -16,7 +17,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentInline()
         {
-            var numero = new Token("numero", TokenType.Identifier);
+            var numero = new Identifier("numero");
 
             var tokens = new List<Token>()
             {
@@ -31,7 +32,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(numero, new ValueToken("10", TokenType.IntValue), VariableType.Integer)
+                new VariableDeclaration(CCsharpTokenizer.Int, numero, new ValueToken("10", TokenType.IntValue))
             };
 
             var resulted = parser.Parse();
@@ -42,7 +43,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndBinaryExpressionAssignment()
         {
-            var numero = new Token("numero", TokenType.Identifier);
+            var numero = new Identifier("numero");
 
             var ten = new ValueToken("10", TokenType.IntValue);
 
@@ -61,7 +62,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten), VariableType.Integer)
+                new VariableDeclaration(CCsharpTokenizer.Int, numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten))
             };
 
             var resulted = parser.Parse();
@@ -72,7 +73,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationWithAssigmentAndAssignmentValue()
         {
-            var numero = new Identifier("numero", TokenType.Identifier);
+            var numero = new Identifier("numero");
             var zero = new ValueToken("0", TokenType.IntValue);
             var one = new ValueToken("1", TokenType.IntValue);
 
@@ -96,7 +97,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(numero, zero, VariableType.Integer),
+                new VariableDeclaration(CCsharpTokenizer.Int, numero, zero),
                 new Assignment(numero, new BinaryExpression(numero, CCsharpTokenizer.Plus, one))
             };
 
@@ -108,7 +109,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentValue()
         {
-            var numero = new Identifier("numero", TokenType.Identifier);
+            var numero = new Identifier("numero");
             var ten = new ValueToken("10", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -126,7 +127,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(numero, null, VariableType.Integer),
+                new VariableDeclaration(CCsharpTokenizer.Int, numero, null),
                 new Assignment(numero, ten)
             };
 
@@ -138,7 +139,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssignmentExpression()
         {
-            var numero = new Identifier("numero", TokenType.Identifier);
+            var numero = new Identifier("numero");
             var ten = new ValueToken("10", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -158,7 +159,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(numero, null, VariableType.Integer),
+                new VariableDeclaration(CCsharpTokenizer.Int, numero, null),
                 new Assignment(numero, new BinaryExpression(ten, CCsharpTokenizer.Plus, ten)),
             };
 
@@ -170,7 +171,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForVariableDeclarationAndAssigmentRead()
         {
-            var input = new Token("input", TokenType.Identifier);
+            var input = new Identifier("input");
 
             var tokens = new List<Token>()
             {
@@ -187,7 +188,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(input, new FunctionCall(CCsharpTokenizer.Read, new ()), VariableType.String),
+                new VariableDeclaration(CCsharpTokenizer.String, input, new FunctionCall(CCsharpTokenizer.Read, new ())),
             };
 
             var resulted = parser.Parse();
@@ -274,7 +275,7 @@ namespace Tests.Domain.Carpiler
         public void ShouldParseValidASTForWhilePrintVariable()
         {
             var zero = new ValueToken("0", TokenType.IntValue);
-            var i = new Identifier("i", TokenType.Identifier);
+            var i = new Identifier("i");
             var ten = new ValueToken("10", TokenType.IntValue);
             var one = new ValueToken("1", TokenType.IntValue);
 
@@ -314,7 +315,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(i, new ValueToken("0", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration(CCsharpTokenizer.Int, i, new ValueToken("0", TokenType.IntValue)),
                 new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
@@ -362,7 +363,7 @@ namespace Tests.Domain.Carpiler
         {
             var ten = new ValueToken("10", TokenType.IntValue);
             var twenty = new ValueToken("20", TokenType.IntValue);
-            var funtion = new Identifier("function", TokenType.Identifier);
+            var funtion = new Identifier("function");
 
             var tokens = new List<Token>()
             {
@@ -396,7 +397,7 @@ namespace Tests.Domain.Carpiler
         {
             var ten = new ValueToken("10", TokenType.IntValue);
             var twenty = new ValueToken("20", TokenType.IntValue);
-            var function = new Identifier("function", TokenType.Identifier);
+            var function = new Identifier("function");
 
             var tokens = new List<Token>()
             {
@@ -431,7 +432,7 @@ namespace Tests.Domain.Carpiler
         public void ShouldParseValidASTForArrayDeclaration()
         {
             var ten = new ValueToken("10", TokenType.IntValue);
-            var array = new Token("array", TokenType.Identifier);
+            var array = new Identifier("array");
 
             var tokens = new List<Token>()
             {
@@ -452,7 +453,7 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(array, new ValueToken("10", TokenType.IntValue), VariableType.Integer),
+                new VariableDeclaration(null!, array, new ValueToken("10", TokenType.IntValue)),
             };
 
             var resulted = parser.Parse();
@@ -464,8 +465,8 @@ namespace Tests.Domain.Carpiler
         public void ShouldParseValidASTForWhileReadArray()
         {
             var ten = new ValueToken("10", TokenType.IntValue);
-            var array = new Identifier("array", TokenType.Identifier);
-            var i = new Identifier("i", TokenType.Identifier);
+            var array = new Identifier("array");
+            var i = new Identifier("i");
             var one = new ValueToken("1", TokenType.IntValue);
 
             var tokens = new List<Token>()
@@ -523,8 +524,8 @@ namespace Tests.Domain.Carpiler
 
             var expectedConstruct = new List<Statement>()
             {
-                new VariableDeclaration(i, new ValueToken("0", TokenType.IntValue), VariableType.Integer),
-                new VariableDeclaration(array, null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/, VariableType.Integer),
+                new VariableDeclaration(CCsharpTokenizer.Int, i, new ValueToken("0", TokenType.IntValue)),
+                new VariableDeclaration(null!, array, null/*PRECISO CRIAR CONSTRUTOR PARA ARRAY*/),
                 new While(new BinaryExpression(i, CCsharpTokenizer.Lesser, ten),
                     new List<Statement>
                     {
