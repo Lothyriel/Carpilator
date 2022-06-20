@@ -2,7 +2,6 @@
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
-using System;
 using System.Collections.Generic;
 using Xunit;
 using BinaryExpression = Domain.Carpiler.Syntatic.Constructs.BinaryExpression;
@@ -391,7 +390,7 @@ namespace Tests.Domain.Carpiler
 
             resulted.JsonEquals(expectedConstruct);
         }
-        
+
         [Fact]
         public void ShouldParseValidASTForFunctionTwoArgumentBinaryExpression()
         {

@@ -5,7 +5,7 @@ namespace Domain.Carpiler.Lexical
 {
     public class LexicalAnalyzer
     {
-        public LexicalAnalyzer(string sourceCode, Tokenizer language, Dictionary<string, Identifier> symbolTable)
+        public LexicalAnalyzer(string sourceCode, Lexer language, Dictionary<string, Identifier> symbolTable)
         {
             SourceCode = sourceCode;
             Language = language;
@@ -15,7 +15,7 @@ namespace Domain.Carpiler.Lexical
         }
 
         private string SourceCode { get; }
-        private Tokenizer Language { get; }
+        private Lexer Language { get; }
         private List<Token> Tokens { get; }
         private Dictionary<string, Identifier> SymbolTable { get; }
         private Queue<char> Characters { get; }

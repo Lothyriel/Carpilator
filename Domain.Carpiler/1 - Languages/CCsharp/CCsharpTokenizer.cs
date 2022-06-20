@@ -3,7 +3,7 @@ using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Domain.Carpiler.Languages
 {
-    public sealed class CCsharpTokenizer : Tokenizer
+    public sealed class CCsharpTokenizer : Lexer
     {
         public override char LiteralDelimiter { get; } = '"';
         protected override HashSet<char> InitIgnoredCharacters()
@@ -24,10 +24,6 @@ namespace Domain.Carpiler.Languages
                 While,
                 If,
                 Else,
-                Float,
-                String,
-                Bool,
-                Int,
                 True,
                 False
             };
@@ -38,7 +34,7 @@ namespace Domain.Carpiler.Languages
         {
             var words = new List<Symbol>()
             {
-                Equals,
+                EqualsOp,
                 GreaterEquals,
                 LesserEquals,
                 Attribution,
@@ -67,9 +63,7 @@ namespace Domain.Carpiler.Languages
 
         public static ValueToken True { get; } = new("true", TokenType.BoolValue);
         public static ValueToken False { get; } = new("false", TokenType.BoolValue);
-        public static Identifier Print { get; } = new("print");
-        public static Identifier Read { get; } = new("read");
-        public static new Operator Equals { get; } = new("==", TokenType.Equals);
+        public static Operator EqualsOp { get; } = new("==", TokenType.Equals);
         public static Operator Attribution { get; } = new("=", TokenType.Attribution);
         public static Operator And { get; } = new("&", TokenType.And);
         public static Operator Or { get; } = new("|", TokenType.Or);
@@ -88,7 +82,9 @@ namespace Domain.Carpiler.Languages
         public static Identifier Bool { get; } = new("bool");
         public static Identifier Float { get; } = new("float");
         public static Identifier String { get; } = new("string");
-        public static Identifier Int { get; } = new ("int");
+        public static Identifier Int { get; } = new("int");
+        public static Identifier Print { get; } = new("print");
+        public static Identifier Read { get; } = new("read");
         public static Symbol CurlyBraceOpen { get; } = new("{", TokenType.CurlyBraceOpen);
         public static Symbol CurlyBraceClose { get; } = new("}", TokenType.CurlyBraceClose);
         public static Symbol BracketOpen { get; } = new("[", TokenType.BracketOpen);

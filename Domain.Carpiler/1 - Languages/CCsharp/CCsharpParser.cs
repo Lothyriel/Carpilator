@@ -6,7 +6,7 @@ using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Domain.Carpiler.Languages
 {
-    public class CCsharpParser : Parser
+    public sealed class CCsharpParser : Parser
     {
         public override Statement Parse(Queue<Token> tokens)
         {

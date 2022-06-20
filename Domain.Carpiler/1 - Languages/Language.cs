@@ -5,7 +5,7 @@ namespace Domain.Carpiler.Languages
 {
     public abstract class Language
     {
-        public abstract Tokenizer Tokenizer { get; }
+        public abstract Lexer Tokenizer { get; }
         public abstract Parser Parser { get; }
     }
 }

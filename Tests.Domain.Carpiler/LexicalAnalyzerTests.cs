@@ -23,7 +23,8 @@ namespace Tests.Domain.Carpiler
 
             var expressao = new Identifier("expressao");
 
-            tokens.Should().ContainInOrder(
+            tokens.Should().ContainInOrder
+            (
                 CCsharpTokenizer.Bool,
                 expressao,
                 CCsharpTokenizer.Attribution,
@@ -31,11 +32,13 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.LesserEquals,
                 new ValueToken("5", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon
-                );
+            );
 
-            symbolTable.Values.Should().ContainInOrder(
+            symbolTable.Values.Should().ContainInOrder
+            (
+                CCsharpTokenizer.Bool,
                 expressao
-                );
+            );
         }
 
         [Fact]
@@ -51,17 +54,20 @@ namespace Tests.Domain.Carpiler
 
             var letras = new Identifier("letras");
 
-            tokens.Should().ContainInOrder(
+            tokens.Should().ContainInOrder
+            (
                 CCsharpTokenizer.String,
                 letras,
                 CCsharpTokenizer.Attribution,
                 new ValueToken("string", TokenType.StringValue),
                 CCsharpTokenizer.Semicolon
-                );
+            );
 
-            symbolTable.Values.Should().ContainInOrder(
+            symbolTable.Values.Should().ContainInOrder
+            (
+                CCsharpTokenizer.String,
                 letras
-                );
+            );
         }
 
         [Fact]
@@ -77,7 +83,8 @@ namespace Tests.Domain.Carpiler
 
             var i = new Identifier("i");
 
-            tokens.Should().ContainInOrder(
+            tokens.Should().ContainInOrder
+            (
                 CCsharpTokenizer.Int,
                 i,
                 CCsharpTokenizer.Attribution,
@@ -96,11 +103,13 @@ namespace Tests.Domain.Carpiler
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.CurlyBraceClose
-                );
+            );
 
-            symbolTable.Values.Should().ContainInOrder(
+            symbolTable.Values.Should().ContainInOrder
+            (
+                CCsharpTokenizer.Int,
                 i
-                );
+            );
         }
 
         [Fact]
@@ -117,7 +126,8 @@ namespace Tests.Domain.Carpiler
             var array = new Identifier("array");
             var i = new Identifier("i");
 
-            tokens.Should().ContainInOrder(
+            tokens.Should().ContainInOrder
+            (
                 CCsharpTokenizer.Int,
                 CCsharpTokenizer.BracketOpen,
                 CCsharpTokenizer.BracketClose,
@@ -156,12 +166,14 @@ namespace Tests.Domain.Carpiler
                 new ValueToken("1", TokenType.IntValue),
                 CCsharpTokenizer.Semicolon,
                 CCsharpTokenizer.CurlyBraceClose
-                );
+            );
 
-            symbolTable.Values.Should().ContainInOrder(
+            symbolTable.Values.Should().ContainInOrder
+            (
+                CCsharpTokenizer.Int,
                 array,
                 i
-                );
+            );
         }
 
         [Fact]
@@ -175,14 +187,15 @@ namespace Tests.Domain.Carpiler
 
             var tokens = analyzer.Tokenize();
 
-            tokens.Should().ContainInOrder(
+            tokens.Should().ContainInOrder
+            (
                 CCsharpTokenizer.While,
                 CCsharpTokenizer.ParenthesisOpen,
                 CCsharpTokenizer.True,
                 CCsharpTokenizer.ParenthesisClose,
                 CCsharpTokenizer.CurlyBraceOpen,
                 CCsharpTokenizer.CurlyBraceClose
-                );
+            );
 
             symbolTable.Values.Should().ContainInOrder();
         }

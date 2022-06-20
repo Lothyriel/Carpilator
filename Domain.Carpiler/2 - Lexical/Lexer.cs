@@ -1,13 +1,13 @@
 ﻿namespace Domain.Carpiler.Lexical
 {
-    public abstract class Tokenizer
+    public abstract class Lexer
     {
-        public Tokenizer()
+        public Lexer()
         {
             ReservedWords = InitReservedWords();
             IgnoredCharacters = InitIgnoredCharacters();
             Symbols = InitSymbols();
-            MaxSymbolLenght = Symbols.Keys.Select(s => s.Length).Max();
+            MaxSymbolLenght = Symbols.Keys.Max(s => s.Length);
         }
 
         public Dictionary<string, Token> ReservedWords { get; }
