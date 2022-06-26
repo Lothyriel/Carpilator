@@ -16,11 +16,9 @@ namespace Domain.Carpiler.Semantic
 
         public List<Statement> Analyze()
         {
-            SyntaxTree.Select(s => s.);
-
             foreach (var statement in SyntaxTree)
             {
-
+                //validate semantics
             }
 
             return SyntaxTree;
