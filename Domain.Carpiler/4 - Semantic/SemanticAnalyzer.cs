@@ -6,9 +6,9 @@ namespace Domain.Carpiler.Semantic
     internal class SemanticAnalyzer
     {
         private List<Statement> SyntaxTree { get; }
-        private Dictionary<string, Token> SymbolTable { get; }
+        private Dictionary<string, Identifier> SymbolTable { get; }
 
-        public SemanticAnalyzer(List<Statement> syntaxTree, Dictionary<string, Token> symbolTable)
+        public SemanticAnalyzer(List<Statement> syntaxTree, Dictionary<string, Identifier> symbolTable)
         {
             SyntaxTree = syntaxTree;
             SymbolTable = symbolTable;
@@ -16,7 +16,14 @@ namespace Domain.Carpiler.Semantic
 
         public List<Statement> Analyze()
         {
-            throw new NotImplementedException();
+            SyntaxTree.Select(s => s.);
+
+            foreach (var statement in SyntaxTree)
+            {
+
+            }
+
+            return SyntaxTree;
         }
     }
 }

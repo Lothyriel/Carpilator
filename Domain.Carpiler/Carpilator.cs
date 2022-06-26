@@ -1,5 +1,6 @@
 ﻿using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
+using Domain.Carpiler.Semantic;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
 
@@ -21,11 +22,16 @@ namespace Domain.Carpiler
         {
             var tokens = Tokenize();
 
-            var syntaxTree = Parse(tokens);
+            var ast = Parse(tokens);
 
-            //var _ = new SemanticAnalyzer(syntaxTree, SymbolTable).Analyze();
+            var aast = Analyze(ast);
 
-            return syntaxTree;
+            return aast;
+        }
+
+        private List<Statement> Analyze(List<Statement> ast)
+        {
+            return new SemanticAnalyzer(ast, SymbolTable).Analyze();
         }
 
         public List<Statement> Parse(List<Token> tokens)

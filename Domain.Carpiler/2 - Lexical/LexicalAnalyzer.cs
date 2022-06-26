@@ -27,10 +27,6 @@ namespace Domain.Carpiler.Lexical
             {
                 return GetTokens();
             }
-            catch (UnclosedToken)
-            {
-                throw;
-            }
             catch (InvalidOperationException)
             {
                 throw new Exception($"Expected ; at position {Counter + 1}");
@@ -221,11 +217,10 @@ namespace Domain.Carpiler.Lexical
         {
             Consume();
             var word = new StringBuilder();
-            char c;
-            while ((c = Characters.Peek()) != Language.LiteralDelimiter)
+
+            while (Characters.Peek() != Language.LiteralDelimiter)
             {
-                word.Append(c);
-                Consume();
+                word.Append(Consume());
             }
 
             Consume();
