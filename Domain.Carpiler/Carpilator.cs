@@ -1,4 +1,5 @@
-﻿using Domain.Carpiler.Languages;
+﻿using Domain.Carpiler.Infra;
+using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Semantic;
 using Domain.Carpiler.Syntatic;
@@ -18,7 +19,12 @@ namespace Domain.Carpiler
         private string SourceCode { get; }
         private Language Language { get; }
 
-        public List<Statement> Compile()
+        public void Run(Action<string> printHandler, Func<string> readHandler)
+        {
+            var objectCode = Compile();
+            new Interpreter(printHandler, readHandler, objectCode).Run();
+        }
+        public ObjectCode Compile()
         {
             var tokens = Tokenize();
 
@@ -29,11 +35,6 @@ namespace Domain.Carpiler
             return aast;
         }
 
-        private List<Statement> Analyze(List<Statement> ast)
-        {
-            return new SemanticAnalyzer(ast, SymbolTable).Analyze();
-        }
-
         public List<Statement> Parse(List<Token> tokens)
         {
             return new SyntaticAnalyzer(tokens, Language.Parser).Parse();
@@ -41,7 +42,12 @@ namespace Domain.Carpiler
 
         public List<Token> Tokenize()
         {
-            return new LexicalAnalyzer(SourceCode, Language.Tokenizer, SymbolTable).Tokenize();
+            return new LexicalAnalyzer(SourceCode, Language.Lexer, SymbolTable).Tokenize();
+        }
+
+        private ObjectCode Analyze(List<Statement> ast)
+        {
+            return new SemanticAnalyzer(ast, SymbolTable, Language.Analyzer).Analyze();
         }
     }
 }

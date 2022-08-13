@@ -1,46 +1,5 @@
-﻿using Domain.Carpiler.Syntatic.Constructs;
-
-namespace Domain.Carpiler.Lexical
+﻿namespace Domain.Carpiler.Lexical
 {
-    public class ReservedWord : Token
-    {
-        public ReservedWord(string value) : base(value, TokenType.ReservedWord)
-        {
-        }
-    }
-
-    public class Symbol : Token
-    {
-        public Symbol(string value, TokenType type) : base(value, type)
-        {
-        }
-    }
-    public class Operator : Symbol
-    {
-        public Operator(string value, TokenType type) : base(value, type)
-        {
-        }
-    }
-    public class ValueToken : Token, IValuable
-    {
-        public ValueToken(string value, TokenType type) : base(value, type)
-        {
-            Name = GetType().Name;
-        }
-
-        public string Name { get; }
-    }
-
-    public class Identifier : Token, IValuable
-    {
-        public Identifier(string value) : base(value, TokenType.Identifier)
-        {
-            Name = GetType().Name;
-        }
-
-        public string Name { get; }
-    }
-
     public abstract class Token
     {
         public Token(string value, TokenType type)

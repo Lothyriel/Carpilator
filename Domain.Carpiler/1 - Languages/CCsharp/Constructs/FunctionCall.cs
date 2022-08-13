@@ -1,4 +1,5 @@
-﻿using Domain.Carpiler.Lexical;
+﻿using Domain.Carpiler.Infra;
+using Domain.Carpiler.Lexical;
 
 namespace Domain.Carpiler.Syntatic.Constructs
 {
@@ -12,5 +13,10 @@ namespace Domain.Carpiler.Syntatic.Constructs
 
         public Identifier Identifier { get; }
         public List<IValuable> Parameters { get; }
+
+        public override void Run(Interpreter interpreter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

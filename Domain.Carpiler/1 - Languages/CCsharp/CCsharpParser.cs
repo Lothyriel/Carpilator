@@ -31,22 +31,13 @@ namespace Domain.Carpiler.Languages
         {
             var identifier = (Identifier)Assert(TokenType.Identifier);
 
-            if (Current.TokenType == TokenType.ParenthesisOpen)
+            return Current.TokenType switch
             {
-                return FunctionCall(identifier);
-            }
-
-            if (Current.TokenType == TokenType.Attribution)
-            {
-                return AssignmentExpression(identifier);
-            }
-
-            if (Current.TokenType == TokenType.Identifier)
-            {
-                return VariableDeclaration(identifier);
-            }
-
-            throw new UnexpectedToken(identifier, TokenType.Identifier, TokenType.ParenthesisOpen, TokenType.Attribution);
+                TokenType.ParenthesisOpen => FunctionCall(identifier),
+                TokenType.Attribution => AssignmentExpression(identifier),
+                TokenType.Identifier => VariableDeclaration(identifier),
+                _ => throw new UnexpectedToken(identifier, TokenType.Identifier, TokenType.ParenthesisOpen, TokenType.Attribution),
+            };
         }
 
         private FunctionCall FunctionCall(Identifier identifier)
@@ -55,11 +46,11 @@ namespace Domain.Carpiler.Languages
 
             var parameters = new List<IValuable>();
 
-            while (Current.TokenType != TokenType.ParenthesisClose)
+            DoUntil(TokenType.ParenthesisClose, () =>
             {
                 parameters.Add(GetExpression());
                 AssertOptional(TokenType.Comma);
-            }
+            });
 
             var functionCall = new FunctionCall(identifier, parameters);
 
@@ -98,7 +89,9 @@ namespace Domain.Carpiler.Languages
         private Assignment AssignmentExpression(Identifier identifier)
         {
             Assert(TokenType.Attribution);
+
             var assignment = new Assignment(identifier, GetExpression());
+
             Assert(TokenType.Semicolon);
 
             return assignment;
@@ -117,25 +110,26 @@ namespace Domain.Carpiler.Languages
 
         private IValuable? GetAssignmentExpression()
         {
+            Assert(TokenType.Attribution, TokenType.Semicolon);
+
             if (Current.TokenType == TokenType.Semicolon)
             {
                 return null;
             }
 
-            Assert(TokenType.Attribution);
             return GetExpression();
         }
 
         private IValuable GetExpression()
         {
             var leftValue = Assert
-                (
-                    TokenType.StringValue,
-                    TokenType.IntValue,
-                    TokenType.FloatValue,
-                    TokenType.BoolValue,
-                    TokenType.Identifier
-                );
+            (
+                TokenType.StringValue,
+                TokenType.IntValue,
+                TokenType.FloatValue,
+                TokenType.BoolValue,
+                TokenType.Identifier
+            );
 
             if (leftValue.TokenType == TokenType.Identifier && Current.TokenType == TokenType.ParenthesisOpen)
             {
@@ -172,7 +166,7 @@ namespace Domain.Carpiler.Languages
 
             var next = Assert(operators);
 
-            return next as Operator ?? throw new UnexpectedToken(next, operators);
+            return (Operator)next;
         }
 
         private (IValuable Condition, List<Statement> Statements) GetConditionAndStatements()
@@ -184,14 +178,22 @@ namespace Domain.Carpiler.Languages
 
             var statements = new List<Statement>();
 
-            while (Tokens!.Peek().TokenType != TokenType.CurlyBraceClose)
+            DoUntil(TokenType.CurlyBraceClose, () =>
             {
                 statements.Add(Statement());
-            }
+            });
 
             Assert(TokenType.CurlyBraceClose);
 
             return (condition, statements);
+        }
+
+        private void DoUntil(TokenType token, Action action)
+        {
+            while (Tokens!.Peek().TokenType != token)
+            {
+                action();
+            }
         }
 
         private bool IsEOL()

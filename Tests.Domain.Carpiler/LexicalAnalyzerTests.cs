@@ -17,7 +17,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Identifier>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Lexer, symbolTable);
 
             var tokens = analyzer.Tokenize();
 
@@ -48,7 +48,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Identifier>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Lexer, symbolTable);
 
             var tokens = analyzer.Tokenize();
 
@@ -77,7 +77,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Identifier>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Lexer, symbolTable);
 
             var tokens = analyzer.Tokenize();
 
@@ -119,7 +119,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Identifier>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Lexer, symbolTable);
 
             var tokens = analyzer.Tokenize();
 
@@ -183,7 +183,7 @@ namespace Tests.Domain.Carpiler
 
             var symbolTable = new Dictionary<string, Identifier>();
 
-            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Tokenizer, symbolTable);
+            var analyzer = new LexicalAnalyzer(sourceCode, CCsharp.Lexer, symbolTable);
 
             var tokens = analyzer.Tokenize();
 

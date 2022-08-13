@@ -1,4 +1,6 @@
-﻿namespace Domain.Carpiler.Syntatic.Constructs
+﻿using Domain.Carpiler.Infra;
+
+namespace Domain.Carpiler.Syntatic.Constructs
 {
     public class While : Statement
     {
@@ -10,5 +12,10 @@
 
         public IValuable Condition { get; }
         public List<Statement> Statements { get; }
+
+        public override void Run(Interpreter interpreter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
