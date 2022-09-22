@@ -1,0 +1,29 @@
+name: Nuget Push
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pack-push:
+    env:
+      PROJECT_PATH: ./Domain.Carpiler/Domain.Carpiler.csproj
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0
+
+    - name: Geração do package
+      run: dotnet pack ${{ env.PROJECT_PATH }} -c Release -o out
+
+    - name: Push no NuGet
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
