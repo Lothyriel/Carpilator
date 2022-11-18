@@ -1,27 +1,28 @@
-﻿using Domain.Carpiler.Lexical;
-using Domain.Carpiler.Semantic;
+﻿using Domain.Carpiler.Semantic;
 
 namespace Domain.Carpiler.Infra
 {
     public class Interpreter
     {
-        public Action<string> PrintHandler { get; }
-        public Func<string> ReadHandler { get; }
+        public Action<string>? PrintHandler { get; }
+        public Func<string>? ReadHandler { get; }
         public ObjectCode ObjectCode { get; }
 
-        public Interpreter(Action<string> printHandler, Func<string> readHandler, ObjectCode objectCode)
+        public Interpreter(Action<string>? printHandler, Func<string>? readHandler, ObjectCode objectCode)
         {
             PrintHandler = printHandler;
             ReadHandler = readHandler;
             ObjectCode = objectCode;
         }
 
-        public void Run()
+        public T Run<T>()
         {
-            foreach (var statement in ObjectCode.SyntaxTree)
+            foreach (var statement in ObjectCode.SyntaxTree.SkipLast(1))
             {
                 statement.Run(this);
             }
+
+            return (T)Convert.ChangeType(ObjectCode.SyntaxTree.Last().Run(this), typeof(T));
         }
     }
 }

@@ -19,10 +19,10 @@ namespace Domain.Carpiler
         private string SourceCode { get; }
         private Language Language { get; }
 
-        public void Run(Action<string> printHandler, Func<string> readHandler)
+        public T Run<T>(Action<string>? printHandler = null, Func<string>? readHandler = null)
         {
             var objectCode = Compile();
-            new Interpreter(printHandler, readHandler, objectCode).Run();
+            return new Interpreter(printHandler, readHandler, objectCode).Run<T>();
         }
         public ObjectCode Compile()
         {

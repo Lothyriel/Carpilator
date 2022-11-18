@@ -10,7 +10,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
         }
         public string Name { get; }
 
-        public abstract void Run(Interpreter interpreter);
+        public abstract object Run(Interpreter interpreter);
     }
     public interface IValuable
     {

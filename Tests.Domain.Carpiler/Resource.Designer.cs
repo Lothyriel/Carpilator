@@ -70,6 +70,15 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to return true.
+        /// </summary>
+        internal static string ReturnTrue {
+            get {
+                return ResourceManager.GetString("ReturnTrue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to string letras = &quot;string&quot;;.
         /// </summary>
         internal static string StringDeclaration {
