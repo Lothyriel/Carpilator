@@ -121,12 +121,13 @@ namespace Domain.Carpiler.Languages
 
         private IValuable? GetAssignmentExpression()
         {
-            Assert(TokenType.Attribution, TokenType.Semicolon);
-
             if (Current.TokenType == TokenType.Semicolon)
             {
+                Assert(TokenType.Semicolon);
                 return null;
             }
+
+            Assert(TokenType.Attribution);
 
             return GetExpression();
         }
