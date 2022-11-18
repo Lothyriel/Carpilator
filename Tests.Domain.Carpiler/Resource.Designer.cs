@@ -70,6 +70,15 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to return 5 + 19 - 5;.
+        /// </summary>
+        internal static string ReturnSumComplexBinaryExpression {
+            get {
+                return ResourceManager.GetString("ReturnSumComplexBinaryExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to return 10 &gt; 5;.
         /// </summary>
         internal static string ReturnTrueBinaryExpression {

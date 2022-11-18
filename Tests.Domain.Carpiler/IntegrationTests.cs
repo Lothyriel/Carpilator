@@ -1,6 +1,7 @@
 ﻿using Domain.Carpiler;
 using Domain.Carpiler.Languages;
 using FluentAssertions;
+using System;
 using Xunit;
 
 namespace Tests.Domain.Carpiler
@@ -29,6 +30,18 @@ namespace Tests.Domain.Carpiler
             var result = carpiler.Run<bool>();
 
             result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldReturnSumForComplexBinaryExpression()
+        {
+            var code = Resource.ReturnSumComplexBinaryExpression;
+
+            var carpiler = new Carpilator(code, new CCsharp());
+
+            var result = carpiler.Run<int>();
+
+            result.Should().Be(19);
         }
     }
 }

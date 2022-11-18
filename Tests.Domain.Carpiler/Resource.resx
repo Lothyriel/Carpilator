@@ -120,6 +120,9 @@
   <data name="BoolDeclaration" xml:space="preserve">
     <value>bool expressao = 10 &lt;= 5;</value>
   </data>
+  <data name="ReturnSumComplexBinaryExpression" xml:space="preserve">
+    <value>return 5 + 19 - 5;</value>
+  </data>
   <data name="ReturnTrueBinaryExpression" xml:space="preserve">
     <value>return 10 &gt; 5;</value>
   </data>
