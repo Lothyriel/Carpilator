@@ -24,6 +24,7 @@ namespace Domain.Carpiler
             var objectCode = Compile();
             return new Interpreter(printHandler, readHandler, objectCode).Run<T>();
         }
+
         public ObjectCode Compile()
         {
             var tokens = Tokenize();

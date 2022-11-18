@@ -13,7 +13,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
         public IValuable Condition { get; }
         public List<Statement> Statements { get; }
 
-        public override void Run(Interpreter interpreter)
+        public override object Run(Interpreter interpreter)
         {
             throw new NotImplementedException();
         }

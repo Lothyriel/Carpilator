@@ -18,9 +18,9 @@ namespace Domain.Carpiler.Syntatic.Constructs
         public IValuable? InitialValue { get; }
         public Identifier VarType { get; }
 
-        public override void Run(Interpreter interpreter)
+        public override object Run(Interpreter interpreter)
         {
-            
+            throw new NotImplementedException();
         }
 
         public TypedIdentifier Typefy()

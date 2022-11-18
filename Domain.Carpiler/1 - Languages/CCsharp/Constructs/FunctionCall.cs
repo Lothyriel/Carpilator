@@ -14,7 +14,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
         public Identifier Identifier { get; }
         public List<IValuable> Parameters { get; }
 
-        public override void Run(Interpreter interpreter)
+        public override object Run(Interpreter interpreter)
         {
             throw new NotImplementedException();
         }
