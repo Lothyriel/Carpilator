@@ -2,6 +2,7 @@
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
+using System;
 using System.Collections.Generic;
 using Xunit;
 using BinaryExpression = Domain.Carpiler.Syntatic.Constructs.BinaryExpression;
@@ -430,6 +431,8 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForArrayDeclaration()
         {
+            throw new NotImplementedException();
+
             var ten = new ValueToken("10", TokenType.IntValue);
             var array = new Identifier("array");
 
@@ -463,6 +466,8 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldParseValidASTForWhileReadArray()
         {
+            throw new NotImplementedException();
+
             var ten = new ValueToken("10", TokenType.IntValue);
             var array = new Identifier("array");
             var i = new Identifier("i");
