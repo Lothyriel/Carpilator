@@ -9,9 +9,5 @@
 	  <Version>1.1.0</Version>
 	  <Authors>João Xavier</Authors>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
 	
 </Project>
