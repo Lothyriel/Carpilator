@@ -120,7 +120,7 @@
   <data name="BoolDeclaration" xml:space="preserve">
     <value>bool expressao = 10 &lt;= 5;</value>
   </data>
-  <data name="ReturnTrue" xml:space="preserve">
+  <data name="ReturnTrueSimple" xml:space="preserve">
     <value>return true;</value>
   </data>
   <data name="StringDeclaration" xml:space="preserve">
