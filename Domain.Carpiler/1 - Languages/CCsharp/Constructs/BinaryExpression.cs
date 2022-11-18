@@ -19,7 +19,25 @@ namespace Domain.Carpiler.Syntatic.Constructs
 
         public object ToValue()
         {
-            throw new NotImplementedException();
+            var leftValue = Left.ToValue();
+
+            var rightValue = Right.ToValue();
+
+            return Operator.TokenType switch
+            {
+                TokenType.Plus => (dynamic)leftValue + (dynamic)rightValue,
+                TokenType.Minus => (dynamic)leftValue - (dynamic)rightValue,
+                TokenType.Slash => (dynamic)leftValue / (dynamic)rightValue,
+                TokenType.Asterisk => (dynamic)leftValue * (dynamic)rightValue,
+                TokenType.And => (dynamic)leftValue && (dynamic)rightValue,
+                TokenType.Or => (dynamic)leftValue || (dynamic)rightValue,
+                TokenType.Greater => (dynamic)leftValue > (dynamic)rightValue,
+                TokenType.GreaterEquals => (dynamic)leftValue >= (dynamic)rightValue,
+                TokenType.Lesser => (dynamic)leftValue < (dynamic)rightValue,
+                TokenType.LesserEquals => (dynamic)leftValue <= (dynamic)rightValue,
+                TokenType.Equals => (dynamic)leftValue == (dynamic)rightValue,
+                _ => throw new InvalidOperationException(),
+            };
         }
     }
 }

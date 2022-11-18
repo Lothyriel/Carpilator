@@ -22,7 +22,7 @@ namespace Tests.Domain.Carpiler
         [Fact]
         public void ShouldReturnTrueForBinaryExpression()
         {
-            var code = Resource.ReturnTrueSimple;
+            var code = Resource.ReturnTrueBinaryExpression;
 
             var carpiler = new Carpilator(code, new CCsharp());
 
