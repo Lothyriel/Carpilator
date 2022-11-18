@@ -70,7 +70,7 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to return true.
+        ///   Looks up a localized string similar to return true;.
         /// </summary>
         internal static string ReturnTrue {
             get {
