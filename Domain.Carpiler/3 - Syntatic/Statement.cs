@@ -14,5 +14,6 @@ namespace Domain.Carpiler.Syntatic.Constructs
     }
     public interface IValuable
     {
+        public object ToValue();
     }
 }

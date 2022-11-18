@@ -16,5 +16,10 @@ namespace Domain.Carpiler.Syntatic.Constructs
             Operator = op;
             Right = right;
         }
+
+        public object ToValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

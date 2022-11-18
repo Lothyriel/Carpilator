@@ -22,7 +22,9 @@ namespace Domain.Carpiler.Infra
                 statement.Run(this);
             }
 
-            return (T)Convert.ChangeType(ObjectCode.SyntaxTree.Last().Run(this), typeof(T));
+            var lastValue = ObjectCode.SyntaxTree.Last().Run(this);
+
+            return (T)Convert.ChangeType(lastValue, typeof(T));
         }
     }
 }

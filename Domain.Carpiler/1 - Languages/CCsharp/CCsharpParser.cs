@@ -2,6 +2,7 @@
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
+using System.Reflection.Metadata.Ecma335;
 using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Domain.Carpiler.Languages
@@ -68,6 +69,7 @@ namespace Domain.Carpiler.Languages
             {
                 "if" => If(),
                 "while" => While(),
+                "return" => Return(),
                 _ => throw new UnexpectedToken(word, TokenType.ReservedWord),
             };
         }
@@ -77,6 +79,15 @@ namespace Domain.Carpiler.Languages
             (var condition, var statements) = GetConditionAndStatements();
 
             return new While(condition, statements);
+        }
+
+        private Statement Return()
+        {
+            IValuable value = GetExpression();
+
+            Assert(TokenType.Semicolon);
+
+            return new Return(value);
         }
 
         private Statement If()

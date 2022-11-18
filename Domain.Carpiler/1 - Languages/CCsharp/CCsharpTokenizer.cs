@@ -25,7 +25,9 @@ namespace Domain.Carpiler.Languages
                 If,
                 Else,
                 True,
-                False
+                False,
+                Return,
+                None
             };
 
             return words.ToDictionary(token => token.Value);
@@ -79,6 +81,8 @@ namespace Domain.Carpiler.Languages
         public static ReservedWord While { get; } = new("while");
         public static ReservedWord If { get; } = new("if");
         public static ReservedWord Else { get; } = new("else");
+        public static ReservedWord Return { get; } = new("return");
+        public static ReservedWord None { get; } = new("None");
         public static Identifier Bool { get; } = new("bool");
         public static Identifier Float { get; } = new("float");
         public static Identifier String { get; } = new("string");

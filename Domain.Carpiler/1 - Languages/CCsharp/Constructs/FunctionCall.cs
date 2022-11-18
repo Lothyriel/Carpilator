@@ -18,5 +18,10 @@ namespace Domain.Carpiler.Syntatic.Constructs
         {
             throw new NotImplementedException();
         }
+
+        public object ToValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

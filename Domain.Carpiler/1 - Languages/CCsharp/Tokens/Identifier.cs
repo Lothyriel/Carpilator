@@ -1,4 +1,5 @@
-﻿using Domain.Carpiler.Syntatic.Constructs;
+﻿using Domain.Carpiler.Languages;
+using Domain.Carpiler.Syntatic.Constructs;
 
 namespace Domain.Carpiler.Lexical
 {
@@ -10,5 +11,10 @@ namespace Domain.Carpiler.Lexical
         }
 
         public string Name { get; }
+
+        public object ToValue()
+        {
+            return CCsharpTokenizer.None;
+        }
     }
 }
