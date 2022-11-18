@@ -70,6 +70,15 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to return 10 &gt; 5;.
+        /// </summary>
+        internal static string ReturnTrueBinaryExpression {
+            get {
+                return ResourceManager.GetString("ReturnTrueBinaryExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to return true;.
         /// </summary>
         internal static string ReturnTrueSimple {
