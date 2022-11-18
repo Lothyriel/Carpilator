@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Infra;
+using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
 
 namespace Domain.Carpiler.Syntatic.Constructs
@@ -16,7 +17,11 @@ namespace Domain.Carpiler.Syntatic.Constructs
 
         public override object Run(Interpreter interpreter)
         {
-            throw new NotImplementedException();
+            var value = Identifier.CurrentValue as ValueToken;
+
+            value!.Value = Value.ToValue().ToString();
+
+            return CCsharpTokenizer.None;
         }
     }
 }

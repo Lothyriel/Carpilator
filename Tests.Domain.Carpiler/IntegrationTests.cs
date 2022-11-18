@@ -9,7 +9,7 @@ namespace Tests.Domain.Carpiler
     public class IntegrationTests
     {
         [Fact]
-        public void ShouldReturnTrueSimple() 
+        public void ShouldAssertTrueSimple() 
         {
             var code = Resource.ReturnTrueSimple;
 
@@ -21,7 +21,7 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
-        public void ShouldReturnTrueForBinaryExpression()
+        public void ShouldAssertTrueForBinaryExpression()
         {
             var code = Resource.ReturnTrueBinaryExpression;
 
@@ -33,7 +33,7 @@ namespace Tests.Domain.Carpiler
         }
 
         [Fact]
-        public void ShouldReturnSumForComplexBinaryExpression()
+        public void ShouldAssertSumForComplexBinaryExpression()
         {
             var code = Resource.ReturnSumComplexBinaryExpression;
 
@@ -42,6 +42,31 @@ namespace Tests.Domain.Carpiler
             var result = carpiler.Run<int>();
 
             result.Should().Be(19);
+        }
+
+
+        [Fact]
+        public void ShouldAssertFalseBinaryExpressionWithVariables()
+        {
+            var code = Resource.ReturnBinaryExpressionWithVariables;
+
+            var carpiler = new Carpilator(code, new CCsharp());
+
+            var result = carpiler.Run<bool>();
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ShouldAssertCorrectlyAllAtOnce()
+        {
+            var code = Resource.AllAtOnce;
+
+            var carpiler = new Carpilator(code, new CCsharp());
+
+            var result = carpiler.Run<int>();
+
+            result.Should().Be(10);
         }
     }
 }

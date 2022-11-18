@@ -61,11 +61,38 @@ namespace Tests.Domain.Carpiler {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to int numero = 0;
+        ///while(numero &lt; 10)
+        ///{
+        ///	numero = numero + 1;
+        ///}
+        ///
+        ///return numero;.
+        /// </summary>
+        internal static string AllAtOnce {
+            get {
+                return ResourceManager.GetString("AllAtOnce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to bool expressao = 10 &lt;= 5;.
         /// </summary>
         internal static string BoolDeclaration {
             get {
                 return ResourceManager.GetString("BoolDeclaration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to int numero1 = 0;
+        ///int numero2 = 200;
+        ///
+        ///return numero1 &gt; numero2;.
+        /// </summary>
+        internal static string ReturnBinaryExpressionWithVariables {
+            get {
+                return ResourceManager.GetString("ReturnBinaryExpressionWithVariables", resourceCulture);
             }
         }
         

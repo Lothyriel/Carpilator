@@ -8,7 +8,7 @@
             TokenType = type;
         }
 
-        public string Value { get; }
+        public string Value { get; set; }
 
         public TokenType TokenType { get; }
 

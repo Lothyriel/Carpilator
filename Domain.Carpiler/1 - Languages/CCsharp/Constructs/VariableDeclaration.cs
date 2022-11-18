@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Infra;
+using Domain.Carpiler.Languages;
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Semantic;
 using Type = Domain.Carpiler.Semantic.Type;
@@ -20,7 +21,9 @@ namespace Domain.Carpiler.Syntatic.Constructs
 
         public override object Run(Interpreter interpreter)
         {
-            throw new NotImplementedException();
+            Identifier.CurrentValue = InitialValue;
+
+            return CCsharpTokenizer.None;
         }
 
         public TypedIdentifier Typefy()

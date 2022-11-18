@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllAtOnce" xml:space="preserve">
+    <value>int numero = 0;
+while(numero &lt; 10)
+{
+	numero = numero + 1;
+}
+
+return numero;</value>
+  </data>
   <data name="BoolDeclaration" xml:space="preserve">
     <value>bool expressao = 10 &lt;= 5;</value>
+  </data>
+  <data name="ReturnBinaryExpressionWithVariables" xml:space="preserve">
+    <value>int numero1 = 0;
+int numero2 = 200;
+
+return numero1 &gt; numero2;</value>
   </data>
   <data name="ReturnSumComplexBinaryExpression" xml:space="preserve">
     <value>return 5 + 19 - 5;</value>
