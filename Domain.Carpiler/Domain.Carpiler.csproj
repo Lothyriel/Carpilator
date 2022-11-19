@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net4.6.2</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageId>Domain.Carpiler</PackageId>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 	
 </Project>
