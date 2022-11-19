@@ -1,4 +1,6 @@
 ﻿using Domain.Carpiler.Semantic;
+using System;
+using System.Linq;
 
 namespace Domain.Carpiler.Infra
 {

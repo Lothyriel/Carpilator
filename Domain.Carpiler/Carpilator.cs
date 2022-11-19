@@ -4,6 +4,7 @@ using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Semantic;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
+using System.Collections.Generic;
 
 namespace Domain.Carpiler
 {
@@ -13,7 +14,7 @@ namespace Domain.Carpiler
         {
             SourceCode = sourceCode;
             Language = language;
-            SymbolTable = new();
+            SymbolTable = new Dictionary<string, Identifier>();
         }
         private Dictionary<string, Identifier> SymbolTable { get; }
         private string SourceCode { get; }

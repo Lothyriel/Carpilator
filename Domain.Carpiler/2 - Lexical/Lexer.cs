@@ -1,4 +1,7 @@
-﻿namespace Domain.Carpiler.Lexical
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Domain.Carpiler.Lexical
 {
     public abstract class Lexer
     {

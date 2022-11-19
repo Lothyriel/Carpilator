@@ -2,7 +2,9 @@
 using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic;
 using Domain.Carpiler.Syntatic.Constructs;
-using System.Reflection.Metadata.Ecma335;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TokenType = Domain.Carpiler.Lexical.TokenType;
 
 namespace Domain.Carpiler.Languages
@@ -210,7 +212,9 @@ namespace Domain.Carpiler.Languages
 
         private bool IsEOL()
         {
-            return Current.TokenType is TokenType.Semicolon or TokenType.ParenthesisClose or TokenType.Comma;
+            return Current.TokenType == TokenType.Semicolon ||
+                   Current.TokenType == TokenType.ParenthesisClose ||
+                   Current.TokenType == TokenType.Comma;
         }
 
         private void AssertOptional(TokenType expected)

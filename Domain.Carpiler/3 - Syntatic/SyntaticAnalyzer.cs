@@ -1,5 +1,7 @@
 ﻿using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic.Constructs;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Carpiler.Syntatic
 {
@@ -10,7 +12,7 @@ namespace Domain.Carpiler.Syntatic
 
         public SyntaticAnalyzer(List<Token> tokens, Parser parser)
         {
-            Tokens = new(tokens);
+            Tokens = new Queue<Token>(tokens);
             Parser = parser;
         }
 

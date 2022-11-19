@@ -1,13 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageId>Domain.Carpiler</PackageId>
 	  <Version>1.1.0</Version>
 	  <Authors>João Xavier</Authors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
 	
 </Project>

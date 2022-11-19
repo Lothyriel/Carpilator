@@ -1,4 +1,7 @@
 ﻿using Domain.Carpiler.Infra;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Domain.Carpiler.Lexical
@@ -110,7 +113,7 @@ namespace Domain.Carpiler.Lexical
         {                                                               //would be overriden by null on encountering a invalid symbol
             var symbol = GetSymbol(sb);
             output = symbol ?? output;
-            return symbol is not null;
+            return symbol != null;
         }
 
         private Token? GetSymbol(StringBuilder sb)

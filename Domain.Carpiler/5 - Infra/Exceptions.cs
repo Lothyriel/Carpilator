@@ -1,4 +1,5 @@
 ﻿using Domain.Carpiler.Lexical;
+using System;
 
 namespace Domain.Carpiler.Infra
 {

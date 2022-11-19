@@ -1,5 +1,6 @@
 ﻿using Domain.Carpiler.Lexical;
 using Domain.Carpiler.Syntatic.Constructs;
+using System.Collections.Generic;
 
 namespace Domain.Carpiler.Semantic
 {

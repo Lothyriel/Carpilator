@@ -1,5 +1,6 @@
 ﻿using Domain.Carpiler.Infra;
 using Domain.Carpiler.Languages;
+using System.Collections.Generic;
 
 namespace Domain.Carpiler.Syntatic.Constructs
 {
