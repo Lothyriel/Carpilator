@@ -17,7 +17,7 @@
             return $"{{{TokenType} {(string.IsNullOrWhiteSpace(Value) ? "null" : Value)}}}";
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return obj is Token token && token.TokenType == TokenType && token.Value == Value;
         }

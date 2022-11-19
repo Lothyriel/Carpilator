@@ -95,7 +95,7 @@ namespace Domain.Carpiler.Lexical
         private bool ValidSymbol()
         {
             var sb = new StringBuilder();
-            Token? symbol = null;
+            Token symbol = null;
 
             do
             {
@@ -109,14 +109,14 @@ namespace Domain.Carpiler.Lexical
             return true;
         }
 
-        private bool ValidSymbol(StringBuilder sb, ref Token? output)   //cannot return symbol directly because a initially valid symbol
+        private bool ValidSymbol(StringBuilder sb, ref Token output)   //cannot return symbol directly because a initially valid symbol
         {                                                               //would be overriden by null on encountering a invalid symbol
             var symbol = GetSymbol(sb);
             output = symbol ?? output;
             return symbol != null;
         }
 
-        private Token? GetSymbol(StringBuilder sb)
+        private Token GetSymbol(StringBuilder sb)
         {
             if (Language.MaxSymbolLenght < sb.Length)
                 return null;
@@ -129,7 +129,7 @@ namespace Domain.Carpiler.Lexical
 
         private bool IgnoreCharacter(char current)
         {
-            return Language.IgnoredCharacters.TryGetValue(current, out _);
+            return Language.IgnoredCharacters.Contains(current);
         }
 
         private void GetNumber()
@@ -166,7 +166,7 @@ namespace Domain.Carpiler.Lexical
 
             if (isReserved)
             {
-                Tokens.Add(token!);
+                Tokens.Add(token);
                 return;
             }
 
@@ -199,7 +199,7 @@ namespace Domain.Carpiler.Lexical
             return sb.ToString();
         }
 
-        private (bool IsReserved, Token? Token) IsReservedWord(string id)
+        private (bool IsReserved, Token Token) IsReservedWord(string id)
         {
             return (Language.ReservedWords.TryGetValue(id, out var reserved), reserved);
         }

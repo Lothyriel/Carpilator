@@ -19,7 +19,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
         {
             var value = Identifier.CurrentValue as ValueToken;
 
-            value!.Value = Value.ToValue().ToString();
+            value.Value = Value.ToValue().ToString();
 
             return CCsharpTokenizer.None;
         }

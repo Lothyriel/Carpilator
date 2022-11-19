@@ -1,4 +1,8 @@
-﻿namespace Domain.Carpiler.Infra
+﻿using Domain.Carpiler.Semantic;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Domain.Carpiler.Infra
 {
     public static class Extensions
     {
@@ -33,6 +37,22 @@
             }
 
             return $"The token {token} at line {line} pos {indexFound} was not closed properly";
+        }
+
+        public static bool TryAdd<Key, Value>(this Dictionary<Key, Value> dict, Key key, Value value)
+        {
+            if (dict.ContainsKey(key))
+            {
+                return false;
+            }
+
+            dict.Add(key, value);
+            return true;
+        }
+
+        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> itens, int count)
+        {
+            return itens.Take(itens.Count() - count);
         }
     }
 }

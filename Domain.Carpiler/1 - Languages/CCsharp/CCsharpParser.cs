@@ -22,11 +22,11 @@ namespace Domain.Carpiler.Languages
 
         private Statement Statement()
         {
-            return Current.TokenType switch
+            switch (Current.TokenType)
             {
-                TokenType.Identifier => Identifier(),
-                TokenType.ReservedWord => ReserverdWord(),
-                _ => throw new UnexpectedToken(Current, TokenType.Identifier, TokenType.ReservedWord),
+                case TokenType.Identifier: return Identifier();
+                case TokenType.ReservedWord: return ReserverdWord();
+                default: throw new UnexpectedToken(Current, TokenType.Identifier, TokenType.ReservedWord);
             };
         }
 
@@ -34,12 +34,12 @@ namespace Domain.Carpiler.Languages
         {
             var identifier = (Identifier)Assert(TokenType.Identifier);
 
-            return Current.TokenType switch
+            switch (Current.TokenType)
             {
-                TokenType.ParenthesisOpen => FunctionCall(identifier),
-                TokenType.Attribution => AssignmentExpression(identifier),
-                TokenType.Identifier => VariableDeclaration(identifier),
-                _ => throw new UnexpectedToken(identifier, TokenType.Identifier, TokenType.ParenthesisOpen, TokenType.Attribution),
+                case TokenType.ParenthesisOpen: return FunctionCall(identifier);
+                case TokenType.Attribution: return AssignmentExpression(identifier);
+                case TokenType.Identifier: return VariableDeclaration(identifier);
+                default: throw new UnexpectedToken(identifier, TokenType.Identifier, TokenType.ParenthesisOpen, TokenType.Attribution);
             };
         }
 
@@ -67,12 +67,12 @@ namespace Domain.Carpiler.Languages
         {
             var word = Assert(TokenType.ReservedWord);
 
-            return word.Value switch
+            switch (word.Value)
             {
-                "if" => If(),
-                "while" => While(),
-                "return" => Return(),
-                _ => throw new UnexpectedToken(word, TokenType.ReservedWord),
+                case "if": return If();
+                case "while": return While();
+                case "return": return Return();
+                default: throw new UnexpectedToken(word, TokenType.ReservedWord);
             };
         }
 
@@ -121,7 +121,7 @@ namespace Domain.Carpiler.Languages
             return vd;
         }
 
-        private IValuable? GetAssignmentExpression()
+        private IValuable GetAssignmentExpression()
         {
             if (Current.TokenType == TokenType.Semicolon)
             {
@@ -204,7 +204,7 @@ namespace Domain.Carpiler.Languages
 
         private void DoUntil(TokenType token, Action action)
         {
-            while (Tokens!.Peek().TokenType != token)
+            while (Tokens.Peek().TokenType != token)
             {
                 action();
             }
@@ -219,7 +219,7 @@ namespace Domain.Carpiler.Languages
 
         private void AssertOptional(TokenType expected)
         {
-            if (Tokens!.Any() && Tokens!.Peek().TokenType == expected)
+            if (Tokens.Any() && Tokens.Peek().TokenType == expected)
             {
                 Tokens.Dequeue();
             }
@@ -227,7 +227,7 @@ namespace Domain.Carpiler.Languages
 
         private Token Assert(params TokenType[] expectedTypes)
         {
-            var token = Tokens!.Dequeue();
+            var token = Tokens.Dequeue();
 
             if (expectedTypes.Any(t => t == token.TokenType) == false)
             {

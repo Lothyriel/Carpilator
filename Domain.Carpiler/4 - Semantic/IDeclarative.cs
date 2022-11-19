@@ -2,6 +2,6 @@
 {
     public interface IDeclarative
     {
-        public TypedIdentifier Typefy();
+        TypedIdentifier Typefy();
     }
 }

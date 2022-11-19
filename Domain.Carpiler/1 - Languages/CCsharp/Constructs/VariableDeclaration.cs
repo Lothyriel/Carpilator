@@ -8,7 +8,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
 {
     public class VariableDeclaration : Statement, IDeclarative
     {
-        public VariableDeclaration(Identifier type, Identifier identifier, IValuable? initialValue)
+        public VariableDeclaration(Identifier type, Identifier identifier, IValuable initialValue)
         {
             Identifier = identifier;
             InitialValue = initialValue;
@@ -16,7 +16,7 @@ namespace Domain.Carpiler.Syntatic.Constructs
         }
 
         public Identifier Identifier { get; }
-        public IValuable? InitialValue { get; }
+        public IValuable InitialValue { get; }
         public Identifier VarType { get; }
 
         public override object Run(Interpreter interpreter)

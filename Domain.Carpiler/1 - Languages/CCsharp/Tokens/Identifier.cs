@@ -11,7 +11,7 @@ namespace Domain.Carpiler.Lexical
 
         public string Name { get; }
 
-        public IValuable? CurrentValue { get; set; }
+        public IValuable CurrentValue { get; set; }
 
         public object ToValue()
         {

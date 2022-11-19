@@ -24,20 +24,20 @@ namespace Domain.Carpiler.Syntatic.Constructs
 
             var rightValue = Right.ToValue();
 
-            return Operator.TokenType switch
+            switch (Operator.TokenType)
             {
-                TokenType.Plus => (dynamic)leftValue + (dynamic)rightValue,
-                TokenType.Minus => (dynamic)leftValue - (dynamic)rightValue,
-                TokenType.Slash => (dynamic)leftValue / (dynamic)rightValue,
-                TokenType.Asterisk => (dynamic)leftValue * (dynamic)rightValue,
-                TokenType.And => (dynamic)leftValue && (dynamic)rightValue,
-                TokenType.Or => (dynamic)leftValue || (dynamic)rightValue,
-                TokenType.Greater => (dynamic)leftValue > (dynamic)rightValue,
-                TokenType.GreaterEquals => (dynamic)leftValue >= (dynamic)rightValue,
-                TokenType.Lesser => (dynamic)leftValue < (dynamic)rightValue,
-                TokenType.LesserEquals => (dynamic)leftValue <= (dynamic)rightValue,
-                TokenType.Equals => (dynamic)leftValue == (dynamic)rightValue,
-                _ => throw new InvalidOperationException(),
+                case TokenType.Plus: return (dynamic)leftValue + (dynamic)rightValue;
+                case TokenType.Minus: return (dynamic)leftValue - (dynamic)rightValue;
+                case TokenType.Slash: return (dynamic)leftValue / (dynamic)rightValue;
+                case TokenType.Asterisk: return (dynamic)leftValue * (dynamic)rightValue;
+                case TokenType.And: return (dynamic)leftValue && (dynamic)rightValue;
+                case TokenType.Or: return (dynamic)leftValue || (dynamic)rightValue;
+                case TokenType.Greater: return (dynamic)leftValue > (dynamic)rightValue;
+                case TokenType.GreaterEquals: return (dynamic)leftValue >= (dynamic)rightValue;
+                case TokenType.Lesser: return (dynamic)leftValue < (dynamic)rightValue;
+                case TokenType.LesserEquals: return (dynamic)leftValue <= (dynamic)rightValue;
+                case TokenType.Equals: return (dynamic)leftValue == (dynamic)rightValue;
+                default: throw new InvalidOperationException();
             };
         }
     }

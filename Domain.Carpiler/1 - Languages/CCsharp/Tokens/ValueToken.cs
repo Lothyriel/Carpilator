@@ -14,13 +14,13 @@ namespace Domain.Carpiler.Lexical
 
         public object ToValue()
         {
-            return TokenType switch
+            switch (TokenType)
             {
-                TokenType.StringValue => Value,
-                TokenType.IntValue => Convert.ToInt32(Value),
-                TokenType.FloatValue => Convert.ToDouble(Value),
-                TokenType.BoolValue => Convert.ToBoolean(Value),
-                _ => Value,
+                case TokenType.StringValue: return Value;
+                case TokenType.IntValue: return Convert.ToInt32(Value);
+                case TokenType.FloatValue: return Convert.ToDouble(Value);
+                case TokenType.BoolValue: return Convert.ToBoolean(Value);
+                default: return Value;
             };
         }
     }

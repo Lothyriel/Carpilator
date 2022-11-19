@@ -17,7 +17,7 @@ namespace Domain.Carpiler.Infra
     public class UnexpectedToken : Exception
     {
         public UnexpectedToken(Token token, params TokenType[] expectedTypes) : base
-            ($"Expected one of: {string.Join(' ', expectedTypes)}, but found: {token}")
+            ($"Expected one of: {string.Join(" ", expectedTypes)}, but found: {token}")
         {
         }
 
