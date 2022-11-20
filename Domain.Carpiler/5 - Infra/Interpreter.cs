@@ -4,10 +4,14 @@ namespace Domain.Carpiler.Infra
 {
     public class Interpreter
     {
+        public Action<string>? PrintHandler { get; }
+        public Func<string>? ReadHandler { get; }
         public ObjectCode ObjectCode { get; }
 
-        public Interpreter(ObjectCode objectCode)
+        public Interpreter(Action<string>? printHandler, Func<string>? readHandler, ObjectCode objectCode)
         {
+            PrintHandler = printHandler;
+            ReadHandler = readHandler;
             ObjectCode = objectCode;
         }
 
