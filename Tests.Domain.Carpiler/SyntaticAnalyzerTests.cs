@@ -428,7 +428,7 @@ namespace Tests.Domain.Carpiler
             resulted.JsonEquals(expectedConstruct);
         }
 
-        [Fact]
+        /* [Fact] */
         public void ShouldParseValidASTForArrayDeclaration()
         {
             throw new NotImplementedException();
@@ -463,7 +463,7 @@ namespace Tests.Domain.Carpiler
             resulted.JsonEquals(expectedConstruct);
         }
 
-        [Fact]
+        /* [Fact] */
         public void ShouldParseValidASTForWhileReadArray()
         {
             throw new NotImplementedException();
